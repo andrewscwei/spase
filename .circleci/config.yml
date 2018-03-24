@@ -1,0 +1,27 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/repo
+    docker:
+      - image: node:latest
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: yarn
+      - run:
+          name: Build
+          command: npm run build
+      - run:
+          name: Run tests
+          command: npm test
+      - deploy:
+          name: Publish to NPM
+          command: |
+            if [[ $(git describe --tags) =~ ^v[0-9]+(\.[0-9]+)+(-rc[0-9]+)?(-alpha[0-9]+)?$ ]]; then
+              echo "//registry.npmjs.org/:_authToken=$NPM_AUTH" >> ~/.npmrc
+              npm publish
+              echo "Successfully published to NPM"
+            else
+              echo "Skipping publish because this is not a release"
+            fi

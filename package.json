@@ -1,0 +1,45 @@
+{
+  "name": "fov",
+  "version": "0.2.0",
+  "description": "Utility functions related to window/element dimensions",
+  "main": "dist/fov.js",
+  "scripts": {
+    "test": "echo \"No tests yet :)\"",
+    "clean": "rimraf dist",
+    "build": "npm run clean && npm run build:dev && npm run build:prod",
+    "build:dev": "NODE_ENV=development webpack --colors --profile --config ./config/build.conf.js --display-error-details",
+    "build:prod": "NODE_ENV=production webpack --colors --profile --config ./config/build.conf.js --display-error-details",
+    "build:analyze": "ANALYZEZR_ENABLED=true npm run build",
+    "lint": "eslint . --ignore-path .gitignore",
+    "lint:fix": "npm run lint -- --fix"
+  },
+  "keywords": [
+    "browser",
+    "window",
+    "viewport",
+    "element",
+    "dimension",
+    "utility",
+    "rect"
+  ],
+  "author": "Andrew Wei <andrewscwei@gmail.com>",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andrewscwei/fov.git"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.2",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.6.1",
+    "eslint": "^4.19.0",
+    "rimraf": "^2.6.2",
+    "webpack": "^4.1.1",
+    "webpack-bundle-analyzer": "^2.11.1",
+    "webpack-cli": "^2.0.12"
+  }
+}
