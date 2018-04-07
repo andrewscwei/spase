@@ -1,6 +1,6 @@
 {
   "name": "fov",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Utility functions related to window/element dimensions",
   "main": "dist/fov.js",
   "scripts": {

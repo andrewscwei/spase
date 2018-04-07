@@ -25,8 +25,8 @@ export default class Rect {
     });
   }
 
-  get point() {
-    return new Point({ x: this.left, y: this.top });
+  get center() {
+    return new Point({ x: (this.right - this.left) / 2, y: (this.bottom - this.top) / 2 });
   }
 
   get size() {
