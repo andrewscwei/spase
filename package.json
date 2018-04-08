@@ -1,6 +1,6 @@
 {
   "name": "spase",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Utility functions related to window/element dimensions",
   "main": "dist/spase.js",
   "scripts": {
