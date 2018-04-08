@@ -13,13 +13,13 @@ module.exports = {
   context: path.join(baseDir, `src`),
   devtool: isDev ? `source-map` : false,
   entry: {
-    fov: `./index.js`
+    spase: `./index.js`
   },
   output: {
     path: path.join(baseDir, `dist`),
     filename: isDev ? `[name].js` : `[name].min.js`,
     sourceMapFilename: `[file].map`,
-    library: `fov`,
+    library: `spase`,
     libraryTarget: `umd`
   },
   module: {

@@ -3,7 +3,7 @@ import Rect from './Rect';
 /**
  * Gets the rect of the viewport (current field of view).
  *
- * @return {Rect} @see module:fov.Rect
+ * @return {Rect} @see module:spase.Rect
  */
 export default function getViewportRect() {
   const width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);

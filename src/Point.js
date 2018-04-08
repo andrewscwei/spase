@@ -1,4 +1,15 @@
+/**
+ * A class for defining structure and utilities for 2D vectors.
+ */
 export default class Point {
+  /**
+   * Checks if an object can be used to instantiate a new Point instance.
+   *
+   * @param {Array|Object} descriptor - Descriptor used to instantiate a new
+   *                                    Point instance.
+   *
+   * @return {boolean} `true` if valid, `false` otherwise.
+   */
   static isValid(descriptor) {
     if (descriptor instanceof Array) {
       if (descriptor.length !== 2) return false;
@@ -16,6 +27,13 @@ export default class Point {
     }
   }
 
+  /**
+   * Creates a new Point instance.
+   *
+   * @param {Object|Array} [descriptor=[0,0]] - Either an array of exactly 2
+   *                                            numbers or a valid object with
+   *                                            `x` and `y` keys.
+   */
   constructor(descriptor = [0, 0]) {
     if (!Point.isValid(descriptor)) throw new Error(`Invalid parameters passed to constructor`);
 
@@ -29,6 +47,11 @@ export default class Point {
     }
   }
 
+  /**
+   * Clones the current Point and returns a new Point.
+   *
+   * @return {Point} The cloned instance.
+   */
   clone() {
     return new Point({
       x: this.x,
@@ -36,12 +59,24 @@ export default class Point {
     });
   }
 
+  /**
+   * Checks to see if the current Point is equivalent to another Point.
+   *
+   * @param {Point} point - Point instance to compare with.
+   *
+   * @return {boolean} `true` if equal, `false` otherwise.
+   */
   equals(point) {
     if (this.x !== point.x) return false;
     if (this.y !== point.y) return false;
     return true;
   }
 
+  /**
+   * Returns a JSON object that represents the current Point.
+   *
+   * @return {Object} The resulting JSON object.
+   */
   toJSON() {
     return Object.freeze({
       x: this.x,
@@ -49,6 +84,11 @@ export default class Point {
     });
   }
 
+  /**
+   * Returns an array that represents the current Point.
+   *
+   * @return {Array} The resulting array.
+   */
   toArray() {
     return [this.x, this.y];
   }

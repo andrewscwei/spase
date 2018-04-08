@@ -1,4 +1,15 @@
+/**
+ * A class for defining structure and utilities for sizes.
+ */
 export default class Size {
+  /**
+   * Checks if an object can be used to instantiate a new Size instance.
+   *
+   * @param {Array|Object} descriptor - Descriptor used to instantiate a new
+   *                                    Size instance.
+   *
+   * @return {boolean} `true` if valid, `false` otherwise.
+   */
   static isValid(descriptor) {
     if (descriptor instanceof Array) {
       if (descriptor.length !== 2) return false;
@@ -16,6 +27,13 @@ export default class Size {
     }
   }
 
+  /**
+   * Creates a new Size instance.
+   *
+   * @param {Object|Array} [descriptor=[0,0]] - Either an array of exactly 2
+   *                                            numbers or a valid object with
+   *                                            `x` and `y` keys.
+   */
   constructor(descriptor = [0, 0]) {
     if (!Size.isValid(descriptor)) throw new Error(`Invalid parameters passed to constructor`);
 
@@ -29,6 +47,11 @@ export default class Size {
     }
   }
 
+  /**
+   * Clones the current Size and returns a new Size.
+   *
+   * @return {Size} The cloned instance.
+   */
   clone() {
     return new Size({
       width: this.width,
@@ -36,12 +59,24 @@ export default class Size {
     });
   }
 
+  /**
+   * Checks to see if the current Size is equivalent to another Size.
+   *
+   * @param {Size} size - Size instance to compare with.
+   *
+   * @return {boolean} `true` if equal, `false` otherwise.
+   */
   equals(size) {
     if (this.width !== size.width) return false;
     if (this.height !== size.height) return false;
     return true;
   }
 
+  /**
+   * Returns a JSON object that represents the current Size.
+   *
+   * @return {Object} The resulting JSON object.
+   */
   toJSON() {
     return Object.freeze({
       width: this.width,
@@ -49,6 +84,11 @@ export default class Size {
     });
   }
 
+  /**
+   * Returns an array that represents the current Size.
+   *
+   * @return {Array} The resulting array.
+   */
   toArray() {
     return [this.width, this.height];
   }

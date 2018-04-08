@@ -11,7 +11,7 @@ import Rect from './Rect';
  *                                        computed top, right, bottom and left
  *                                        values are relative to.
  *
- * @return {Rect} @see module:fov.Rect
+ * @return {Rect} @see module:spase.Rect
  */
 export default function getRect(t, { ref } = {}) {
   try {

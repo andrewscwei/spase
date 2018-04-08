@@ -8,7 +8,7 @@ import Rect from './Rect';
  * @param {...Element} elements - Element(s) to be used to compute the
  *                                intersecting rect.
  *
- * @return {Rect} @see module:fov.Rect
+ * @return {Rect} @see module:spase.Rect
  */
 export default function getIntersectRect(...elements) {
   try {
