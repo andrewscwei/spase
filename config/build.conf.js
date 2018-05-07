@@ -34,6 +34,6 @@ module.exports = {
     })
   ]
     .concat(analyzerEnabled ? [
-      new BundleAnalyzerPlugin
+      new BundleAnalyzerPlugin()
     ] : [])
 };
