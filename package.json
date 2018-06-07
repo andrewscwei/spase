@@ -1,6 +1,6 @@
 {
   "name": "spase",
-  "version": "0.4.3",
+  "version": "0.5.0",
   "description": "Utility functions related to window/element dimensions",
   "main": "dist/spase.js",
   "scripts": {
@@ -32,14 +32,14 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-eslint": "^8.2.2",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^8.2.3",
     "babel-loader": "^7.1.4",
-    "babel-preset-env": "^1.6.1",
-    "eslint": "^4.19.0",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^4.19.1",
     "rimraf": "^2.6.2",
-    "webpack": "^4.1.1",
-    "webpack-bundle-analyzer": "^2.11.1",
-    "webpack-cli": "^2.0.12"
+    "webpack": "^4.11.1",
+    "webpack-bundle-analyzer": "^2.13.1",
+    "webpack-cli": "^3.0.3"
   }
 }

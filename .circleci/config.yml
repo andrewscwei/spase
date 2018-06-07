@@ -1,27 +1,90 @@
+# © Andrew Wei
+
 version: 2
 jobs:
-  build:
+  build_and_test:
     working_directory: ~/repo
     docker:
-      - image: node:latest
+      - image: node:8.9.4
     steps:
       - checkout
       - run:
-          name: Install dependencies
+          name: Install APT packages
+          command: apt-get update -y && apt-get install jq -y
+      - restore_cache:
+          keys:
+            - dependency-cache-{{ checksum "yarn.lock" }}
+            - dependency-cache-
+      - run:
+          name: Install NPM dependencies
           command: yarn
+      - save_cache:
+          key: dependency-cache-{{ checksum "yarn.lock" }}
+          paths:
+            - "node_modules"
       - run:
           name: Build
           command: npm run build
       - run:
-          name: Run tests
+          name: Test
           command: npm test
+      - run:
+          name: Pack
+          command: .circleci/pack.sh
+      - store_artifacts:
+          path: ~/repo/package
+
+  build_test_and_deploy:
+    working_directory: ~/repo
+    docker:
+      - image: node:8.9.4
+    steps:
+      - checkout
+      - run:
+          name: Install APT packages
+          command: apt-get update -y && apt-get install jq -y
+      - restore_cache:
+          keys:
+            - dependency-cache-{{ checksum "yarn.lock" }}
+            - dependency-cache-
+      - run:
+          name: Install NPM dependencies
+          command: yarn
+      - save_cache:
+          key: dependency-cache-{{ checksum "yarn.lock" }}
+          paths:
+            - "node_modules"
+      - run:
+          name: Build
+          command: npm run build
+      - run:
+          name: Test
+          command: npm test
+      - run:
+          name: Pack
+          command: .circleci/pack.sh
+      - store_artifacts:
+          path: ~/repo/package
       - deploy:
-          name: Publish to NPM
-          command: |
-            if [[ $(git describe --tags) =~ ^v[0-9]+(\.[0-9]+)+(-rc[0-9]+)?(-alpha[0-9]+)?$ ]]; then
-              echo "//registry.npmjs.org/:_authToken=$NPM_AUTH" >> ~/.npmrc
-              npm publish
-              echo "Successfully published to NPM"
-            else
-              echo "Skipping publish because this is not a release"
-            fi
+          name: Deploy to NPM
+          command: .circleci/deploy_to_npm.sh
+      - deploy:
+          name: Deploy docs to GitHub Pages
+          command: .circleci/deploy_to_gh_pages.sh
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build_and_test:
+          filters:
+            tags:
+              ignore: /^v.*/
+  build_test_and_deploy:
+    jobs:
+      - build_test_and_deploy:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v.*/
