@@ -50,7 +50,7 @@ export default class Rect {
    * @return {Point} The center point.
    */
   get center() {
-    return new Point({ x: (this.right - this.left) / 2, y: (this.bottom - this.top) / 2 });
+    return new Point({ x: (this.right - this.left) / 2 + this.left, y: (this.bottom - this.top) / 2 + this.top });
   }
 
   /**
