@@ -1,16 +1,13 @@
 {
   "name": "spase",
-  "version": "0.6.0",
+  "version": "1.0.0",
   "description": "Utility functions related to window/element dimensions",
-  "main": "dist/spase.js",
+  "main": "build/index.js",
   "scripts": {
-    "test": "echo \"No tests yet :)\"",
-    "clean": "rimraf dist",
-    "build": "npm run clean && npm run build:dev && npm run build:prod",
-    "build:dev": "NODE_ENV=development webpack --colors --profile --config ./config/build.conf.js --display-error-details",
-    "build:prod": "NODE_ENV=production webpack --colors --profile --config ./config/build.conf.js --display-error-details",
-    "build:analyze": "ANALYZEZR_ENABLED=true npm run build",
-    "lint": "eslint . --ignore-path .gitignore",
+    "clean": "rimraf build",
+    "build": "npm run clean && tsc",
+    "test": "echo \"No tests yet\"",
+    "lint": "tslint \"src/**/*.ts\" --project tsconfig.json",
     "lint:fix": "npm run lint -- --fix"
   },
   "keywords": [
@@ -20,11 +17,12 @@
     "element",
     "dimension",
     "utility",
+    "typescript",
     "rect"
   ],
   "author": "Andrew Wei <andrewscwei@gmail.com>",
   "files": [
-    "dist"
+    "build"
   ],
   "repository": {
     "type": "git",
@@ -32,14 +30,10 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-eslint": "^8.2.3",
-    "babel-loader": "^7.1.4",
-    "babel-preset-env": "^1.7.0",
-    "eslint": "^4.19.1",
     "rimraf": "^2.6.2",
-    "webpack": "^4.11.1",
-    "webpack-bundle-analyzer": "^2.13.1",
-    "webpack-cli": "^3.0.3"
-  }
+    "ts-node": "^8.0.2",
+    "tslint": "^5.12.1",
+    "typescript": "^3.3.1"
+  },
+  "types": "build/index.d.ts"
 }
