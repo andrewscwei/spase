@@ -52,6 +52,7 @@ export default function getIntersectRect(...elements: Element[]): Rect | null {
     return new Rect({ left: rect.left, top: rect.top, right: rect.right, bottom: rect.bottom, width: rect.width, height: rect.height });
   }
   catch (err) {
+    console.error(err);
     return null;
   }
 }

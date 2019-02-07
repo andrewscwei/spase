@@ -56,6 +56,7 @@ export default function hitTestElement(val1: Point | PointDescriptor | Rect | Re
     }
   }
   catch (err) {
+    console.error(err);
     return false;
   }
 }

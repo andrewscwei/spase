@@ -26,7 +26,8 @@ export default class Rect {
     if (typeof descriptor.right !== 'number') return false;
     if (typeof descriptor.bottom !== 'number') return false;
     if (typeof descriptor.left !== 'number') return false;
-    if (!Rect.isValid(descriptor)) return false;
+    if (typeof descriptor.width !== 'number') return false;
+    if (typeof descriptor.height !== 'number') return false;
     return true;
   }
 
