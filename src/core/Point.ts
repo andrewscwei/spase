@@ -48,8 +48,8 @@ export default class Point {
       this.y = descriptor[1];
     }
     else {
-      this.x = descriptor.x;
-      this.y = descriptor.y;
+      this.x = (descriptor as { [key: string]: number }).x;
+      this.y = (descriptor as { [key: string]: number }).y;
     }
   }
 
