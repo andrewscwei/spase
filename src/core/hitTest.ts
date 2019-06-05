@@ -7,18 +7,18 @@ import Rect from './Rect';
  * Hit-tests 2 objects. These objects can either be a single point, Rect
  * instance(s) or Element instance(s).
  *
- * @param val1
- * @param val2
+ * @param obj1 - First object.
+ * @param obj2 - Second object.
  *
  * @return `true` if test passes, `false` otherwise.
  */
-export default function hitTestElement(val1: Point | PointDescriptor | Rect | Rect[] | Element | Element[] , val2: Point | Rect | Rect[] | Element | Element[]): boolean {
+export default function hitTestElement(obj1: Point | PointDescriptor | Rect | Rect[] | Element | Element[] , obj2: Point | Rect | Rect[] | Element | Element[]): boolean {
   try {
-    const p1 = Point.isValid(val1) && new Point(val1);
-    const p2 = Point.isValid(val2) && new Point(val2);
+    const p1 = Point.isValid(obj1) && new Point(obj1);
+    const p2 = Point.isValid(obj2) && new Point(obj2);
 
     if (p1 && !p2) {
-      const t = val2 instanceof Array ? val2 : [val2];
+      const t = obj2 instanceof Array ? obj2 : [obj2];
       const n = t.length;
 
       for (let i = 0; i < n; i++) {
@@ -31,7 +31,7 @@ export default function hitTestElement(val1: Point | PointDescriptor | Rect | Re
       return false;
     }
     else if (!p1 && p2) {
-      const t = val1 instanceof Array ? val1 : [val1];
+      const t = obj1 instanceof Array ? obj1 : [obj1];
       const n = t.length;
 
       for (let i = 0; i < n; i++) {
@@ -48,8 +48,8 @@ export default function hitTestElement(val1: Point | PointDescriptor | Rect | Re
     }
     else {
       const t = [
-        ...(val1 instanceof Array ? val1 : [val1]),
-        ...(val2 instanceof Array ? val2 : [val2]),
+        ...(obj1 instanceof Array ? obj1 : [obj1]),
+        ...(obj2 instanceof Array ? obj2 : [obj2]),
       ];
       const r = getIntersectRect.apply(null, t as any[]);
       return (r!.width * r!.height !== 0);
