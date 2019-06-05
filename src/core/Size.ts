@@ -47,8 +47,8 @@ export default class Size {
       this.height = descriptor[1];
     }
     else {
-      this.width = descriptor.width;
-      this.height = descriptor.height;
+      this.width = (descriptor as { [key: string]: number }).width;
+      this.height = (descriptor as { [key: string]: number }).height;
     }
   }
 
