@@ -1,7 +1,8 @@
 import Rect from './Rect';
 
 /**
- * Gets the rect of the viewport (current field of view).
+ * Gets the rect of the viewport (current field of view). Think of this as the
+ * rect of the current window.
  *
  * @return The rect of the viewport.
  */
