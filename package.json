@@ -1,11 +1,11 @@
 {
   "name": "spase",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Utility functions related to window/element dimensions",
   "main": "build/index.js",
   "scripts": {
     "clean": "rimraf build",
-    "build": "npm run clean && tsc",
+    "build": "npm run clean && webpack --config config/build.conf.ts",
     "test": "echo \"No tests yet\"",
     "lint": "tslint \"src/**/*.ts\" --project tsconfig.json",
     "lint:fix": "npm run lint -- --fix"
@@ -30,10 +30,15 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@types/webpack": "^4.4.34",
+    "@types/webpack-env": "^1.13.9",
     "rimraf": "^2.6.2",
+    "ts-loader": "^6.0.4",
     "ts-node": "^8.0.2",
     "tslint": "^5.12.1",
-    "typescript": "^3.3.1"
+    "typescript": "^3.3.1",
+    "webpack": "^4.35.2",
+    "webpack-cli": "^3.3.5"
   },
   "types": "build/index.d.ts"
 }
