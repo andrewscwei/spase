@@ -44,7 +44,7 @@ Gets the rect of the viewport (current field of view). Think of this as the rect
 
 - `@return Rect` — The rect of the viewport.
 
-### `hitTestElement(obj1, obj2)`
+### `hitTest(obj1, obj2)`
 
 Hit-tests 2 objects. These objects can either be a single point, Rect instance(s) or Element instance(s).
 
