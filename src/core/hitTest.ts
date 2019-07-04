@@ -12,7 +12,7 @@ import Rect from './Rect';
  *
  * @return `true` if test passes, `false` otherwise.
  */
-export default function hitTestElement(obj1: Point | PointDescriptor | Rect | Rect[] | Element | Element[] , obj2: Point | Rect | Rect[] | Element | Element[]): boolean {
+export default function hitTest(obj1: Point | PointDescriptor | Rect | Rect[] | Element | Element[] , obj2: Point | Rect | Rect[] | Element | Element[]): boolean {
   try {
     const p1 = Point.isValid(obj1) && new Point(obj1);
     const p2 = Point.isValid(obj2) && new Point(obj2);
@@ -56,6 +56,7 @@ export default function hitTestElement(obj1: Point | PointDescriptor | Rect | Re
     }
   }
   catch (err) {
+    /* tslint:disable-next-line no-console */
     console.error(err);
     return false;
   }
