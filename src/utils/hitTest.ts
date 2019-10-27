@@ -1,7 +1,5 @@
-import getIntersectRect from './getIntersectRect';
-import getRect from './getRect';
-import Point, { PointDescriptor } from './Point';
-import Rect from './Rect';
+import Point, { PointDescriptor } from '../core/Point';
+import Rect from '../core/Rect';
 
 /**
  * Hit-tests 2 objects. These objects can either be a single point, Rect
@@ -22,7 +20,7 @@ export default function hitTest(obj1: Point | PointDescriptor | Rect | Rect[] | 
       const n = t.length;
 
       for (let i = 0; i < n; i++) {
-        const rect = getRect(t[i] as any);
+        const rect = Rect.from(t[i] as any);
         const cx = ((p1.x >= rect!.left) && (p1.x <= rect!.right));
         const cy = ((p1.y >= rect!.top) && (p1.y <= rect!.bottom));
         if (cx && cy) return true;
@@ -35,7 +33,7 @@ export default function hitTest(obj1: Point | PointDescriptor | Rect | Rect[] | 
       const n = t.length;
 
       for (let i = 0; i < n; i++) {
-        const rect = getRect(t[i] as any);
+        const rect = Rect.from(t[i] as any);
         const cx = ((p2.x >= rect!.left) && (p2.x <= rect!.right));
         const cy = ((p2.y >= rect!.top) && (p2.y <= rect!.bottom));
         if (cx && cy) return true;
@@ -51,7 +49,7 @@ export default function hitTest(obj1: Point | PointDescriptor | Rect | Rect[] | 
         ...(obj1 instanceof Array ? obj1 : [obj1]),
         ...(obj2 instanceof Array ? obj2 : [obj2]),
       ];
-      const r = getIntersectRect.apply(null, t as any[]);
+      const r = Rect.fromIntersect.apply(null, t as any[]);
       return (r!.width * r!.height !== 0);
     }
   }
