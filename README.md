@@ -18,7 +18,7 @@ A class for defining structure and utilities for 2D vectors.
 
 A class for defining a rectangle on a 2D plane.
 
-#### `Rect.fromIntersect(...elements)`
+#### `Rect.intersecting(...elements)`
 
 Computes the intersecting rect of one or more elements. If only 1 element is specified, the intersection will be computed against the viewport.
 
@@ -56,4 +56,4 @@ Hit-tests 2 objects. These objects can either be a single point, Rect instance(s
 
 ### `v3.0.0`
 
-- API changes: `getIntersectRect`, `getRect`, and `getViewportRect` are now static members of `Rect` class, as `Rect.fromIntersect`, `Rect.from`, and `Rect.fromViewport`, respectively.
+- API changes: `getIntersectRect`, `getRect`, and `getViewportRect` are now static members of `Rect` class, as `Rect.intersecting`, `Rect.from`, and `Rect.fromViewport`, respectively.
