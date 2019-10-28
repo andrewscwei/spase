@@ -115,14 +115,8 @@ export default class Rect {
    * @return The rect of the child.
    */
   static fromChildrenOf(parent?: Element | null, { reference = window }: { reference?: Window | Element | null } = {}): Rect | null {
-    try {
-      return Rect.from(Array.from(parent!.children), { reference });
-    }
-    catch (err) {
-      /* tslint:disable-next-line no-console */
-      console.error(err);
-      return null;
-    }
+    if (!parent) return null;
+    return Rect.from(Array.from(parent.children), { reference });
   }
 
   /**
@@ -139,21 +133,16 @@ export default class Rect {
    * @return The rect of the child.
    */
   static fromChildrenBefore(childIndex: number, parent?: Element | null, { reference = window }: { reference?: Window | Element | null } = {}): Rect | null {
-    try {
-      const children = Array.from(parent!.children);
+    if (!parent) return null;
 
-      if (childIndex <= 0) return new Rect();
-      if (childIndex >= children.length) return Rect.from(children, { reference });
+    const children = Array.from(parent.children);
 
-      children.splice(childIndex)
+    if (childIndex <= 0) return new Rect();
+    if (childIndex >= children.length) return Rect.from(children, { reference });
 
-      return Rect.from(children, { reference });
-    }
-    catch (err) {
-      /* tslint:disable-next-line no-console */
-      console.error(err);
-      return null;
-    }
+    children.splice(childIndex)
+
+    return Rect.from(children, { reference });
   }
 
   /**
@@ -170,21 +159,16 @@ export default class Rect {
    * @return The rect of the child.
    */
   static fromChildrenAfter(childIndex: number, parent?: Element | null, { reference = window }: { reference?: Window | Element | null } = {}): Rect | null {
-    try {
-      const children = Array.from(parent!.children);
+    if (!parent) return null;
 
-      if (childIndex < 0) return Rect.from(children, { reference });
-      if (childIndex >= (children.length - 1)) return new Rect();
+    const children = Array.from(parent.children);
 
-      children.splice(0, children.length - childIndex - 1)
+    if (childIndex < 0) return Rect.from(children, { reference });
+    if (childIndex >= (children.length - 1)) return new Rect();
 
-      return Rect.from(children);
-    }
-    catch (err) {
-      /* tslint:disable-next-line no-console */
-      console.error(err);
-      return null;
-    }
+    children.splice(0, children.length - childIndex - 1)
+
+    return Rect.from(children);
   }
 
   /**
@@ -200,15 +184,10 @@ export default class Rect {
    * @return The rect of the child.
    */
   static fromChildAt(childIndex: number, parent?: Element | null, { reference = window }: { reference?: Window | Element | null } = {}): Rect | null {
-    try {
-      const child = parent!.children[childIndex];
-      return Rect.from(child, { reference });
-    }
-    catch (err) {
-      /* tslint:disable-next-line no-console */
-      console.error(err);
-      return null;
-    }
+    if (!parent) return null;
+
+    const child = parent.children[childIndex];
+    return Rect.from(child, { reference });
   }
 
   /**
@@ -241,7 +220,7 @@ export default class Rect {
    *
    * @return The intersecting rect.
    */
-  static fromIntersect(...elements: Element[]): Rect | null {
+  static intersecting(...elements: Element[]): Rect | null {
     try {
       const n = elements.length;
 

@@ -49,7 +49,7 @@ export default function hitTest(obj1: Point | PointDescriptor | Rect | Rect[] | 
         ...(obj1 instanceof Array ? obj1 : [obj1]),
         ...(obj2 instanceof Array ? obj2 : [obj2]),
       ];
-      const r = Rect.fromIntersect.apply(null, t as any[]);
+      const r = Rect.intersecting.apply(null, t as any[]);
       return (r!.width * r!.height !== 0);
     }
   }
