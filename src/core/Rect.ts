@@ -70,16 +70,36 @@ export default class Rect {
 
       for (let i = 0; i < n; i++) {
         const element = e[i];
-        const clientRect = element.getBoundingClientRect();
 
-        const width = overflow ? element.scrollWidth : clientRect.width;
-        const height = overflow ? element.scrollHeight : clientRect.height;
-        let top = clientRect.top + winRect!.top;
-        if (ref !== window) top -= refRect!.top;
-        let left = clientRect.left + winRect!.left;
-        if (ref !== window) left -= refRect!.left;
-        const bottom = top + height;
-        const right = left + width;
+        let width = NaN;
+        let height = NaN;
+        let top = NaN;
+        let right = NaN;
+        let bottom = NaN;
+        let left = NaN;
+
+        if (overflow) {
+          width = element.scrollWidth;
+          height = element.scrollHeight;
+          top = (element as HTMLElement).offsetTop;
+          if (ref !== window) top -= (ref as HTMLElement).offsetTop;
+          left = (element as HTMLElement).offsetLeft;
+          if (ref !== window) left -= (ref as HTMLElement).offsetLeft;
+          bottom = top + height;
+          right = left + width;
+        }
+        else {
+          const clientRect = element.getBoundingClientRect();
+
+          width = clientRect.width;
+          height = clientRect.height;
+          top = clientRect.top + winRect!.top;
+          if (ref !== window) top -= refRect!.top;
+          left = clientRect.left + winRect!.left;
+          if (ref !== window) left -= refRect!.left;
+          bottom = top + height;
+          right = left + width;
+        }
 
         rect.left = (rect.left === undefined) ? left : Math.min(rect.left, left);
         rect.right = (rect.right === undefined) ? right : Math.max(rect.right, right);
