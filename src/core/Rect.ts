@@ -125,9 +125,15 @@ export default class Rect {
    *
    * @return The rect of the child.
    */
-  static fromChildrenOf(parent?: Element | null, options: RectOptions = {}): Rect | null {
+  static fromChildrenOf(parent?: Element | Window | null, options: RectOptions = {}): Rect | null {
     if (!parent) return null;
-    return Rect.from(Array.from(parent.children), options);
+
+    if (typeIsWindow(parent)) {
+      return Rect.from(Array.from(document.body.children));
+    }
+    else {
+      return Rect.from(Array.from(parent.children), options);
+    }
   }
 
   /**
