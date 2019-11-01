@@ -11,6 +11,19 @@ export type RectDescriptor = Readonly<{
   height: number;
 }>;
 
+export type RectOptions = Readonly<{
+  /**
+   * The element whose coordinate space the computed top, right, bottom and left
+   * values are relative to.
+   */
+  reference?: Window | Element | null;
+
+  /**
+   * Specifies whether the overflow width/height should be accounted for.
+   */
+  overflow?: boolean;
+}>;
+
 /**
  * A class for defining a rectangle on a 2D plane.
  */
@@ -36,22 +49,21 @@ export default class Rect {
    * Gets the combined rect of one or more elements.
    *
    * @param target - An element or array of elements to compute the combined rect.
-   * @param options - Additional options.
-   * @param options.reference - The element whose coordinate space the computed
-   *                            top, right, bottom and left values are relative
-   *                            to.
+   * @param options - @see RectOptions
    *
    * @return The combined rect.
    */
-  static from(target?: Rect | Window | Element | Element[] | null, { reference = window }: { reference?: Window | Element | null } = {}): Rect | null {
+  static from(target?: Rect | Window | Element | Element[] | null, options: RectOptions = {}): Rect | null {
     try {
       if (target === undefined || target === null) return null;
-      if (typeIsWindow(target)) return Rect.fromViewport();
+      if (typeIsWindow(target)) return Rect.fromViewport(options);
       if (target instanceof Rect) return target;
 
       const e = target instanceof Array ? target : [target];
       const n = e.length;
-      const refRect = Rect.from(reference);
+      const ref = options.reference || window;
+      const overflow = typeof options.overflow === 'boolean' ? options.overflow : false;
+      const refRect = Rect.from(ref);
       const winRect = Rect.from(window);
 
       const rect: { [key: string]: number } = {};
@@ -60,12 +72,12 @@ export default class Rect {
         const element = e[i];
         const clientRect = element.getBoundingClientRect();
 
-        const width = clientRect.width;
-        const height = clientRect.height;
+        const width = overflow ? element.scrollWidth : clientRect.width;
+        const height = overflow ? element.scrollHeight : clientRect.height;
         let top = clientRect.top + winRect!.top;
-        if (reference !== window) top -= refRect!.top;
+        if (ref !== window) top -= refRect!.top;
         let left = clientRect.left + winRect!.left;
-        if (reference !== window) left -= refRect!.left;
+        if (ref !== window) left -= refRect!.left;
         const bottom = top + height;
         const right = left + width;
 
@@ -89,13 +101,15 @@ export default class Rect {
 
   /**
    * Gets the rect of the viewport (current field of view). Think of this as the
-   * rect of the current window.
+   * rect of the current window. By default the overflow size is omitted.
+   *
+   * @param options - @see RectOptions
    *
    * @return The rect of the viewport.
    */
-  static fromViewport(): Rect {
-    const width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-    const height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+  static fromViewport({ overflow = false }: RectOptions = {}): Rect {
+    const width = overflow ? document.documentElement.scrollWidth : Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    const height = overflow ? document.documentElement.scrollHeight : Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
     const top = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
     const left = (window.pageXOffset !== undefined) ? window.pageXOffset : (document.documentElement || document.body.parentNode || document.body).scrollLeft;
     const right = left + width;
@@ -107,16 +121,13 @@ export default class Rect {
    * Gets the rect of all the children of an element.
    *
    * @param parent - The parent element of the child.
-   * @param options - Additional options.
-   * @param options.reference - The element whose coordinate space the computed
-   *                            top, right, bottom and left values are relative
-   *                            to.
+   * @param options - @see RectOptions
    *
    * @return The rect of the child.
    */
-  static fromChildrenOf(parent?: Element | null, { reference = window }: { reference?: Window | Element | null } = {}): Rect | null {
+  static fromChildrenOf(parent?: Element | null, options: RectOptions = {}): Rect | null {
     if (!parent) return null;
-    return Rect.from(Array.from(parent.children), { reference });
+    return Rect.from(Array.from(parent.children), options);
   }
 
   /**
@@ -125,24 +136,21 @@ export default class Rect {
    * @param childIndex - The rect of the parent's children will be computed up to
    *                     this child index.
    * @param parent - The parent element of the children.
-   * @param options - Additional options.
-   * @param options.reference - The element whose coordinate space the computed
-   *                            top, right, bottom and left values are relative
-   *                            to.
+   * @param options - @see RectOptions
    *
    * @return The rect of the child.
    */
-  static fromChildrenBefore(childIndex: number, parent?: Element | null, { reference = window }: { reference?: Window | Element | null } = {}): Rect | null {
+  static fromChildrenBefore(childIndex: number, parent?: Element | null, options: RectOptions = {}): Rect | null {
     if (!parent) return null;
 
     const children = Array.from(parent.children);
 
     if (childIndex <= 0) return new Rect();
-    if (childIndex >= children.length) return Rect.from(children, { reference });
+    if (childIndex >= children.length) return Rect.from(children, { reference: options.reference, overflow: false });
 
-    children.splice(childIndex)
+    children.splice(childIndex);
 
-    return Rect.from(children, { reference });
+    return Rect.from(children, { reference: options.reference, overflow: false });
   }
 
   /**
@@ -151,24 +159,21 @@ export default class Rect {
    * @param childIndex - The rect of the parent's children will be computed after
    *                     this child index.
    * @param parent - The parent element of the children.
-   * @param options - Additional options.
-   * @param options.reference - The element whose coordinate space the computed
-   *                            top, right, bottom and left values are relative
-   *                            to.
+   * @param options - @see RectOptions
    *
    * @return The rect of the child.
    */
-  static fromChildrenAfter(childIndex: number, parent?: Element | null, { reference = window }: { reference?: Window | Element | null } = {}): Rect | null {
+  static fromChildrenAfter(childIndex: number, parent?: Element | null, options: RectOptions= {}): Rect | null {
     if (!parent) return null;
 
     const children = Array.from(parent.children);
 
-    if (childIndex < 0) return Rect.from(children, { reference });
+    if (childIndex < 0) return Rect.from(children, { reference: options.reference, overflow: false });
     if (childIndex >= (children.length - 1)) return new Rect();
 
     children.splice(0, children.length - childIndex - 1)
 
-    return Rect.from(children);
+    return Rect.from(children, { reference: options.reference, overflow: false });
   }
 
   /**
@@ -176,18 +181,15 @@ export default class Rect {
    *
    * @param childIndex - The child index.
    * @param parent - The parent element of the child.
-   * @param options - Additional options.
-   * @param options.reference - The element whose coordinate space the computed
-   *                            top, right, bottom and left values are relative
-   *                            to.
+   * @param options - @see RectOptions
    *
    * @return The rect of the child.
    */
-  static fromChildAt(childIndex: number, parent?: Element | null, { reference = window }: { reference?: Window | Element | null } = {}): Rect | null {
+  static fromChildAt(childIndex: number, parent?: Element | null, options: RectOptions = {}): Rect | null {
     if (!parent) return null;
 
     const child = parent.children[childIndex];
-    return Rect.from(child, { reference });
+    return Rect.from(child, options);
   }
 
   /**
