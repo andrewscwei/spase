@@ -32,12 +32,15 @@ Gets the combined rect of one or more elements.
 - `@param target: Rect | Window | Element | Element[]` — An element or array of elements to compute the combined rect.
 - `@param options` — Additional options.
 - `@param options.reference: Window | Element | undefined` — The element whose coordinate space the computed top, right, bottom and left values are relative to.
+- `@param options.overflow: boolean` - Specifies whether the overflow width/height should be accounted for.
 - `@return Rect | null` — The combined rect.
 
-#### `Rect.fromViewport()`
+#### `Rect.fromViewport([options])`
 
 Gets the rect of the viewport (current field of view). Think of this as the rect of the current window.
 
+- `@param options` — Additional options.
+- `@param options.overflow: boolean` - Specifies whether the overflow width/height should be accounted for.
 - `@return Rect` — The rect of the viewport.
 
 ### Class: `Size`
