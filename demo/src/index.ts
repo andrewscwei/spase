@@ -6,18 +6,21 @@
 import { Rect } from '../../build';
 
 const debug = require('debug')('spase');
-const mainNode = document.getElementsByTagName('main')[0];
+const mainNode = document.getElementById('main');
+const aNode = document.getElementById('a');
+const bNode = document.getElementById('b');
 
 window.localStorage.debug = 'spase*';
 
-debug('Viewport', Rect.from(window));
-debug('Viewport (with overflow)', Rect.from(window, { overflow: true }));
-debug('Viewport (from children)', Rect.fromChildrenOf(window));
+debug('Viewport', Rect.fromViewport());
 
-debug('<body>', Rect.from(document.body));
-debug('<body> (with overflow)', Rect.from(document.body, { overflow: true }));
-debug('<body> (from children)', Rect.fromChildrenOf(document.body));
+debug('<body>', Rect.from(window));
+debug('<body> (with overflow)', Rect.from(window, { overflow: true }));
+debug('<body> (from children)', Rect.fromChildrenOf(window));
 
-debug('<main>', Rect.from(mainNode));
-debug('<main> (with overflow)', Rect.from(mainNode, { overflow: true }));
-debug('<main> (from children)', Rect.fromChildrenOf(mainNode));
+debug('#main', Rect.from(mainNode));
+debug('#main (with overflow)', Rect.from(mainNode, { overflow: true }));
+debug('#main (from children)', Rect.fromChildrenOf(mainNode));
+
+debug('#b', Rect.from(bNode));
+debug('#b (relative to #main)', Rect.from(bNode, { reference: mainNode }));

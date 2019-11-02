@@ -56,16 +56,13 @@ export default class Rect {
   static from(target?: Rect | Window | Element | Element[] | null, options: RectOptions = {}): Rect | null {
     try {
       if (target === undefined || target === null) return null;
-      if (typeIsWindow(target)) return Rect.fromViewport(options);
+      if (typeIsWindow(target)) return Rect.from(document.documentElement || document.body.parentNode || document.body);
       if (target instanceof Rect) return target;
 
       const e = target instanceof Array ? target : [target];
       const n = e.length;
       const ref = options.reference || window;
       const overflow = typeof options.overflow === 'boolean' ? options.overflow : false;
-      const refRect = Rect.from(ref);
-      const winRect = Rect.from(window);
-
       const rect: { [key: string]: number } = {};
 
       for (let i = 0; i < n; i++) {
@@ -73,33 +70,19 @@ export default class Rect {
 
         let width = NaN;
         let height = NaN;
-        let top = NaN;
-        let right = NaN;
-        let bottom = NaN;
-        let left = NaN;
 
         if (overflow) {
           width = element.scrollWidth;
           height = element.scrollHeight;
-          top = (element as HTMLElement).offsetTop;
-          if (ref !== window) top -= (ref as HTMLElement).offsetTop;
-          left = (element as HTMLElement).offsetLeft;
-          if (ref !== window) left -= (ref as HTMLElement).offsetLeft;
-          bottom = top + height;
-          right = left + width;
         }
         else {
-          const clientRect = element.getBoundingClientRect();
-
-          width = clientRect.width;
-          height = clientRect.height;
-          top = clientRect.top + winRect!.top;
-          if (ref !== window) top -= refRect!.top;
-          left = clientRect.left + winRect!.left;
-          if (ref !== window) left -= refRect!.left;
-          bottom = top + height;
-          right = left + width;
+          ({ width, height } = element.getBoundingClientRect());
         }
+
+        const top = (element as HTMLElement).offsetTop - (ref === window ? 0 : (ref as HTMLElement).offsetTop);
+        const left = (element as HTMLElement).offsetLeft - (ref === window ? 0 : (ref as HTMLElement).offsetLeft);
+        const bottom = top + height;
+        const right = left + width;
 
         rect.left = (rect.left === undefined) ? left : Math.min(rect.left, left);
         rect.right = (rect.right === undefined) ? right : Math.max(rect.right, right);
@@ -121,15 +104,13 @@ export default class Rect {
 
   /**
    * Gets the rect of the viewport (current field of view). Think of this as the
-   * rect of the current window. By default the overflow size is omitted.
-   *
-   * @param options - @see RectOptions
+   * rect of the current window.
    *
    * @return The rect of the viewport.
    */
-  static fromViewport({ overflow = false }: RectOptions = {}): Rect {
-    const width = overflow ? document.documentElement.scrollWidth : Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-    const height = overflow ? document.documentElement.scrollHeight : Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+  static fromViewport(): Rect {
+    const width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    const height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
     const top = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
     const left = (window.pageXOffset !== undefined) ? window.pageXOffset : (document.documentElement || document.body.parentNode || document.body).scrollLeft;
     const right = left + width;
@@ -197,7 +178,7 @@ export default class Rect {
     if (childIndex < 0) return Rect.from(children, { reference: options.reference, overflow: false });
     if (childIndex >= (children.length - 1)) return new Rect();
 
-    children.splice(0, children.length - childIndex - 1)
+    children.splice(0, children.length - childIndex - 1);
 
     return Rect.from(children, { reference: options.reference, overflow: false });
   }

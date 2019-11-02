@@ -35,12 +35,10 @@ Gets the combined rect of one or more elements.
 - `@param options.overflow: boolean` - Specifies whether the overflow width/height should be accounted for.
 - `@return Rect | null` — The combined rect.
 
-#### `Rect.fromViewport([options])`
+#### `Rect.fromViewport()`
 
 Gets the rect of the viewport (current field of view). Think of this as the rect of the current window.
 
-- `@param options` — Additional options.
-- `@param options.overflow: boolean` - Specifies whether the overflow width/height should be accounted for.
 - `@return Rect` — The rect of the viewport.
 
 ### Class: `Size`
