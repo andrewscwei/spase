@@ -124,6 +124,18 @@ export default class Point {
   }
 
   /**
+   * Returns a new Point with inverted X/Y values.
+   *
+   * @return The resulting Point.
+   */
+  invert(): Point {
+    return new Point({
+      x: this.y,
+      y: this.x,
+    });
+  }
+
+  /**
    * Checks to see if the current Point is equivalent to another Point.
    *
    * @param point - Point instance to compare with.

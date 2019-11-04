@@ -123,6 +123,18 @@ export default class Size {
   }
 
   /**
+   * Returns a new Size with inverted width/height values.
+   *
+   * @return The resulting Size.
+   */
+  invert(): Size {
+    return new Size({
+      width: this.height,
+      height: this.width,
+    });
+  }
+
+  /**
    * Checks to see if the current Size is equivalent to another Size.
    *
    * @param size - Size instance to compare with.
