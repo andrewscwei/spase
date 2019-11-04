@@ -335,7 +335,7 @@ export default class Rect {
   constructor(descriptor: RectDescriptor = { x: 0, y: 0, width: 0, height: 0 }) {
     if (!Rect.isValid(descriptor)) throw new Error('Invalid parameters passed to constructor');
     this.left = descriptor.x;
-    this.top = descriptor.x;
+    this.top = descriptor.y;
     this.width = descriptor.width;
     this.height = descriptor.height;
   }
