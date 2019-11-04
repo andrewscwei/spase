@@ -7,8 +7,6 @@ export type RectDescriptor = Readonly<{
   right: number;
   bottom: number;
   left: number;
-  width: number;
-  height: number;
 }>;
 
 export type RectOptions = Readonly<{
@@ -40,8 +38,6 @@ export default class Rect {
     if (typeof descriptor.right !== 'number') return false;
     if (typeof descriptor.bottom !== 'number') return false;
     if (typeof descriptor.left !== 'number') return false;
-    if (typeof descriptor.width !== 'number') return false;
-    if (typeof descriptor.height !== 'number') return false;
     return true;
   }
 
@@ -93,7 +89,7 @@ export default class Rect {
       rect.width = rect.right - rect.left;
       rect.height = rect.bottom - rect.top;
 
-      return new Rect({ left: rect.left, top: rect.top, right: rect.right, bottom: rect.bottom, width: rect.width, height: rect.height });
+      return new Rect({ left: rect.left, top: rect.top, right: rect.right, bottom: rect.bottom });
     }
     catch (err) {
       /* tslint:disable-next-line no-console */
@@ -115,7 +111,7 @@ export default class Rect {
     const left = (window.pageXOffset !== undefined) ? window.pageXOffset : (document.documentElement || document.body.parentNode || document.body).scrollLeft;
     const right = left + width;
     const bottom = top + height;
-    return new Rect({ top, right, bottom, left, width, height });
+    return new Rect({ top, right, bottom, left });
   }
 
   /**
@@ -216,8 +212,6 @@ export default class Rect {
       right: point.x + size.width,
       bottom: point.y + size.height,
       left: point.x,
-      width: size.width,
-      height: size.height,
     });
   }
 
@@ -269,7 +263,7 @@ export default class Rect {
         currRect = new Rect(rect as RectDescriptor);
       }
 
-      return new Rect({ left: rect.left, top: rect.top, right: rect.right, bottom: rect.bottom, width: rect.width, height: rect.height });
+      return new Rect({ left: rect.left, top: rect.top, right: rect.right, bottom: rect.bottom });
     }
     catch (err) {
       /* tslint:disable-next-line no-console */
@@ -282,8 +276,6 @@ export default class Rect {
   readonly right: number;
   readonly bottom: number;
   readonly left: number;
-  readonly width: number;
-  readonly height: number;
 
   /**
    * Gets the center point of the current Rect.
@@ -310,34 +302,66 @@ export default class Rect {
   }
 
   /**
+   * Gets the width of the current Rect.
+   *
+   * @return Width of the current Rect.
+   */
+  get width(): number {
+    return this.right - this.left;
+  }
+
+  /**
+   * Gets the height of the current Rect.
+   *
+   * @return Height of the current Rect.
+   */
+  get height(): number {
+    return this.bottom - this.top;
+  }
+
+  /**
    * Creates a new Rect instance.
    *
    * @param descriptor - Object used to describe the Rect to be instantiated.
    *                     Defaults to a Rect with all properties at zero value.
    */
-  constructor(descriptor: RectDescriptor = { top: 0, right: 0, bottom: 0, left: 0, width: 0, height: 0 }) {
+  constructor(descriptor: RectDescriptor = { top: 0, right: 0, bottom: 0, left: 0 }) {
     if (!Rect.isValid(descriptor)) throw new Error('Invalid parameters passed to constructor');
     this.top = descriptor.top;
     this.right = descriptor.right;
     this.bottom = descriptor.bottom;
     this.left = descriptor.left;
-    this.width = descriptor.width;
-    this.height = descriptor.height;
   }
 
   /**
    * Clones the current Rect and returns a new Rect.
    *
+   * @param newDescriptor - New Rect descriptor to replace the current one.
+   *
    * @return The cloned Rect.
    */
-  clone(): Rect {
+  clone(newDescriptor: Partial<RectDescriptor> = {}): Rect {
     return new Rect({
-      top: this.top,
-      right: this.right,
-      bottom: this.bottom,
-      left: this.left,
-      width: this.width,
-      height: this.height,
+      top: typeof newDescriptor.top === 'number' ? newDescriptor.top : this.top,
+      right: typeof newDescriptor.right === 'number' ? newDescriptor.right : this.right,
+      bottom: typeof newDescriptor.bottom === 'number' ? newDescriptor.bottom : this.bottom,
+      left: typeof newDescriptor.left === 'number' ? newDescriptor.left : this.left,
+    });
+  }
+
+  /**
+   * Concatenates with another Rect.
+   *
+   * @param rect - The Rect to concatenate.
+   *
+   * @return The resulting Rect.
+   */
+  concat(rect: Rect): Rect {
+    return new Rect({
+      top: Math.min(this.top, rect.top),
+      right: Math.max(this.right, rect.right),
+      bottom: Math.max(this.bottom, rect.bottom),
+      left: Math.min(this.left, rect.left),
     });
   }
 
@@ -353,8 +377,6 @@ export default class Rect {
     if (this.right !== rect.right) return false;
     if (this.bottom !== rect.bottom) return false;
     if (this.left !== rect.left) return false;
-    if (this.width !== rect.width) return false;
-    if (this.height !== rect.height) return false;
     return true;
   }
 
@@ -369,8 +391,6 @@ export default class Rect {
       right: this.right,
       bottom: this.bottom,
       left: this.left,
-      width: this.width,
-      height: this.height,
     });
   }
 }

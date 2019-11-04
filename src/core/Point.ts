@@ -56,12 +56,70 @@ export default class Point {
   /**
    * Clones the current Point and returns a new Point.
    *
+   * @param newDescriptor - New Point descriptor to replace the current one.
+   *
    * @return The cloned instance.
    */
-  clone(): Point {
+  clone(newDescriptor: Partial<PointJsonDescriptor> = {}): Point {
     return new Point({
-      x: this.x,
-      y: this.y,
+      x: typeof newDescriptor.x === 'number' ? newDescriptor.x : this.x,
+      y: typeof newDescriptor.y === 'number' ? newDescriptor.y : this.y,
+    });
+  }
+
+  /**
+   * Adds a Point to the current Point.
+   *
+   * @param point - The Point to add.
+   *
+   * @return The resulting Point.
+   */
+  add(point: Point): Point {
+    return new Point({
+      x: this.x + point.x,
+      y: this.y + point.y,
+    });
+  }
+
+  /**
+   * Subtracts a Point from the current Point.
+   *
+   * @param point - The Point to subtract.
+   *
+   * @return The resulting Point.
+   */
+  subtract(point: Point): Point {
+    return new Point({
+      x: this.x - point.x,
+      y: this.y - point.y,
+    });
+  }
+
+  /**
+   * Multiplies a Point with current Point.
+   *
+   * @param point - The Point to multiply.
+   *
+   * @return The resulting Point.
+   */
+  multiply(point: Point): Point {
+    return new Point({
+      x: this.x * point.x,
+      y: this.y * point.y,
+    });
+  }
+
+  /**
+   * Devices the current Point by another Point.
+   *
+   * @param point - The Point divisor.
+   *
+   * @return The resulting Point.
+   */
+  divide(point: Point): Point {
+    return new Point({
+      x: this.x / point.x,
+      y: this.y / point.y,
     });
   }
 
