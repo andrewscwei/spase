@@ -55,12 +55,70 @@ export default class Size {
   /**
    * Clones the current Size and returns a new Size.
    *
+   * @param newDescriptor - New Size descriptor to replace the existing one.
+   *
    * @return The cloned instance.
    */
-  clone(): Size {
+  clone(newDescriptor: Partial<SizeJsonDescriptor> = {}): Size {
     return new Size({
-      width: this.width,
-      height: this.height,
+      width: typeof newDescriptor.width === 'number' ? newDescriptor.width : this.width,
+      height: typeof newDescriptor.height === 'number' ? newDescriptor.height : this.height,
+    });
+  }
+
+  /**
+   * Adds a Size to the current Size.
+   *
+   * @param size - The Size to add.
+   *
+   * @return The resulting Size.
+   */
+  add(size: Size): Size {
+    return new Size({
+      width: this.width + size.width,
+      height: this.height + size.height,
+    });
+  }
+
+  /**
+   * Subtracts a Size from the current Size.
+   *
+   * @param size - The Size to subtract.
+   *
+   * @return The resulting Size.
+   */
+  subtract(size: Size): Size {
+    return new Size({
+      width: this.width - size.width,
+      height: this.height - size.height,
+    });
+  }
+
+  /**
+   * Multiplies a Size with current Size.
+   *
+   * @param size - The Size to multiply.
+   *
+   * @return The resulting Size.
+   */
+  multiply(size: Size): Size {
+    return new Size({
+      width: this.width * size.width,
+      height: this.height * size.height,
+    });
+  }
+
+  /**
+   * Devices the current Size by another Size.
+   *
+   * @param size - The Size divisor.
+   *
+   * @return The resulting Size.
+   */
+  divide(size: Size): Size {
+    return new Size({
+      width: this.width / size.width,
+      height: this.height / size.height,
     });
   }
 
