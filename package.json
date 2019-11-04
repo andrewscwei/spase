@@ -1,6 +1,6 @@
 {
   "name": "spase",
-  "version": "3.7.0",
+  "version": "3.8.0",
   "description": "Utility functions related to window/element dimensions",
   "main": "build/index.js",
   "scripts": {
