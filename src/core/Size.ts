@@ -115,7 +115,7 @@ export default class Size {
    *
    * @return The resulting Size.
    */
-  divide(size: Size): Size {
+  divideBy(size: Size): Size {
     return new Size({
       width: this.width / size.width,
       height: this.height / size.height,

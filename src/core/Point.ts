@@ -116,7 +116,7 @@ export default class Point {
    *
    * @return The resulting Point.
    */
-  divide(point: Point): Point {
+  divideBy(point: Point): Point {
     return new Point({
       x: this.x / point.x,
       y: this.y / point.y,
