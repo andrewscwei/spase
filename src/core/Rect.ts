@@ -373,6 +373,20 @@ export default class Rect {
   }
 
   /**
+   * Returns a new Rect with inverted width/height values.
+   *
+   * @return The resulting Rect.
+   */
+  invert(): Rect {
+    return new Rect({
+      x: this.left,
+      y: this.top,
+      width: this.height,
+      height: this.width,
+    });
+  }
+
+  /**
    * Checks to see if the current Rect is equivalent to another Rect.
    *
    * @param rect - Rect instance to compare with.
