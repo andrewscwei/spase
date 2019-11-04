@@ -61,7 +61,7 @@ export default class Rect {
   static from(target?: Rect | Window | Element | Element[] | null, options: RectOptions = {}): Rect | null {
     try {
       if (target === undefined || target === null) return null;
-      if (typeIsWindow(target)) return Rect.from(document.documentElement || document.body.parentNode || document.body);
+      if (typeIsWindow(target)) return Rect.from(document.documentElement || document.body.parentNode || document.body, options);
       if (target instanceof Rect) return target;
 
       const e = target instanceof Array ? target : [target];
