@@ -109,7 +109,8 @@ export default class Rect {
   }
 
   /**
-   * Gets the rect of all the children of an element.
+   * Gets the rect of all the children of an element. This automatically sets
+   * the reference to the parent element.
    *
    * @param parent - The parent element of the child.
    * @param options - @see RectOptions
@@ -123,15 +124,19 @@ export default class Rect {
       return Rect.from(Array.from(document.body.children));
     }
     else {
-      return Rect.from(Array.from(parent.children), options);
+      return Rect.from(Array.from(parent.children), {
+        overflow: options.overflow,
+        reference: options.reference || parent,
+      });
     }
   }
 
   /**
-   * Gets the rect of the children of an element up to the specified index.
+   * Gets the rect of the children of an element up to the specified index. This
+   * automatically sets the reference to the parent element.
    *
-   * @param childIndex - The rect of the parent's children will be computed up to
-   *                     this child index.
+   * @param childIndex - The rect of the parent's children will be computed up
+   *                     to this child index.
    * @param parent - The parent element of the children.
    * @param options - @see RectOptions
    *
@@ -147,14 +152,15 @@ export default class Rect {
 
     children.splice(childIndex);
 
-    return Rect.from(children, { reference: options.reference, overflow: false });
+    return Rect.from(children, { reference: options.reference || parent, overflow: false });
   }
 
   /**
-   * Gets the rect of the children of an element after the specified index.
+   * Gets the rect of the children of an element after the specified index. This
+   * automatically sets the reference to the parent element.
    *
-   * @param childIndex - The rect of the parent's children will be computed after
-   *                     this child index.
+   * @param childIndex - The rect of the parent's children will be computed
+   *                     after this child index.
    * @param parent - The parent element of the children.
    * @param options - @see RectOptions
    *
@@ -170,11 +176,12 @@ export default class Rect {
 
     children.splice(0, children.length - childIndex - 1);
 
-    return Rect.from(children, { reference: options.reference, overflow: false });
+    return Rect.from(children, { reference: options.reference || parent, overflow: false });
   }
 
   /**
-   * Gets the rect of a child of an element at its index.
+   * Gets the rect of a child of an element at its index. This automatically
+   * sets the reference to the parent element.
    *
    * @param childIndex - The child index.
    * @param parent - The parent element of the child.
@@ -186,7 +193,11 @@ export default class Rect {
     if (!parent) return null;
 
     const child = parent.children[childIndex];
-    return Rect.from(child, options);
+
+    return Rect.from(child, {
+      overflow: options.overflow,
+      reference: options.reference || parent,
+    });
   }
 
   /**
