@@ -61,44 +61,31 @@ export default class Rect {
   static from(target?: Rect | Window | Element | Element[] | null, options: RectOptions = {}): Rect | null {
     try {
       if (target === undefined || target === null) return null;
-      if (typeIsWindow(target)) return Rect.from(document.documentElement || document.body.parentNode || document.body, options);
       if (target instanceof Rect) return target;
+      if (typeIsWindow(target)) return Rect.from(document.documentElement || document.body.parentNode || document.body, options);
 
       const e = target instanceof Array ? target : [target];
       const n = e.length;
-      const ref = options.reference || window;
-      const overflow = typeof options.overflow === 'boolean' ? options.overflow : false;
-      const rect: { [key: string]: number } = {};
+      const reference = options.reference || window;
+      const winRect = Rect.fromViewport();
+      const refRect = typeIsWindow(reference) ? winRect : Rect.from(options.reference);
+
+      let combinedRect = null;
 
       for (let i = 0; i < n; i++) {
         const element = e[i];
+        const clientRect = element.getBoundingClientRect();
+        const rect = new Rect({
+          x: clientRect.left + winRect!.left - (typeIsWindow(reference) ? 0 : refRect!.left),
+          y: clientRect.top + winRect!.top - (typeIsWindow(reference) ? 0 : refRect!.top),
+          width: options.overflow ? element.scrollWidth : clientRect.width,
+          height: options.overflow ? element.scrollHeight : clientRect.height,
+        });
 
-        let width = NaN;
-        let height = NaN;
-
-        if (overflow) {
-          width = element.scrollWidth;
-          height = element.scrollHeight;
-        }
-        else {
-          ({ width, height } = element.getBoundingClientRect());
-        }
-
-        const top = (element as HTMLElement).offsetTop - (ref === window ? 0 : (ref as HTMLElement).offsetTop);
-        const left = (element as HTMLElement).offsetLeft - (ref === window ? 0 : (ref as HTMLElement).offsetLeft);
-        const bottom = top + height;
-        const right = left + width;
-
-        rect.left = (rect.left === undefined) ? left : Math.min(rect.left, left);
-        rect.right = (rect.right === undefined) ? right : Math.max(rect.right, right);
-        rect.top = (rect.top === undefined) ? top : Math.min(rect.top, top);
-        rect.bottom = (rect.bottom === undefined) ? bottom : Math.max(rect.bottom, bottom);
+        combinedRect = combinedRect ? combinedRect.concat(rect) : rect;
       }
 
-      rect.width = rect.right - rect.left;
-      rect.height = rect.bottom - rect.top;
-
-      return new Rect({ x: rect.left, y: rect.top, width: rect.width, height: rect.height });
+      return combinedRect;
     }
     catch (err) {
       /* tslint:disable-next-line no-console */
@@ -242,7 +229,7 @@ export default class Rect {
         if (!currRect) currRect = Rect.from(elements[i]);
 
         if (i === 0 && ((i + 1) === n)) {
-          nextRect = Rect.from(window);
+          nextRect = Rect.fromViewport();
         }
         else if ((i + 1) < n) {
           nextRect = Rect.from(elements[i + 1]);
@@ -253,24 +240,20 @@ export default class Rect {
 
         rect.width = Math.max(0.0, Math.min(currRect!.right, nextRect!.right) - Math.max(currRect!.left, nextRect!.left));
         rect.height = Math.max(0.0, Math.min(currRect!.bottom, nextRect!.bottom) - Math.max(currRect!.top, nextRect!.top));
-        rect.top = Math.max(currRect!.top, nextRect!.top);
-        rect.left = Math.max(currRect!.left, nextRect!.left);
-        rect.bottom = rect.top + rect.height;
-        rect.right = rect.left + rect.width;
+        rect.y = Math.max(currRect!.top, nextRect!.top);
+        rect.x = Math.max(currRect!.left, nextRect!.left);
 
         if (rect.width * rect.height === 0) {
           rect.width = 0;
           rect.height = 0;
-          rect.top = 0;
-          rect.left = 0;
-          rect.bottom = 0;
-          rect.right = 0;
+          rect.y = NaN;
+          rect.x = NaN;
         }
 
         currRect = new Rect(rect as RectDescriptor);
       }
 
-      return new Rect({ x: rect.left, y: rect.top, width: rect.right - rect.left, height: rect.bottom - rect.top });
+      return new Rect(rect as RectDescriptor);
     }
     catch (err) {
       /* tslint:disable-next-line no-console */
