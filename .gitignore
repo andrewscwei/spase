@@ -1,7 +1,3 @@
-# Ignores
-!.keep
-!.gitkeep
-
 # Configuration
 .env
 .env.*
@@ -95,7 +91,6 @@ lib-cov
 
 # Xcode
 ## Build generated
-build/
 DerivedData/
 ## Various settings
 *.pbxuser
@@ -157,3 +152,8 @@ _site
 
 # Ruby
 .ruby-version
+
+# Ignores
+!.keep
+!.gitkeep
+!demo/build/
