@@ -1,13 +1,13 @@
 {
   "name": "spase",
-  "version": "3.19.0",
+  "version": "3.20.0",
   "description": "Utility functions related to window/element dimensions",
   "main": "build/index.js",
   "scripts": {
     "clean": "rimraf build",
     "build": "npm run clean && webpack --config config/build.conf.ts",
     "build:demo": "webpack --config demo/config/dev.conf.ts --port 8080",
-    "demo": "npm run build -- --watch & webpack-dev-server --inline --hot --config demo/config/dev.conf.ts --port 8080",
+    "demo": "npm run build -- --watch & NODE_ENV=development webpack-dev-server --inline --hot --config demo/config/dev.conf.ts --port 8080",
     "test": "echo \"No tests yet\"",
     "lint": "tslint \"src/**/*.ts\" --project tsconfig.json",
     "lint:fix": "npm run lint -- --fix"
