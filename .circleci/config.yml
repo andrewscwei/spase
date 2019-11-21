@@ -51,6 +51,9 @@ jobs:
       - deploy:
           name: Deploy to NPM
           command: .circleci/deploy_to_npm.sh
+      - deploy:
+          name: Deploy docs to GitHub Pages
+          command: .circleci/deploy_to_gh_pages.sh
 
 workflows:
   version: 2
