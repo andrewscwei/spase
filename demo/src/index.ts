@@ -31,7 +31,7 @@ boxEls.forEach(el => {
     update();
   });
 
-  el.addEventListener('mousemove', event => {
+  window.addEventListener('mousemove', event => {
     if (!isActive) return;
 
     event.preventDefault();
