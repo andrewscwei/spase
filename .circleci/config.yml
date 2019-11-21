@@ -33,8 +33,10 @@ jobs:
           paths:
             - .circleci/
             - build/
+            - demo/
             - node_modules/
             - package.json
+            - tsconfig.json
   test:
     <<: *defaults
     steps:
