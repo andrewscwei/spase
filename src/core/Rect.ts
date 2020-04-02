@@ -78,8 +78,8 @@ export default class Rect {
         const rect = new Rect({
           x: clientRect.left + winRect!.left - (typeIsWindow(reference) ? 0 : refRect!.left),
           y: clientRect.top + winRect!.top - (typeIsWindow(reference) ? 0 : refRect!.top),
-          width: options.overflow ? element.scrollWidth : clientRect.width,
-          height: options.overflow ? element.scrollHeight : clientRect.height,
+          width: options.overflow ? element.scrollWidth : (element instanceof HTMLElement ? element.offsetWidth : clientRect.width),
+          height: options.overflow ? element.scrollHeight : (element instanceof HTMLElement ? element.offsetHeight : clientRect.height),
         });
 
         combinedRect = combinedRect ? combinedRect.concat(rect) : rect;
