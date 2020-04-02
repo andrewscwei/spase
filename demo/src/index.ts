@@ -92,6 +92,8 @@ function updateBoxes() {
     const fullRect = Rect.from(el!, { overflow: true });
     const intersectRect = Rect.intersecting(el);
 
+    console.log(el.getBoundingClientRect().top, el.offsetTop);
+
     el.querySelector('.top')!.innerHTML = `G:${parseNum(rect!.top)}<br>L:${parseNum(refRect!.top)}<br>V:${parseNum(intersectRect!.top)}`;
     el.querySelector('.right')!.innerHTML = `G:${parseNum(rect!.right)}<br>L:${parseNum(refRect!.right)}<br>V:${parseNum(intersectRect!.right)}`;
     el.querySelector('.bottom')!.innerHTML = `G:${parseNum(rect!.bottom)}<br>L:${parseNum(refRect!.bottom)}<br>V:${parseNum(intersectRect!.bottom)}`;
