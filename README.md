@@ -1,4 +1,4 @@
-# spase [![npm](https://img.shields.io/npm/v/spase.svg)](https://www.npmjs.com/package/spase) [![CircleCI](https://img.shields.io/circleci/build/github/andrewscwei/spase.svg)](https://circleci.com/gh/andrewscwei/spase)
+# spase [![npm](https://img.shields.io/npm/v/spase.svg)](https://www.npmjs.com/package/spase) [![CI](https://github.com/andrewscwei/spase/workflows/CI/badge.svg)](https://github.com/andrewscwei/spase/actions?query=workflow%3ACI) [![CD](https://github.com/andrewscwei/spase/workflows/CD/badge.svg)](https://github.com/andrewscwei/spase/actions?query=workflow%3ACD)
 
 Micro library for performing 2D spatial calculations of DOM elements.
 

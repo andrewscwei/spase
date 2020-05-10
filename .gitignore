@@ -37,6 +37,8 @@ upload/
 uploads/
 docs/
 lib/
+.gh-pages/
+.gh-pages.*/
 .tmp/
 .tmp.*/
 .publish/
@@ -95,6 +97,7 @@ lib-cov
 
 # Xcode
 ## Build generated
+build/
 DerivedData/
 ## Various settings
 *.pbxuser
@@ -155,4 +158,5 @@ _site
 .jekyll-metadata
 
 # Ruby
+.ruby-version
 .ruby-version

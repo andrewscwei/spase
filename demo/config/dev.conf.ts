@@ -4,7 +4,7 @@ import { Configuration } from 'webpack';
 
 const cwd: string = path.join(__dirname, '../');
 const inputDir: string = path.join(cwd, 'src');
-const outputDir: string = path.join(cwd, 'build');
+const outputDir: string = path.join(cwd, '../', '.gh-pages');
 
 const config: Configuration = {
   devtool: 'source-map',
