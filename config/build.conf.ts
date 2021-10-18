@@ -1,9 +1,9 @@
-import CompressionWebpackPlugin from 'compression-webpack-plugin';
-import path from 'path';
-import { Configuration } from 'webpack';
-import nodeExternals from 'webpack-node-externals';
+import CompressionWebpackPlugin from 'compression-webpack-plugin'
+import path from 'path'
+import { Configuration } from 'webpack'
+import nodeExternals from 'webpack-node-externals'
 
-const cwd = path.join(__dirname, '../');
+const cwd = path.join(__dirname, '../')
 
 const config: Configuration = {
   devtool: 'source-map',
@@ -37,7 +37,6 @@ const config: Configuration = {
     colors: true,
     errors: true,
     errorDetails: true,
-    maxModules: 0,
     modules: true,
     moduleTrace: true,
     publicPath: true,
@@ -45,6 +44,6 @@ const config: Configuration = {
     timings: true,
   },
   target: 'node',
-};
+}
 
-export default config;
+export default config
