@@ -1,11 +1,34 @@
-type SizeArrayDescriptor = Readonly<[number, number]>;
-type SizeJsonDescriptor = Readonly<{ width: number, height: number }>;
-export type SizeDescriptor = SizeArrayDescriptor | SizeJsonDescriptor;
+type SizeArrayDescriptor = Readonly<[number, number]>
+type SizeJsonDescriptor = Readonly<{ width: number; height: number }>
+export type SizeDescriptor = SizeArrayDescriptor | SizeJsonDescriptor
 
 /**
  * A class for defining structure and utilities for sizes.
  */
 export default class Size {
+
+  readonly width: number
+  readonly height: number
+
+  /**
+   * Creates a new Size instance.
+   *
+   * @param descriptor - Either an array of exactly 2 numbers or a valid object with `width` and
+   *                     `height` keys.
+   */
+  constructor(descriptor: SizeDescriptor = [0, 0]) {
+    if (!Size.isValid(descriptor)) throw new Error('Invalid parameters passed to constructor')
+
+    if (descriptor instanceof Array) {
+      this.width = descriptor[0]
+      this.height = descriptor[1]
+    }
+    else {
+      this.width = (descriptor as { [key: string]: number }).width
+      this.height = (descriptor as { [key: string]: number }).height
+    }
+  }
+
   /**
    * Checks if an object can be used to instantiate a new Size instance.
    *
@@ -15,40 +38,18 @@ export default class Size {
    */
   static isValid(descriptor: any): descriptor is SizeDescriptor {
     if (descriptor instanceof Array) {
-      if (descriptor.length !== 2) return false;
-      if (typeof descriptor[0] !== 'number') return false;
-      if (typeof descriptor[1] !== 'number') return false;
-      return true;
+      if (descriptor.length !== 2) return false
+      if (typeof descriptor[0] !== 'number') return false
+      if (typeof descriptor[1] !== 'number') return false
+      return true
     }
     else if (typeof descriptor === 'object') {
-      if (typeof descriptor.width !== 'number') return false;
-      if (typeof descriptor.height !== 'number') return false;
-      return true;
+      if (typeof descriptor.width !== 'number') return false
+      if (typeof descriptor.height !== 'number') return false
+      return true
     }
     else {
-      return false;
-    }
-  }
-
-  readonly width: number;
-  readonly height: number;
-
-  /**
-   * Creates a new Size instance.
-   *
-   * @param descriptor - Either an array of exactly 2 numbers or a valid object
-   *                     with `width` and `height` keys.
-   */
-  constructor(descriptor: SizeDescriptor = [0, 0]) {
-    if (!Size.isValid(descriptor)) throw new Error('Invalid parameters passed to constructor');
-
-    if (descriptor instanceof Array) {
-      this.width = descriptor[0];
-      this.height = descriptor[1];
-    }
-    else {
-      this.width = (descriptor as { [key: string]: number }).width;
-      this.height = (descriptor as { [key: string]: number }).height;
+      return false
     }
   }
 
@@ -63,7 +64,7 @@ export default class Size {
     return new Size({
       width: typeof newDescriptor.width === 'number' ? newDescriptor.width : this.width,
       height: typeof newDescriptor.height === 'number' ? newDescriptor.height : this.height,
-    });
+    })
   }
 
   /**
@@ -77,7 +78,7 @@ export default class Size {
     return new Size({
       width: this.width + size.width,
       height: this.height + size.height,
-    });
+    })
   }
 
   /**
@@ -91,7 +92,7 @@ export default class Size {
     return new Size({
       width: this.width - size.width,
       height: this.height - size.height,
-    });
+    })
   }
 
   /**
@@ -105,7 +106,7 @@ export default class Size {
     return new Size({
       width: this.width * size.width,
       height: this.height * size.height,
-    });
+    })
   }
 
   /**
@@ -119,7 +120,7 @@ export default class Size {
     return new Size({
       width: this.width / size.width,
       height: this.height / size.height,
-    });
+    })
   }
 
   /**
@@ -131,7 +132,7 @@ export default class Size {
     return new Size({
       width: this.height,
       height: this.width,
-    });
+    })
   }
 
   /**
@@ -142,9 +143,9 @@ export default class Size {
    * @return `true` if equal, `false` otherwise.
    */
   equals(size: Size): boolean {
-    if (this.width !== size.width) return false;
-    if (this.height !== size.height) return false;
-    return true;
+    if (this.width !== size.width) return false
+    if (this.height !== size.height) return false
+    return true
   }
 
   /**
@@ -156,7 +157,7 @@ export default class Size {
     return Object.freeze({
       width: this.width,
       height: this.height,
-    });
+    })
   }
 
   /**
@@ -165,6 +166,6 @@ export default class Size {
    * @return The resulting array.
    */
   toArray(): SizeArrayDescriptor {
-    return [this.width, this.height];
+    return [this.width, this.height]
   }
 }

@@ -1,15 +1,18 @@
-import HTMLPlugin from 'html-webpack-plugin';
-import path from 'path';
-import { Configuration } from 'webpack';
+import HTMLPlugin from 'html-webpack-plugin'
+import path from 'path'
+import { Configuration } from 'webpack'
 
-const cwd: string = path.join(__dirname, '../');
-const inputDir: string = path.join(cwd, 'src');
-const outputDir: string = path.join(cwd, '../', '.gh-pages');
+const cwd: string = path.join(__dirname, '../')
+const inputDir: string = path.join(cwd, 'src')
+const outputDir: string = path.join(cwd, '../', '.gh-pages')
 
 const config: Configuration = {
   devtool: 'source-map',
   entry: {
     bundle: path.join(inputDir, 'index.ts'),
+  },
+  infrastructureLogging: {
+    level: 'error',
   },
   module: {
     rules: [{
@@ -22,7 +25,7 @@ const config: Configuration = {
   output: {
     filename: '[name].js',
     path: outputDir,
-    publicPath: process.env.NODE_ENV === 'development' ? '/' : './',
+  publicPath: process.env.NODE_ENV === 'development' ? '/' : './',
     sourceMapFilename: '[file].map',
   },
   plugins: [
@@ -36,6 +39,6 @@ const config: Configuration = {
     extensions: ['.js', '.ts'],
   },
   target: 'web',
-};
+}
 
-export default config;
+export default config
