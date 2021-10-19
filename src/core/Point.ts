@@ -1,5 +1,27 @@
+/**
+ * Array representation of a `Point` in the format of `[x, y]`.
+ */
 type PointArrayDescriptor = Readonly<[number, number]>
-type PointJsonDescriptor = Readonly<{ x: number; y: number }>
+
+/**
+ * JSON representation of a `Point`.
+ */
+type PointJsonDescriptor = Readonly<{
+
+  /**
+   * The `x` value.
+   */
+  x: number
+
+  /**
+   * The `y` value.
+   */
+  y: number
+}>
+
+/**
+ * A type that can be used to instantiate a `Point`.
+ */
 export type PointDescriptor = PointArrayDescriptor | PointJsonDescriptor
 
 /**
@@ -7,7 +29,14 @@ export type PointDescriptor = PointArrayDescriptor | PointJsonDescriptor
  */
 export default class Point {
 
+  /**
+   * The `x` value.
+   */
   readonly x: number
+
+  /**
+   * The `y` value.
+   */
   readonly y: number
 
   /**
