@@ -2,8 +2,8 @@ import Point, { PointDescriptor } from '../core/Point'
 import Rect from '../core/Rect'
 
 /**
- * Hit-tests 2 objects. These objects can either be a single point, Rect
- * instance(s) or Element instance(s).
+ * Hit-tests 2 objects. These objects can either be a single point, `Rect` instance(s) or `Element`
+ * instance(s).
  *
  * @param obj1 - First object.
  * @param obj2 - Second object.

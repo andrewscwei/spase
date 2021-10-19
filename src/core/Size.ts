@@ -1,5 +1,27 @@
+/**
+ * Array representation of a `Size`.
+ */
 type SizeArrayDescriptor = Readonly<[number, number]>
-type SizeJsonDescriptor = Readonly<{ width: number; height: number }>
+
+/**
+ * JSON representation of a `Size`.
+ */
+type SizeJsonDescriptor = Readonly<{
+
+  /**
+   * The `width` value.
+   */
+  width: number
+
+  /**
+   * The `height` value.
+   */
+  height: number
+}>
+
+/**
+ * A type that can be used to instantiate a `Size`.
+ */
 export type SizeDescriptor = SizeArrayDescriptor | SizeJsonDescriptor
 
 /**
@@ -7,7 +29,14 @@ export type SizeDescriptor = SizeArrayDescriptor | SizeJsonDescriptor
  */
 export default class Size {
 
+  /**
+   * The `width` value.
+   */
   readonly width: number
+
+  /**
+   * The `height` value.
+   */
   readonly height: number
 
   /**
