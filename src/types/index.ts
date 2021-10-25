@@ -128,10 +128,10 @@ export type FOV = {
    * the FOV is scrolled into view. These values will never exceed the visible width and height of
    * the target element.
    */
-  delta: Point
+  position: Point
 
   /**
-   * The ratio between `delta` and the visible size of the target element, i.e. if the FOV has a
+   * The ratio between `position` and the visible size of the target element, i.e. if the FOV has a
    * height of 10px and the target element has a visible height of 100px, `step.y` will be `0.1`.
    * Note that the values are not clamped to 0 and 1 to indicate whether the target element is
    * scrolled into view.
