@@ -30,16 +30,16 @@ export default function getFOV(element?: Element | null, options: FOVOptions = {
 
   if (!refRect || !rect) return null
 
-  const dx = (refRect.right - rect.left)
-  const dy = (refRect.bottom - rect.top)
-  const stepX = dx / rect.width
-  const stepY = dy / rect.height
+  const posX = (refRect.right - rect.left)
+  const posY = (refRect.bottom - rect.top)
+  const stepX = posX / rect.width
+  const stepY = posY / rect.height
   const intersection = (reference instanceof Window) ? Rect.intersecting(element) : Rect.intersecting(element, reference)
 
   if (!intersection) return null
 
   return {
-    delta: new Point([dx, dy]),
+    position: new Point([posX, posY]),
     step: new Point([stepX, stepY]),
     rect: intersection,
   }

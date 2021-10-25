@@ -1,6 +1,6 @@
 {
   "name": "spase",
-  "version": "6.0.1",
+  "version": "6.1.0",
   "description": "Micro library for performing 2D spatial calculations of DOM elements",
   "main": "build/index.js",
   "scripts": {
