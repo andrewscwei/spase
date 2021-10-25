@@ -1,14 +1,14 @@
-import Point, { PointDescriptor } from '../core/Point'
+import Point from '../core/Point'
 import Rect from '../core/Rect'
+import { PointDescriptor } from '../types'
 
 /**
- * Hit-tests 2 objects. These objects can either be a single point, `Rect` instance(s) or `Element`
- * instance(s).
+ * Hit-tests 2 objects. These objects can either be `Point`'s, `Rect`'s or `Element`'s.
  *
  * @param obj1 - First object.
  * @param obj2 - Second object.
  *
- * @return `true` if test passes, `false` otherwise.
+ * @returns `true` if test passes, `false` otherwise.
  */
 export default function hitTest(obj1: Point | PointDescriptor | Rect | Rect[] | Element | Element[], obj2: Point | Rect | Rect[] | Element | Element[]): boolean {
   try {

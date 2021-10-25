@@ -1,73 +1,11 @@
-import { typeIsWindow } from '../types'
-import Point, { PointDescriptor } from './Point'
-import Size, { SizeDescriptor } from './Size'
-
-/**
- * A type that can be used to instantiate a `Rect`.
- */
-export type RectDescriptor = Readonly<{
-
-  /**
-   * The `x` value.
-   */
-  x: number
-
-  /**
-   * The `y` value.
-   */
-  y: number
-
-  /**
-   * The `width` value.
-   */
-  width: number
-
-  /**
-   * The `height` value.
-   */
-  height: number
-}>
-
-/**
- * JSON representation of a `Rect`.
- */
-export type RectJsonDescriptor = Readonly<{
-
-  /**
-   * The top bound.
-   */
-  top: number
-
-  /**
-   * The right bound.
-   */
-  right: number
-
-  /**
-   * The bottom bound.
-   */
-  bottom: number
-
-  /**
-   * The left bound.
-   */
-  left: number
-
-  /**
-   * The `width` value.
-   */
-  width: number
-
-  /**
-   * The `height` value.
-   */
-  height: number
-}>
+import { PointDescriptor, RectDescriptor, RectJsonDescriptor, SizeDescriptor, typeIsWindow } from '../types'
+import Point from './Point'
+import Size from './Size'
 
 /**
  * Options for instantiating a `Rect`.
  */
-export type RectOptions = Readonly<{
+type RectOptions = Readonly<{
 
   /**
    * The element whose coordinate space the computed `top`, `right`, `bottom` and `left` values are
@@ -83,7 +21,7 @@ export type RectOptions = Readonly<{
 }>
 
 /**
- * A class for defining a rectangle on a 2D plane.
+ * A type representing a rectangle on a 2D plane.
  */
 export default class Rect {
 
@@ -124,7 +62,7 @@ export default class Rect {
   /**
    * Gets the center point of the current `Rect`.
    *
-   * @return The center point.
+   * @returns The center point.
    */
   get center(): Point {
     return new Point({
@@ -136,7 +74,7 @@ export default class Rect {
   /**
    * Gets the size of the current `Rect`.
    *
-   * @return Size of the current `Rect`.
+   * @returns Size of the current `Rect`.
    */
   get size(): Size {
     return new Size({
@@ -148,7 +86,7 @@ export default class Rect {
   /**
    * Gets the right bound of the current `Rect`.
    *
-   * @return Right bound of the current `Rect`.
+   * @returns Right bound of the current `Rect`.
    */
   get right(): number {
     return this.left + this.width
@@ -157,7 +95,7 @@ export default class Rect {
   /**
    * Gets the bottom bound of the current `Rect`.
    *
-   * @return Bottom bound of the current `Rect`.
+   * @returns Bottom bound of the current `Rect`.
    */
   get bottom(): number {
     return this.top + this.height
@@ -168,7 +106,7 @@ export default class Rect {
    *
    * @param descriptor - Descriptor used to instantiate a new `Rect` instance.
    *
-   * @return `true` if valid, `false` otherwise.
+   * @returns `true` if valid, `false` otherwise.
    */
   static isValid(descriptor: any): descriptor is RectDescriptor {
     if (typeof descriptor.x !== 'number') return false
@@ -184,7 +122,7 @@ export default class Rect {
    * @param target - An element or array of elements to compute the combined `Rect`.
    * @param options - @see RectOptions
    *
-   * @return The combined `Rect`.
+   * @returns The combined `Rect`.
    */
   static from(target?: Rect | Window | Element | Element[] | null, options: RectOptions = {}): Rect | null {
     try {
@@ -228,7 +166,7 @@ export default class Rect {
    * Gets the `Rect` of the viewport (current field of view). Think of this as the `Rect` of the
    * current window.
    *
-   * @return The `Rect` of the viewport.
+   * @returns The `Rect` of the viewport.
    */
   static fromViewport(): Rect {
     const width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
@@ -245,7 +183,7 @@ export default class Rect {
    * @param parent - The parent element of the child.
    * @param options - @see RectOptions
    *
-   * @return The `Rect` of the child.
+   * @returns The `Rect` of the child.
    */
   static fromChildrenOf(parent?: Element | Window | null, options: RectOptions = {}): Rect | null {
     if (!parent) return null
@@ -270,7 +208,7 @@ export default class Rect {
    * @param parent - The parent element of the children.
    * @param options - @see RectOptions
    *
-   * @return The `Rect` of the child.
+   * @returns The `Rect` of the child.
    */
   static fromChildrenBefore(childIndex: number, parent?: Element | null, options: RectOptions = {}): Rect | null {
     if (!parent) return null
@@ -294,7 +232,7 @@ export default class Rect {
    * @param parent - The parent element of the children.
    * @param options - @see RectOptions
    *
-   * @return The `Rect` of the child.
+   * @returns The `Rect` of the child.
    */
   static fromChildrenAfter(childIndex: number, parent?: Element | null, options: RectOptions= {}): Rect | null {
     if (!parent) return null
@@ -317,7 +255,7 @@ export default class Rect {
    * @param parent - The parent element of the child.
    * @param options - @see RectOptions
    *
-   * @return The `Rect` of the child.
+   * @returns The `Rect` of the child.
    */
   static fromChildAt(childIndex: number, parent?: Element | null, options: RectOptions = {}): Rect | null {
     if (!parent) return null
@@ -336,7 +274,7 @@ export default class Rect {
    * @param point - Point instance to use.
    * @param size - Size instance to use.
    *
-   * @return The created `Rect` instance.
+   * @returns The created `Rect` instance.
    */
   static fromPointAndSize(point: Point | PointDescriptor, size: Size | SizeDescriptor): Rect {
     if (!(point instanceof Point)) point = new Point(point)
@@ -356,7 +294,7 @@ export default class Rect {
    *
    * @param elements - Element(s) to be used to compute the intersecting `Rect`.
    *
-   * @return The intersecting `Rect`.
+   * @returns The intersecting `Rect`.
    */
   static intersecting(...elements: Element[]): Rect | null {
     try {
@@ -410,7 +348,7 @@ export default class Rect {
    *
    * @param newDescriptor - New `Rect` descriptor to replace the current one.
    *
-   * @return The cloned `Rect`.
+   * @returns The cloned `Rect`.
    */
   clone(newDescriptor: Partial<RectDescriptor> = {}): Rect {
     return new Rect({
@@ -426,7 +364,7 @@ export default class Rect {
    *
    * @param rect - The `Rect` to concatenate.
    *
-   * @return The resulting `Rect`.
+   * @returns The resulting `Rect`.
    */
   concat(rect: Rect): Rect {
     return new Rect({
@@ -440,7 +378,7 @@ export default class Rect {
   /**
    * Returns a new `Rect` with inverted width/height values.
    *
-   * @return The resulting `Rect`.
+   * @returns The resulting `Rect`.
    */
   invert(): Rect {
     return new Rect({
@@ -456,7 +394,7 @@ export default class Rect {
    *
    * @param rect - `Rect` instance to compare with.
    *
-   * @return `true` if equal, `false` otherwise.
+   * @returns `true` if equal, `false` otherwise.
    */
   equals(rect: Rect): boolean {
     if (this.top !== rect.top) return false
@@ -469,7 +407,7 @@ export default class Rect {
   /**
    * Returns a JSON object that represents the current `Rect`.
    *
-   * @return} The JSON object.
+   * @returns} The JSON object.
    */
   toJSON(): RectJsonDescriptor {
     return Object.freeze({
