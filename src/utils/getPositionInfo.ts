@@ -1,31 +1,28 @@
 import { Point, Rect } from '..'
 
 /**
- * Current position info of an element. This object provides information on how far the current
- * scroll position (in the coordinate space of the reference element) is away from the top of the
- * target element, how much of the target's maximum visible scrollable distance (relative to the
- * reference element) has been completed, and the current visible `Rect` (with respect to the
- * reference element).
+ * Current position info of an element.
  */
 export type PositionInfo = {
 
   /**
-   * The ratio of the current scroll position vs. the maximum visble scrollable distance of the
-   * target element.
-   */
-  step: Point
-
-  /**
-   * The scroll position (in pixels) inside the reference element where `0` is when the top of the
-   * target element is scrolled to view. Before that, this value is negative (indicating how many
-   * pixels the current scroll position is away from seeing the top of the target element).
+   * The scroll position (in pixels) inside the reference element's coordinate space relative to the
+   * top of the target element, where `0` is when the target element is scrolled into view. Before
+   * that, this value is negative (indicating how many pixels the current scroll position is away
+   * from seeing the top of the target element).
    */
   position: Point
 
   /**
+   * The ratio of `position` vs. the maximum visble scrollable distance (i.e. the visible height) of
+   * the target element.
+   */
+  step: Point
+
+  /**
    * The `Rect` that is visible with respect to the reference element (i.e. the window).
    */
-  visible: Rect
+  visibleRect: Rect
 }
 
 /**
@@ -40,12 +37,9 @@ export type PositionInfo = {
 }>
 
 /**
- * /**
- * Computes the current position info of an element. The `PositionInfo` provides information on how
- * far the current scroll position (in the coordinate space of the reference element) is away from
- * the top of the target element, how much of the target's maximum visible scrollable distance
- * (relative to the reference element) has been completed, and the current visible `Rect` (with
- * respect to the reference element).
+ * Computes the current position info of an element. The `PositionInfo` describes the current scroll
+ * position of the target element with respect to the reference element (defaults to the window if
+ * unspecified).
  *
  * @param element The target element.
  * @param options @see `PositionInfoOptions`
@@ -56,7 +50,7 @@ export default function getPositionInfo(element?: Element | null, options: Posit
   if (!element) return null
 
   const reference = options.reference ?? window
-  const refRect = Rect.from(reference)
+  const refRect = (reference instanceof Window) ? Rect.fromViewport() : Rect.from(reference)
   const rect = Rect.from(element, { reference })
 
   if (!refRect || !rect) return null
@@ -70,8 +64,8 @@ export default function getPositionInfo(element?: Element | null, options: Posit
   if (!intersection) return null
 
   return {
-    step: new Point([stepX, stepY]),
     position: new Point([dx, dy]),
-    visible: intersection,
+    step: new Point([stepX, stepY]),
+    visibleRect: intersection,
   }
 }
