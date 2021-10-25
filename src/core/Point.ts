@@ -1,31 +1,7 @@
-/**
- * Array representation of a `Point` in the format of `[x, y]`.
- */
-type PointArrayDescriptor = Readonly<[number, number]>
+import { PointArrayDescriptor, PointDescriptor, PointJsonDescriptor } from '../types'
 
 /**
- * JSON representation of a `Point`.
- */
-type PointJsonDescriptor = Readonly<{
-
-  /**
-   * The `x` value.
-   */
-  x: number
-
-  /**
-   * The `y` value.
-   */
-  y: number
-}>
-
-/**
- * A type that can be used to instantiate a `Point`.
- */
-export type PointDescriptor = PointArrayDescriptor | PointJsonDescriptor
-
-/**
- * A class for defining structure and utilities for 2D vectors.
+ * A type representing a point on a 2D plane.
  */
 export default class Point {
 
@@ -40,7 +16,7 @@ export default class Point {
   readonly y: number
 
   /**
-   * Creates a new Point instance.
+   * Creates a new `Point` instance.
    *
    * @param {Object|Array} [descriptor=[0,0]] - Either an array of exactly 2 numbers or a valid
    *                                            object with `x` and `y` keys.
@@ -59,11 +35,11 @@ export default class Point {
   }
 
   /**
-   * Checks if an object can be used to instantiate a new Point instance.
+   * Checks if an object can be used to instantiate a new `Point` instance.
    *
-   * @param descriptor - Descriptor used to instantiate a new Point instance.
+   * @param descriptor - Descriptor used to instantiate a new `Point` instance.
    *
-   * @return `true` if valid, `false` otherwise.
+   * @returns `true` if valid, `false` otherwise.
    */
   static isValid(descriptor: any): descriptor is PointDescriptor {
     if (descriptor instanceof Array) {
@@ -83,11 +59,11 @@ export default class Point {
   }
 
   /**
-   * Clones the current Point and returns a new Point.
+   * Clones the current `Point` and returns a new `Point`.
    *
-   * @param newDescriptor - New Point descriptor to replace the current one.
+   * @param newDescriptor - New `Point` descriptor to replace the current one.
    *
-   * @return The cloned instance.
+   * @returns The cloned instance.
    */
   clone(newDescriptor: Partial<PointJsonDescriptor> = {}): Point {
     return new Point({
@@ -97,11 +73,11 @@ export default class Point {
   }
 
   /**
-   * Adds a Point to the current Point.
+   * Adds a `Point` to the current `Point`.
    *
-   * @param point - The Point to add.
+   * @param point - The `Point` to add.
    *
-   * @return The resulting Point.
+   * @returns The resulting `Point`.
    */
   add(point: Point): Point {
     return new Point({
@@ -111,11 +87,11 @@ export default class Point {
   }
 
   /**
-   * Subtracts a Point from the current Point.
+   * Subtracts a `Point` from the current `Point`.
    *
-   * @param point - The Point to subtract.
+   * @param point - The `Point` to subtract.
    *
-   * @return The resulting Point.
+   * @returns The resulting `Point`.
    */
   subtract(point: Point): Point {
     return new Point({
@@ -125,11 +101,11 @@ export default class Point {
   }
 
   /**
-   * Multiplies a Point with current Point.
+   * Multiplies a `Point` with current `Point`.
    *
-   * @param point - The Point to multiply.
+   * @param point - The `Point` to multiply.
    *
-   * @return The resulting Point.
+   * @returns The resulting `Point`.
    */
   multiply(point: Point): Point {
     return new Point({
@@ -139,11 +115,11 @@ export default class Point {
   }
 
   /**
-   * Devices the current Point by another Point.
+   * Devices the current `Point` by another `Point`.
    *
-   * @param point - The Point divisor.
+   * @param point - The `Point` divisor.
    *
-   * @return The resulting Point.
+   * @returns The resulting `Point`.
    */
   divideBy(point: Point): Point {
     return new Point({
@@ -153,9 +129,9 @@ export default class Point {
   }
 
   /**
-   * Returns a new Point with inverted X/Y values.
+   * Returns a new `Point` with inverted x/y values.
    *
-   * @return The resulting Point.
+   * @returns The resulting `Point`.
    */
   invert(): Point {
     return new Point({
@@ -165,11 +141,11 @@ export default class Point {
   }
 
   /**
-   * Checks to see if the current Point is equivalent to another Point.
+   * Checks to see if the current `Point` is equivalent to another `Point`.
    *
-   * @param point - Point instance to compare with.
+   * @param point - `Point` instance to compare with.
    *
-   * @return `true` if equal, `false` otherwise.
+   * @returns `true` if equal, `false` otherwise.
    */
   equals(point: Point): boolean {
     if (this.x !== point.x) return false
@@ -178,9 +154,9 @@ export default class Point {
   }
 
   /**
-   * Returns a JSON object that represents the current Point.
+   * Returns a JSON object that represents the current `Point`.
    *
-   * @return} The resulting JSON object.
+   * @returns} The resulting JSON object.
    */
   toJSON(): PointJsonDescriptor {
     return Object.freeze({
@@ -190,9 +166,9 @@ export default class Point {
   }
 
   /**
-   * Returns an array that represents the current Point.
+   * Returns an array that represents the current `Point`.
    *
-   * @return The resulting array.
+   * @returns The resulting array.
    */
   toArray(): PointArrayDescriptor {
     return [this.x, this.y]

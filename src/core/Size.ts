@@ -1,31 +1,7 @@
-/**
- * Array representation of a `Size`.
- */
-type SizeArrayDescriptor = Readonly<[number, number]>
+import { SizeArrayDescriptor, SizeDescriptor, SizeJsonDescriptor } from '../types'
 
 /**
- * JSON representation of a `Size`.
- */
-type SizeJsonDescriptor = Readonly<{
-
-  /**
-   * The `width` value.
-   */
-  width: number
-
-  /**
-   * The `height` value.
-   */
-  height: number
-}>
-
-/**
- * A type that can be used to instantiate a `Size`.
- */
-export type SizeDescriptor = SizeArrayDescriptor | SizeJsonDescriptor
-
-/**
- * A class for defining structure and utilities for sizes.
+ * A type representing a size on a 2D plane.
  */
 export default class Size {
 
@@ -40,10 +16,10 @@ export default class Size {
   readonly height: number
 
   /**
-   * Creates a new Size instance.
+   * Creates a new `Size` instance.
    *
-   * @param descriptor - Either an array of exactly 2 numbers or a valid object with `width` and
-   *                     `height` keys.
+   * @param descriptor - Either an array of exactly 2 numbers (i.e. `[width, height]`) or a valid
+   *                     object with `width` and `height` keys.
    */
   constructor(descriptor: SizeDescriptor = [0, 0]) {
     if (!Size.isValid(descriptor)) throw new Error('Invalid parameters passed to constructor')
@@ -59,11 +35,11 @@ export default class Size {
   }
 
   /**
-   * Checks if an object can be used to instantiate a new Size instance.
+   * Checks if an object can be used to instantiate a new `Size` instance.
    *
-   * @param descriptor - Descriptor used to instantiate a new Size instance.
+   * @param descriptor - Descriptor used to instantiate a new `Size` instance.
    *
-   * @return `true` if valid, `false` otherwise.
+   * @returns `true` if valid, `false` otherwise.
    */
   static isValid(descriptor: any): descriptor is SizeDescriptor {
     if (descriptor instanceof Array) {
@@ -83,11 +59,11 @@ export default class Size {
   }
 
   /**
-   * Clones the current Size and returns a new Size.
+   * Clones the current `Size` and returns a new `Size`.
    *
-   * @param newDescriptor - New Size descriptor to replace the existing one.
+   * @param newDescriptor - New `Size` descriptor to replace the existing one.
    *
-   * @return The cloned instance.
+   * @returns The cloned instance.
    */
   clone(newDescriptor: Partial<SizeJsonDescriptor> = {}): Size {
     return new Size({
@@ -97,11 +73,11 @@ export default class Size {
   }
 
   /**
-   * Adds a Size to the current Size.
+   * Adds a `Size` to the current Size.
    *
-   * @param size - The Size to add.
+   * @param size - The `Size` to add.
    *
-   * @return The resulting Size.
+   * @returns The resulting `Size`.
    */
   add(size: Size): Size {
     return new Size({
@@ -111,11 +87,11 @@ export default class Size {
   }
 
   /**
-   * Subtracts a Size from the current Size.
+   * Subtracts a `Size` from the current `Size`.
    *
-   * @param size - The Size to subtract.
+   * @param size - The `Size` to subtract.
    *
-   * @return The resulting Size.
+   * @returns The resulting `Size`.
    */
   subtract(size: Size): Size {
     return new Size({
@@ -125,11 +101,11 @@ export default class Size {
   }
 
   /**
-   * Multiplies a Size with current Size.
+   * Multiplies a `Size` with current `Size`.
    *
-   * @param size - The Size to multiply.
+   * @param size - The `Size` to multiply.
    *
-   * @return The resulting Size.
+   * @returns The resulting `Size`.
    */
   multiply(size: Size): Size {
     return new Size({
@@ -139,11 +115,11 @@ export default class Size {
   }
 
   /**
-   * Devices the current Size by another Size.
+   * Devices the current `Size` by another `Size`.
    *
-   * @param size - The Size divisor.
+   * @param size - The `Size` divisor.
    *
-   * @return The resulting Size.
+   * @returns The resulting `Size`.
    */
   divideBy(size: Size): Size {
     return new Size({
@@ -153,9 +129,9 @@ export default class Size {
   }
 
   /**
-   * Returns a new Size with inverted width/height values.
+   * Returns a new `Size` with inverted width/height values.
    *
-   * @return The resulting Size.
+   * @returns The resulting `Size`.
    */
   invert(): Size {
     return new Size({
@@ -165,11 +141,11 @@ export default class Size {
   }
 
   /**
-   * Checks to see if the current Size is equivalent to another Size.
+   * Checks to see if the current `Size` is equivalent to another `Size`.
    *
-   * @param size - Size instance to compare with.
+   * @param size - `Size` instance to compare with.
    *
-   * @return `true` if equal, `false` otherwise.
+   * @returns `true` if equal, `false` otherwise.
    */
   equals(size: Size): boolean {
     if (this.width !== size.width) return false
@@ -178,9 +154,9 @@ export default class Size {
   }
 
   /**
-   * Returns a JSON object that represents the current Size.
+   * Returns a JSON object that represents the current `Size`.
    *
-   * @return The resulting JSON object.
+   * @returns The resulting JSON object.
    */
   toJSON(): SizeJsonDescriptor {
     return Object.freeze({
@@ -190,9 +166,9 @@ export default class Size {
   }
 
   /**
-   * Returns an array that represents the current Size.
+   * Returns an array that represents the current `Size`.
    *
-   * @return The resulting array.
+   * @returns The resulting array.
    */
   toArray(): SizeArrayDescriptor {
     return [this.width, this.height]
