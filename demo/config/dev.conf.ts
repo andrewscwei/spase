@@ -25,7 +25,7 @@ const config: Configuration = {
   output: {
     filename: '[name].js',
     path: outputDir,
-  publicPath: process.env.NODE_ENV === 'development' ? '/' : './',
+    publicPath: process.env.NODE_ENV === 'development' ? '/' : './',
     sourceMapFilename: '[file].map',
   },
   plugins: [
