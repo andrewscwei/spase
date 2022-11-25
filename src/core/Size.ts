@@ -4,7 +4,6 @@ import { SizeArrayDescriptor, SizeDescriptor, SizeJsonDescriptor } from '../type
  * A type representing a size on a 2D plane.
  */
 export default class Size {
-
   /**
    * The `width` value.
    */
@@ -18,8 +17,9 @@ export default class Size {
   /**
    * Creates a new `Size` instance.
    *
-   * @param descriptor - Either an array of exactly 2 numbers (i.e. `[width, height]`) or a valid
-   *                     object with `width` and `height` keys.
+   * @param descriptor - Either an array of exactly 2 numbers (i.e. `[width,
+   *                     height]`) or a valid object with `width` and `height`
+   *                     keys.
    */
   constructor(descriptor: SizeDescriptor = [0, 0]) {
     if (!Size.isValid(descriptor)) throw new Error('Invalid parameters passed to constructor')
@@ -29,8 +29,8 @@ export default class Size {
       this.height = descriptor[1]
     }
     else {
-      this.width = (descriptor as { [key: string]: number }).width
-      this.height = (descriptor as { [key: string]: number }).height
+      this.width = (descriptor as Record<string, number>).width
+      this.height = (descriptor as Record<string, number>).height
     }
   }
 
@@ -46,11 +46,13 @@ export default class Size {
       if (descriptor.length !== 2) return false
       if (typeof descriptor[0] !== 'number') return false
       if (typeof descriptor[1] !== 'number') return false
+
       return true
     }
     else if (typeof descriptor === 'object') {
       if (typeof descriptor.width !== 'number') return false
       if (typeof descriptor.height !== 'number') return false
+
       return true
     }
     else {
@@ -150,6 +152,7 @@ export default class Size {
   equals(size: Size): boolean {
     if (this.width !== size.width) return false
     if (this.height !== size.height) return false
+
     return true
   }
 

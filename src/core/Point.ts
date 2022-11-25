@@ -4,7 +4,6 @@ import { PointArrayDescriptor, PointDescriptor, PointJsonDescriptor } from '../t
  * A type representing a point on a 2D plane.
  */
 export default class Point {
-
   /**
    * The `x` value.
    */
@@ -18,8 +17,8 @@ export default class Point {
   /**
    * Creates a new `Point` instance.
    *
-   * @param {Object|Array} [descriptor=[0,0]] - Either an array of exactly 2 numbers or a valid
-   *                                            object with `x` and `y` keys.
+   * @param descriptor - Either an array of exactly 2 numbers or a valid object
+   *                     with `x` and `y` keys.
    */
   constructor(descriptor: PointDescriptor = [0, 0]) {
     if (!Point.isValid(descriptor)) throw new Error('Invalid parameters passed to constructor')
@@ -29,8 +28,8 @@ export default class Point {
       this.y = descriptor[1]
     }
     else {
-      this.x = (descriptor as { [key: string]: number }).x
-      this.y = (descriptor as { [key: string]: number }).y
+      this.x = (descriptor as Record<string, number>).x
+      this.y = (descriptor as Record<string, number>).y
     }
   }
 
@@ -46,11 +45,13 @@ export default class Point {
       if (descriptor.length !== 2) return false
       if (typeof descriptor[0] !== 'number') return false
       if (typeof descriptor[1] !== 'number') return false
+
       return true
     }
     else if (typeof descriptor === 'object') {
       if (typeof descriptor.x !== 'number') return false
       if (typeof descriptor.y !== 'number') return false
+
       return true
     }
     else {
@@ -150,6 +151,7 @@ export default class Point {
   equals(point: Point): boolean {
     if (this.x !== point.x) return false
     if (this.y !== point.y) return false
+
     return true
   }
 
