@@ -1,8 +1,8 @@
 {
   "env": {
-    "browser": false,
+    "browser": true,
     "es6": true,
-    "node": true
+    "node": false
   },
   "extends": [
     "eslint:recommended",
@@ -90,6 +90,14 @@
     "@typescript-eslint/method-signature-style": "error",
     "@typescript-eslint/naming-convention": [
       "error",
+      {
+        "selector" : [
+          "enumMember"
+        ],
+        "format": [
+          "UPPER_CASE"
+        ]
+      },
       {
         "selector": [
           "variableLike",
