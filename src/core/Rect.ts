@@ -8,14 +8,15 @@ import Size from './Size'
 type RectOptions = Readonly<{
 
   /**
-   * The element whose coordinate space the computed `top`, `right`, `bottom` and `left` values are
-   * relative to.
+   * The element whose coordinate space the computed `top`, `right`, `bottom`
+   * and `left` values are relative to.
    */
   reference?: Window | Element | null
 
   /**
-   * Specifies whether the overflow `width`/`height` should be accounted for. Overflow means the
-   * `width` or `height` that extend beyond the CSS-specified `width` or `height`.
+   * Specifies whether the overflow `width`/`height` should be accounted for.
+   * Overflow means the `width` or `height` that extend beyond the CSS-specified
+   * `width` or `height`.
    */
   overflow?: boolean
 }>
@@ -24,7 +25,6 @@ type RectOptions = Readonly<{
  * A type representing a rectangle on a 2D plane.
  */
 export default class Rect {
-
   /**
    * The top bound.
    */
@@ -48,8 +48,8 @@ export default class Rect {
   /**
    * Creates a new `Rect` instance.
    *
-   * @param descriptor - Object used to describe the `Rect` to be instantiated. Defaults to a `Rect`
-   *                     with all properties at zero value.
+   * @param descriptor - Object used to describe the `Rect` to be instantiated.
+   *                     Defaults to a `Rect` with all properties at zero value.
    */
   constructor(descriptor: RectDescriptor = { x: 0, y: 0, width: 0, height: 0 }) {
     if (!Rect.isValid(descriptor)) throw new Error('Invalid parameters passed to constructor')
@@ -113,14 +113,16 @@ export default class Rect {
     if (typeof descriptor.y !== 'number') return false
     if (typeof descriptor.width !== 'number') return false
     if (typeof descriptor.height !== 'number') return false
+
     return true
   }
 
   /**
    * Gets the combined `Rect` of one or more elements.
    *
-   * @param target - An element or array of elements to compute the combined `Rect`.
-   * @param options - @see RectOptions
+   * @param target - An element or array of elements to compute the combined
+   *                 `Rect`.
+   * @param options - See {@link RectOptions}.
    *
    * @returns The combined `Rect`.
    */
@@ -146,8 +148,8 @@ export default class Rect {
         const rect = new Rect({
           x: clientRect.left + winRect.left - (typeIsWindow(reference) ? 0 : refRect.left),
           y: clientRect.top + winRect.top - (typeIsWindow(reference) ? 0 : refRect.top),
-          width: options.overflow ? element.scrollWidth : (element instanceof HTMLElement ? element.offsetWidth : clientRect.width),
-          height: options.overflow ? element.scrollHeight : (element instanceof HTMLElement ? element.offsetHeight : clientRect.height),
+          width: options.overflow ? element.scrollWidth : element instanceof HTMLElement ? element.offsetWidth : clientRect.width,
+          height: options.overflow ? element.scrollHeight : element instanceof HTMLElement ? element.offsetHeight : clientRect.height,
         })
 
         combinedRect = combinedRect ? combinedRect.concat(rect) : rect
@@ -158,30 +160,32 @@ export default class Rect {
     catch (err) {
       /* eslint-disable-next-line no-console */
       console.error(err)
+
       return null
     }
   }
 
   /**
-   * Gets the `Rect` of the viewport (current field of view). Think of this as the `Rect` of the
-   * current window.
+   * Gets the `Rect` of the viewport (current field of view). Think of this as
+   * the `Rect` of the current window.
    *
    * @returns The `Rect` of the viewport.
    */
   static fromViewport(): Rect {
     const width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
     const height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
-    const x = (window.pageXOffset !== undefined) ? window.pageXOffset : (document.documentElement || document.body.parentNode || document.body).scrollLeft
-    const y = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop
+    const x = window.pageXOffset !== undefined ? window.pageXOffset : (document.documentElement || document.body.parentNode || document.body).scrollLeft
+    const y = window.pageYOffset !== undefined ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop
+
     return new Rect({ x, y, width, height })
   }
 
   /**
-   * Gets the `Rect` of all the children of an element. This automatically sets the reference to the
-   * parent element.
+   * Gets the `Rect` of all the children of an element. This automatically sets
+   * the reference to the parent element.
    *
    * @param parent - The parent element of the child.
-   * @param options - @see RectOptions
+   * @param options - See {@link RectOptions}.
    *
    * @returns The `Rect` of the child.
    */
@@ -200,13 +204,13 @@ export default class Rect {
   }
 
   /**
-   * Gets the `Rect` of the children of an element up to the specified index. This automatically
-   * sets the reference to the parent element.
+   * Gets the `Rect` of the children of an element up to the specified index.
+   * This automatically sets the reference to the parent element.
    *
-   * @param childIndex - The `Rect` of the parent's children will be computed up to this child
-   *                     index.
+   * @param childIndex - The `Rect` of the parent's children will be computed up
+   *                     to this child index.
    * @param parent - The parent element of the children.
-   * @param options - @see RectOptions
+   * @param options - See {@link RectOptions}.
    *
    * @returns The `Rect` of the child.
    */
@@ -224,23 +228,23 @@ export default class Rect {
   }
 
   /**
-   * Gets the `Rect` of the children of an element after the specified index. This automatically
-   * sets the reference to the parent element.
+   * Gets the `Rect` of the children of an element after the specified index.
+   * This automatically sets the reference to the parent element.
    *
-   * @param childIndex - The `Rect` of the parent's children will be computed after this child
-   *                     index.
+   * @param childIndex - The `Rect` of the parent's children will be computed
+   *                     after this child index.
    * @param parent - The parent element of the children.
-   * @param options - @see RectOptions
+   * @param options - See {@link RectOptions}.
    *
    * @returns The `Rect` of the child.
    */
-  static fromChildrenAfter(childIndex: number, parent?: Element | null, options: RectOptions= {}): Rect | null {
+  static fromChildrenAfter(childIndex: number, parent?: Element | null, options: RectOptions = {}): Rect | null {
     if (!parent) return null
 
     const children = Array.from(parent.children)
 
     if (childIndex < 0) return Rect.from(children, { reference: options.reference, overflow: false })
-    if (childIndex >= (children.length - 1)) return new Rect()
+    if (childIndex >= children.length - 1) return new Rect()
 
     children.splice(0, children.length - childIndex - 1)
 
@@ -248,12 +252,12 @@ export default class Rect {
   }
 
   /**
-   * Gets the `Rect` of a child of an element at its index. This automatically sets the reference to
-   * the parent element.
+   * Gets the `Rect` of a child of an element at its index. This automatically
+   * sets the reference to the parent element.
    *
    * @param childIndex - The child index.
    * @param parent - The parent element of the child.
-   * @param options - @see RectOptions
+   * @param options - See {@link RectOptions}.
    *
    * @returns The `Rect` of the child.
    */
@@ -271,14 +275,14 @@ export default class Rect {
   /**
    * Creates a new `Rect` instance from a Point value and a Size value.
    *
-   * @param point - Point instance to use.
-   * @param size - Size instance to use.
+   * @param pointOrDescriptor - Point instance to use.
+   * @param sizeOrDescriptor - Size instance to use.
    *
    * @returns The created `Rect` instance.
    */
-  static fromPointAndSize(point: Point | PointDescriptor, size: Size | SizeDescriptor): Rect {
-    if (!(point instanceof Point)) point = new Point(point)
-    if (!(size instanceof Size)) size = new Size(size)
+  static fromPointAndSize(pointOrDescriptor: Point | PointDescriptor, sizeOrDescriptor: Size | SizeDescriptor): Rect {
+    const point = pointOrDescriptor instanceof Point ? pointOrDescriptor : new Point(pointOrDescriptor)
+    const size = sizeOrDescriptor instanceof Size ? sizeOrDescriptor : new Size(sizeOrDescriptor)
 
     return new Rect({
       x: point.x,
@@ -289,8 +293,8 @@ export default class Rect {
   }
 
   /**
-   * Computes the intersecting `Rect` of one or more elements. If only 1 element is specified, the
-   * intersection will be computed against the viewport.
+   * Computes the intersecting `Rect` of one or more elements. If only 1 element
+   * is specified, the intersection will be computed against the viewport.
    *
    * @param elements - Element(s) to be used to compute the intersecting `Rect`.
    *
@@ -300,17 +304,17 @@ export default class Rect {
     try {
       const n = elements.length
 
-      const rect: { [key: string]: number} = {}
+      const rect: Record<string, number> = {}
       let currRect: Rect | null = null
       let nextRect: Rect | null = null
 
       for (let i = 0; i < n; i++) {
         if (!currRect) currRect = Rect.from(elements[i])
 
-        if (i === 0 && ((i + 1) === n)) {
+        if (i === 0 && i + 1 === n) {
           nextRect = Rect.fromViewport()
         }
-        else if ((i + 1) < n) {
+        else if (i + 1 < n) {
           nextRect = Rect.from(elements[i + 1])
         }
         else {
@@ -337,8 +341,8 @@ export default class Rect {
       return new Rect(rect as RectDescriptor)
     }
     catch (err) {
-      /* eslint-disable-next-line no-console */
       console.error(err)
+
       return null
     }
   }
@@ -401,6 +405,7 @@ export default class Rect {
     if (this.right !== rect.right) return false
     if (this.bottom !== rect.bottom) return false
     if (this.left !== rect.left) return false
+
     return true
   }
 

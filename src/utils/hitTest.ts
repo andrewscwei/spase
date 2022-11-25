@@ -3,7 +3,8 @@ import Rect from '../core/Rect'
 import { PointDescriptor } from '../types'
 
 /**
- * Hit-tests 2 objects. These objects can either be `Point`'s, `Rect`'s or `Element`'s.
+ * Hit-tests 2 objects. These objects can either be `Point`'s, `Rect`'s or
+ * `Element`'s.
  *
  * @param obj1 - First object.
  * @param obj2 - Second object.
@@ -22,8 +23,8 @@ export default function hitTest(obj1: Point | PointDescriptor | Rect | Rect[] | 
       for (let i = 0; i < n; i++) {
         const rect = Rect.from(t[i] as any)
         if (!rect) continue
-        const cx = ((p1.x >= rect.left) && (p1.x <= rect.right))
-        const cy = ((p1.y >= rect.top) && (p1.y <= rect.bottom))
+        const cx = p1.x >= rect.left && p1.x <= rect.right
+        const cy = p1.y >= rect.top && p1.y <= rect.bottom
         if (cx && cy) return true
       }
 
@@ -36,8 +37,8 @@ export default function hitTest(obj1: Point | PointDescriptor | Rect | Rect[] | 
       for (let i = 0; i < n; i++) {
         const rect = Rect.from(t[i] as any)
         if (!rect) continue
-        const cx = ((p2.x >= rect.left) && (p2.x <= rect.right))
-        const cy = ((p2.y >= rect.top) && (p2.y <= rect.bottom))
+        const cx = p2.x >= rect.left && p2.x <= rect.right
+        const cy = p2.y >= rect.top && p2.y <= rect.bottom
         if (cx && cy) return true
       }
 
@@ -48,17 +49,18 @@ export default function hitTest(obj1: Point | PointDescriptor | Rect | Rect[] | 
     }
     else {
       const t = [
-        ...(obj1 instanceof Array ? obj1 : [obj1]),
-        ...(obj2 instanceof Array ? obj2 : [obj2]),
+        ...obj1 instanceof Array ? obj1 : [obj1],
+        ...obj2 instanceof Array ? obj2 : [obj2],
       ]
       const r = Rect.intersecting.apply(null, t as any[])
       if (!r) return false
-      return (r.width * r.height !== 0)
+
+      return r.width * r.height !== 0
     }
   }
   catch (err) {
-    /* eslint-disable-next-line no-console */
     console.error(err)
+
     return false
   }
 }
