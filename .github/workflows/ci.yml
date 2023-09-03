@@ -7,6 +7,12 @@ jobs:
   build:
     name: Build
     uses: andrewscwei/workflows/.github/workflows/node-build.yml@master
+  deploy-pages:
+    name: Deploy
+    uses: andrewscwei/workflows/.github/workflows/gh-pages-deploy.yml@master
+    needs: [build]
+    with:
+      predeploy-command: npm run pages
   notify:
     name: Notify
     needs: [build]
