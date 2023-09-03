@@ -25,10 +25,7 @@ jobs:
     uses: andrewscwei/workflows/.github/workflows/gh-pages-deploy.yml@master
     needs: [build]
     with:
-      artifacts-name: ${{ needs.build.outputs.artifacts-name }}
-      artifacts-path: ${{ needs.build.outputs.artifacts-path }}
-      branch-name: gh-pages
-      deploy-path: build
+      predeploy-command: npm run pages
   notify:
     name: Notify
     needs: [build, deploy-npm, deploy-pages]
