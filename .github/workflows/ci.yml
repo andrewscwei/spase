@@ -7,20 +7,24 @@ jobs:
   build:
     name: Build
     uses: andrewscwei/workflows/.github/workflows/node-build.yml@master
+    with:
+      artifacts-path: build/
   deploy-pages:
     name: Deploy
     uses: andrewscwei/workflows/.github/workflows/gh-pages-deploy.yml@master
     needs: [build]
     with:
+      artifacts-name: ${{ needs.build.outputs.artifacts-name }}
+      artifacts-path: ${{ needs.build.outputs.artifacts-path }}
       predeploy-command: npm run pages
   notify:
     name: Notify
-    needs: [build]
+    needs: [build, deploy-pages]
     if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
       - uses: andrewscwei/telegram-action@v1.0.0
         with:
-          success: ${{ needs.build.result == 'success' }}
+          success: ${{ needs.build.result == 'success' && needs.deploy-pages.result == 'success' }}
           bot-token: ${{ secrets.TELEGRAM_DEVOPS_BOT_TOKEN }}
           chat-id: ${{ secrets.TELEGRAM_DEVOPS_CHAT_ID }}
