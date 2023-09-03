@@ -25,7 +25,9 @@ const config: Configuration = {
     filename: '[name].js',
     path: path.join(cwd, 'build'),
     sourceMapFilename: '[file].map',
-    libraryTarget: 'umd',
+    library: {
+      type: 'commonjs2',
+    },
   },
   plugins: [
     new CompressionWebpackPlugin(),
