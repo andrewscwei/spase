@@ -36,7 +36,7 @@ Gets the combined `Rect` of one or more elements.
 - `@param target: Rect | Window | Element | Element[]` — An element or array of elements to compute the combined `Rect`.
 - `@param options` — Additional options.
 - `@param options.reference: Window | Element | undefined` — The element whose coordinate space the computed top, right, bottom and left values are relative to.
-- `@param options.overflow: boolean` - Specifies whether the overflow width/height should be accounted for.
+- `@param options.overflow: boolean` Specifies whether the overflow width/height should be accounted for.
 - `@returns Rect | null` — The combined `Rect`.
 
 #### `Rect.fromViewport()`
@@ -49,8 +49,8 @@ Gets the `Rect` of the viewport (current field of view). Think of this as the `R
 
 Computes the field-of-view (`FOV`) of an element.
 
-- `@param element: Element | null` - The target element.
-- `@param options` - Additional options.
+- `@param element: Element | null` The target element.
+- `@param options` Additional options.
 - `@param options.reference: Window | Element | undefined` — The element whose coordinate space the computed field-of-view is relative to.
 - `@returns FOV | null` - The `FOV` if it is computable, `null` otherwise.
 

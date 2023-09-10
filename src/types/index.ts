@@ -6,18 +6,18 @@ import type { Point, Rect } from '../core'
 export type PointArrayDescriptor = Readonly<[number, number]>
 
 /**
-* JSON representation of a `Point`.
-*/
+ * JSON representation of a `Point`.
+ */
 export type PointJsonDescriptor = Readonly<{
 
   /**
-  * The `x` value.
-  */
+   * The `x` value.
+   */
   x: number
 
   /**
-  * The `y` value.
-  */
+   * The `y` value.
+   */
   y: number
 }>
 
@@ -32,29 +32,29 @@ export type PointDescriptor = PointArrayDescriptor | PointJsonDescriptor
 export type SizeArrayDescriptor = Readonly<[number, number]>
 
 /**
-* JSON representation of a `Size`.
-*/
+ * JSON representation of a `Size`.
+ */
 export type SizeJsonDescriptor = Readonly<{
 
   /**
-  * The `width` value.
-  */
+   * The `width` value.
+   */
   width: number
 
   /**
-  * The `height` value.
-  */
+   * The `height` value.
+   */
   height: number
 }>
 
 /**
- * A type that can be used to instantiate a `Size`.
- */
+  * A type that can be used to instantiate a `Size`.
+  */
 export type SizeDescriptor = SizeArrayDescriptor | SizeJsonDescriptor
 
 /**
- * A type that can be used to instantiate a `Rect`.
- */
+  * A type that can be used to instantiate a `Rect`.
+  */
 export type RectDescriptor = Readonly<{
 
   /**
@@ -149,7 +149,7 @@ export type FOV = {
 /**
  * Type guard for `Window`.
  *
- * @param val - Any value.
+ * @param val Any value.
  *
  * @returns `true` if value is a `Window`, `false` otherwise.
  */

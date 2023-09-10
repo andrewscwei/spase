@@ -5,8 +5,8 @@ import type { PointDescriptor } from '../types'
  * Hit-tests 2 objects. These objects can either be `Point`'s, `Rect`'s or
  * `Element`'s.
  *
- * @param obj1 - First object.
- * @param obj2 - Second object.
+ * @param obj1 First object.
+ * @param obj2 Second object.
  *
  * @returns `true` if test passes, `false` otherwise.
  */
