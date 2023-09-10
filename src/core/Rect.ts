@@ -1,6 +1,7 @@
-import { PointDescriptor, RectDescriptor, RectJsonDescriptor, SizeDescriptor, typeIsWindow } from '../types'
-import Point from './Point'
-import Size from './Size'
+import type { PointDescriptor, RectDescriptor, RectJsonDescriptor, SizeDescriptor } from '../types'
+import { typeIsWindow } from '../types'
+import { Point } from './Point'
+import { Size } from './Size'
 
 /**
  * Options for instantiating a `Rect`.
@@ -24,7 +25,7 @@ type RectOptions = Readonly<{
 /**
  * A type representing a rectangle on a 2D plane.
  */
-export default class Rect {
+export class Rect {
   /**
    * The top bound.
    */

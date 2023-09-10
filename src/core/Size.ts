@@ -1,9 +1,9 @@
-import { SizeArrayDescriptor, SizeDescriptor, SizeJsonDescriptor } from '../types'
+import type { SizeArrayDescriptor, SizeDescriptor, SizeJsonDescriptor } from '../types'
 
 /**
  * A type representing a size on a 2D plane.
  */
-export default class Size {
+export class Size {
   /**
    * The `width` value.
    */

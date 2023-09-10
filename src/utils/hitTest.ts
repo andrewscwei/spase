@@ -1,6 +1,5 @@
-import Point from '../core/Point'
-import Rect from '../core/Rect'
-import { PointDescriptor } from '../types'
+import { Point, Rect } from '../core'
+import type { PointDescriptor } from '../types'
 
 /**
  * Hit-tests 2 objects. These objects can either be `Point`'s, `Rect`'s or
@@ -11,7 +10,7 @@ import { PointDescriptor } from '../types'
  *
  * @returns `true` if test passes, `false` otherwise.
  */
-export default function hitTest(obj1: Point | PointDescriptor | Rect | Rect[] | Element | Element[], obj2: Point | Rect | Rect[] | Element | Element[]): boolean {
+export function hitTest(obj1: Point | PointDescriptor | Rect | Rect[] | Element | Element[], obj2: Point | Rect | Rect[] | Element | Element[]): boolean {
   try {
     const p1 = Point.isValid(obj1) && new Point(obj1)
     const p2 = Point.isValid(obj2) && new Point(obj2)
