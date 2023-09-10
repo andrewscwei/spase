@@ -16,8 +16,8 @@ type FOVOptions = Readonly<{
 /**
  * Computes the field-of-view (`FOV`) of an element.
  *
- * @param element - The target element.
- * @param options - See {@link FOVOptions}.
+ * @param element The target element.
+ * @param options See {@link FOVOptions}.
  *
  * @returns The `FOV` if it is computable, `null` otherwise.
  */

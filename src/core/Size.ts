@@ -17,9 +17,9 @@ export class Size {
   /**
    * Creates a new `Size` instance.
    *
-   * @param descriptor - Either an array of exactly 2 numbers (i.e. `[width,
-   *                     height]`) or a valid object with `width` and `height`
-   *                     keys.
+   * @param descriptor Either an array of exactly 2 numbers (i.e. `[width,
+   *                   height]`) or a valid object with `width` and `height`
+   *                   keys.
    */
   constructor(descriptor: SizeDescriptor = [0, 0]) {
     if (!Size.isValid(descriptor)) throw new Error('Invalid parameters passed to constructor')
@@ -37,7 +37,7 @@ export class Size {
   /**
    * Checks if an object can be used to instantiate a new `Size` instance.
    *
-   * @param descriptor - Descriptor used to instantiate a new `Size` instance.
+   * @param descriptor Descriptor used to instantiate a new `Size` instance.
    *
    * @returns `true` if valid, `false` otherwise.
    */
@@ -63,7 +63,7 @@ export class Size {
   /**
    * Clones the current `Size` and returns a new `Size`.
    *
-   * @param newDescriptor - New `Size` descriptor to replace the existing one.
+   * @param newDescriptor New `Size` descriptor to replace the existing one.
    *
    * @returns The cloned instance.
    */
@@ -77,7 +77,7 @@ export class Size {
   /**
    * Adds a `Size` to the current Size.
    *
-   * @param size - The `Size` to add.
+   * @param size The `Size` to add.
    *
    * @returns The resulting `Size`.
    */
@@ -91,7 +91,7 @@ export class Size {
   /**
    * Subtracts a `Size` from the current `Size`.
    *
-   * @param size - The `Size` to subtract.
+   * @param size The `Size` to subtract.
    *
    * @returns The resulting `Size`.
    */
@@ -105,7 +105,7 @@ export class Size {
   /**
    * Multiplies a `Size` with current `Size`.
    *
-   * @param size - The `Size` to multiply.
+   * @param size The `Size` to multiply.
    *
    * @returns The resulting `Size`.
    */
@@ -119,7 +119,7 @@ export class Size {
   /**
    * Devices the current `Size` by another `Size`.
    *
-   * @param size - The `Size` divisor.
+   * @param size The `Size` divisor.
    *
    * @returns The resulting `Size`.
    */
@@ -145,7 +145,7 @@ export class Size {
   /**
    * Checks to see if the current `Size` is equivalent to another `Size`.
    *
-   * @param size - `Size` instance to compare with.
+   * @param size `Size` instance to compare with.
    *
    * @returns `true` if equal, `false` otherwise.
    */

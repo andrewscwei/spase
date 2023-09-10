@@ -49,8 +49,8 @@ export class Rect {
   /**
    * Creates a new `Rect` instance.
    *
-   * @param descriptor - Object used to describe the `Rect` to be instantiated.
-   *                     Defaults to a `Rect` with all properties at zero value.
+   * @param descriptor Object used to describe the `Rect` to be instantiated.
+   *                   Defaults to a `Rect` with all properties at zero value.
    */
   constructor(descriptor: RectDescriptor = { x: 0, y: 0, width: 0, height: 0 }) {
     if (!Rect.isValid(descriptor)) throw new Error('Invalid parameters passed to constructor')
@@ -105,7 +105,7 @@ export class Rect {
   /**
    * Checks if an object can be used to instantiate a new `Rect` instance.
    *
-   * @param descriptor - Descriptor used to instantiate a new `Rect` instance.
+   * @param descriptor Descriptor used to instantiate a new `Rect` instance.
    *
    * @returns `true` if valid, `false` otherwise.
    */
@@ -121,9 +121,9 @@ export class Rect {
   /**
    * Gets the combined `Rect` of one or more elements.
    *
-   * @param target - An element or array of elements to compute the combined
-   *                 `Rect`.
-   * @param options - See {@link RectOptions}.
+   * @param target An element or array of elements to compute the combined
+   *               `Rect`.
+   * @param options See {@link RectOptions}.
    *
    * @returns The combined `Rect`.
    */
@@ -185,8 +185,8 @@ export class Rect {
    * Gets the `Rect` of all the children of an element. This automatically sets
    * the reference to the parent element.
    *
-   * @param parent - The parent element of the child.
-   * @param options - See {@link RectOptions}.
+   * @param parent The parent element of the child.
+   * @param options See {@link RectOptions}.
    *
    * @returns The `Rect` of the child.
    */
@@ -208,10 +208,10 @@ export class Rect {
    * Gets the `Rect` of the children of an element up to the specified index.
    * This automatically sets the reference to the parent element.
    *
-   * @param childIndex - The `Rect` of the parent's children will be computed up
-   *                     to this child index.
-   * @param parent - The parent element of the children.
-   * @param options - See {@link RectOptions}.
+   * @param childIndex The `Rect` of the parent's children will be computed up
+   *                   to this child index.
+   * @param parent The parent element of the children.
+   * @param options See {@link RectOptions}.
    *
    * @returns The `Rect` of the child.
    */
@@ -232,10 +232,10 @@ export class Rect {
    * Gets the `Rect` of the children of an element after the specified index.
    * This automatically sets the reference to the parent element.
    *
-   * @param childIndex - The `Rect` of the parent's children will be computed
-   *                     after this child index.
-   * @param parent - The parent element of the children.
-   * @param options - See {@link RectOptions}.
+   * @param childIndex The `Rect` of the parent's children will be computed
+   *                   after this child index.
+   * @param parent The parent element of the children.
+   * @param options See {@link RectOptions}.
    *
    * @returns The `Rect` of the child.
    */
@@ -256,9 +256,9 @@ export class Rect {
    * Gets the `Rect` of a child of an element at its index. This automatically
    * sets the reference to the parent element.
    *
-   * @param childIndex - The child index.
-   * @param parent - The parent element of the child.
-   * @param options - See {@link RectOptions}.
+   * @param childIndex The child index.
+   * @param parent The parent element of the child.
+   * @param options See {@link RectOptions}.
    *
    * @returns The `Rect` of the child.
    */
@@ -276,8 +276,8 @@ export class Rect {
   /**
    * Creates a new `Rect` instance from a Point value and a Size value.
    *
-   * @param pointOrDescriptor - Point instance to use.
-   * @param sizeOrDescriptor - Size instance to use.
+   * @param pointOrDescriptor Point instance to use.
+   * @param sizeOrDescriptor Size instance to use.
    *
    * @returns The created `Rect` instance.
    */
@@ -297,7 +297,7 @@ export class Rect {
    * Computes the intersecting `Rect` of one or more elements. If only 1 element
    * is specified, the intersection will be computed against the viewport.
    *
-   * @param elements - Element(s) to be used to compute the intersecting `Rect`.
+   * @param elements Element(s) to be used to compute the intersecting `Rect`.
    *
    * @returns The intersecting `Rect`.
    */
@@ -351,7 +351,7 @@ export class Rect {
   /**
    * Clones the current `Rect` and returns a new `Rect`.
    *
-   * @param newDescriptor - New `Rect` descriptor to replace the current one.
+   * @param newDescriptor New `Rect` descriptor to replace the current one.
    *
    * @returns The cloned `Rect`.
    */
@@ -367,7 +367,7 @@ export class Rect {
   /**
    * Concatenates with another `Rect`.
    *
-   * @param rect - The `Rect` to concatenate.
+   * @param rect The `Rect` to concatenate.
    *
    * @returns The resulting `Rect`.
    */
@@ -397,7 +397,7 @@ export class Rect {
   /**
    * Checks to see if the current `Rect` is equivalent to another `Rect`.
    *
-   * @param rect - `Rect` instance to compare with.
+   * @param rect `Rect` instance to compare with.
    *
    * @returns `true` if equal, `false` otherwise.
    */
@@ -413,7 +413,7 @@ export class Rect {
   /**
    * Returns a JSON object that represents the current `Rect`.
    *
-   * @returns} The JSON object.
+   * @returns The JSON object.
    */
   toJSON(): RectJsonDescriptor {
     return Object.freeze({

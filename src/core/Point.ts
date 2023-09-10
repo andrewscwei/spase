@@ -17,8 +17,8 @@ export class Point {
   /**
    * Creates a new `Point` instance.
    *
-   * @param descriptor - Either an array of exactly 2 numbers or a valid object
-   *                     with `x` and `y` keys.
+   * @param descriptor Either an array of exactly 2 numbers or a valid object
+   *                   with `x` and `y` keys.
    */
   constructor(descriptor: PointDescriptor = [0, 0]) {
     if (!Point.isValid(descriptor)) throw new Error('Invalid parameters passed to constructor')
@@ -36,7 +36,7 @@ export class Point {
   /**
    * Checks if an object can be used to instantiate a new `Point` instance.
    *
-   * @param descriptor - Descriptor used to instantiate a new `Point` instance.
+   * @param descriptor Descriptor used to instantiate a new `Point` instance.
    *
    * @returns `true` if valid, `false` otherwise.
    */
@@ -62,7 +62,7 @@ export class Point {
   /**
    * Clones the current `Point` and returns a new `Point`.
    *
-   * @param newDescriptor - New `Point` descriptor to replace the current one.
+   * @param newDescriptor New `Point` descriptor to replace the current one.
    *
    * @returns The cloned instance.
    */
@@ -76,7 +76,7 @@ export class Point {
   /**
    * Adds a `Point` to the current `Point`.
    *
-   * @param point - The `Point` to add.
+   * @param point The `Point` to add.
    *
    * @returns The resulting `Point`.
    */
@@ -90,7 +90,7 @@ export class Point {
   /**
    * Subtracts a `Point` from the current `Point`.
    *
-   * @param point - The `Point` to subtract.
+   * @param point The `Point` to subtract.
    *
    * @returns The resulting `Point`.
    */
@@ -104,7 +104,7 @@ export class Point {
   /**
    * Multiplies a `Point` with current `Point`.
    *
-   * @param point - The `Point` to multiply.
+   * @param point The `Point` to multiply.
    *
    * @returns The resulting `Point`.
    */
@@ -118,7 +118,7 @@ export class Point {
   /**
    * Devices the current `Point` by another `Point`.
    *
-   * @param point - The `Point` divisor.
+   * @param point The `Point` divisor.
    *
    * @returns The resulting `Point`.
    */
@@ -144,7 +144,7 @@ export class Point {
   /**
    * Checks to see if the current `Point` is equivalent to another `Point`.
    *
-   * @param point - `Point` instance to compare with.
+   * @param point `Point` instance to compare with.
    *
    * @returns `true` if equal, `false` otherwise.
    */
@@ -158,7 +158,7 @@ export class Point {
   /**
    * Returns a JSON object that represents the current `Point`.
    *
-   * @returns} The resulting JSON object.
+   * @returns The resulting JSON object.
    */
   toJSON(): PointJsonDescriptor {
     return Object.freeze({
