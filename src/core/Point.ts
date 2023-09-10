@@ -1,4 +1,4 @@
-import type { PointArrayDescriptor, PointDescriptor, PointJsonDescriptor } from '../types'
+import { type PointArrayDescriptor, type PointDescriptor, type PointJsonDescriptor } from '../types'
 
 /**
  * A type representing a point on a 2D plane.

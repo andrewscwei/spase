@@ -1,4 +1,4 @@
-import type { SizeArrayDescriptor, SizeDescriptor, SizeJsonDescriptor } from '../types'
+import { type SizeArrayDescriptor, type SizeDescriptor, type SizeJsonDescriptor } from '../types'
 
 /**
  * A type representing a size on a 2D plane.

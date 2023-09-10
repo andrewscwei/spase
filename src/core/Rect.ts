@@ -1,5 +1,4 @@
-import type { PointDescriptor, RectDescriptor, RectJsonDescriptor, SizeDescriptor } from '../types'
-import { typeIsWindow } from '../types'
+import { typeIsWindow, type PointDescriptor, type RectDescriptor, type RectJsonDescriptor, type SizeDescriptor } from '../types'
 import { hitTest } from '../utils'
 import { Point } from './Point'
 import { Size } from './Size'

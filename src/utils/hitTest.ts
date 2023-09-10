@@ -1,5 +1,5 @@
 import { Point, Rect } from '../core'
-import type { PointDescriptor } from '../types'
+import { type PointDescriptor } from '../types'
 
 /**
  * Hit-tests 2 objects. These objects can either be {@link Point}'s,
