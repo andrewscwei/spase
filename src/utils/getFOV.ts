@@ -1,6 +1,5 @@
-import Point from '../core/Point'
-import Rect from '../core/Rect'
-import { FOV } from '../types'
+import { Point, Rect } from '../core'
+import type { FOV } from '../types'
 
 /**
  * Options for computing an element's field-of-view.
@@ -22,7 +21,7 @@ type FOVOptions = Readonly<{
  *
  * @returns The `FOV` if it is computable, `null` otherwise.
  */
-export default function getFOV(element?: Element | null, options: FOVOptions = {}): FOV | null {
+export function getFOV(element?: Element | null, options: FOVOptions = {}): FOV | null {
   if (!element) return null
 
   const reference = options.reference ?? window

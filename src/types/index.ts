@@ -1,5 +1,4 @@
-import Point from '../core/Point'
-import Rect from '../core/Rect'
+import type { Point, Rect } from '../core'
 
 /**
  * Array representation of a `Point` in the format of `[x, y]`.
