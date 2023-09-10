@@ -1,4 +1,4 @@
-import type { Point, Rect } from '../core'
+import { type Point, type Rect } from '../core'
 
 /**
  * Array representation of a {@link Point} in the format of `[x, y]`.
