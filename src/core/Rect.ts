@@ -418,8 +418,8 @@ export class Rect {
   }
 
   /**
-   * Checks if this rect contains a {@link Point}, {@link PointDescriptor},
-   * {@link Rect}(s), or {@link Element}(s).
+   * Checks if this rect contains any part of a {@link Point},
+   * {@link PointDescriptor}, {@link Rect}(s), or {@link Element}(s).
    *
    * @param obj The target object.
    *
