@@ -15,7 +15,7 @@ export class Size {
   readonly height: number
 
   /**
-   * Creates a new `Size` instance.
+   * Creates a new {@link Size} instance.
    *
    * @param descriptor Either an array of exactly 2 numbers (i.e. `[width,
    *                   height]`) or a valid object with `width` and `height`
@@ -35,9 +35,10 @@ export class Size {
   }
 
   /**
-   * Checks if an object can be used to instantiate a new `Size` instance.
+   * Checks if an object can be used to instantiate a new {@link Size} instance.
    *
-   * @param descriptor Descriptor used to instantiate a new `Size` instance.
+   * @param descriptor Descriptor used to instantiate a new {@link Size}
+   *                   instance.
    *
    * @returns `true` if valid, `false` otherwise.
    */
@@ -61,9 +62,10 @@ export class Size {
   }
 
   /**
-   * Clones the current `Size` and returns a new `Size`.
+   * Clones the current {@link Size} and returns a new {@link Size}.
    *
-   * @param newDescriptor New `Size` descriptor to replace the existing one.
+   * @param newDescriptor New {@link Size} descriptor to replace the existing
+   *                      one.
    *
    * @returns The cloned instance.
    */
@@ -75,11 +77,11 @@ export class Size {
   }
 
   /**
-   * Adds a `Size` to the current Size.
+   * Adds a {@link Size} to the current Size.
    *
-   * @param size The `Size` to add.
+   * @param size The {@link Size} to add.
    *
-   * @returns The resulting `Size`.
+   * @returns The resulting {@link Size}.
    */
   add(size: Size): Size {
     return new Size({
@@ -89,11 +91,11 @@ export class Size {
   }
 
   /**
-   * Subtracts a `Size` from the current `Size`.
+   * Subtracts a {@link Size} from the current {@link Size}.
    *
-   * @param size The `Size` to subtract.
+   * @param size The {@link Size} to subtract.
    *
-   * @returns The resulting `Size`.
+   * @returns The resulting {@link Size}.
    */
   subtract(size: Size): Size {
     return new Size({
@@ -103,11 +105,11 @@ export class Size {
   }
 
   /**
-   * Multiplies a `Size` with current `Size`.
+   * Multiplies a {@link Size} with current {@link Size}.
    *
-   * @param size The `Size` to multiply.
+   * @param size The {@link Size} to multiply.
    *
-   * @returns The resulting `Size`.
+   * @returns The resulting {@link Size}.
    */
   multiply(size: Size): Size {
     return new Size({
@@ -117,11 +119,11 @@ export class Size {
   }
 
   /**
-   * Devices the current `Size` by another `Size`.
+   * Devices the current {@link Size} by another {@link Size}.
    *
-   * @param size The `Size` divisor.
+   * @param size The {@link Size} divisor.
    *
-   * @returns The resulting `Size`.
+   * @returns The resulting {@link Size}.
    */
   divideBy(size: Size): Size {
     return new Size({
@@ -131,9 +133,9 @@ export class Size {
   }
 
   /**
-   * Returns a new `Size` with inverted width/height values.
+   * Returns a new {@link Size} with inverted width/height values.
    *
-   * @returns The resulting `Size`.
+   * @returns The resulting {@link Size}.
    */
   invert(): Size {
     return new Size({
@@ -143,9 +145,10 @@ export class Size {
   }
 
   /**
-   * Checks to see if the current `Size` is equivalent to another `Size`.
+   * Checks to see if the current {@link Size} is equivalent to another
+   * {@link Size}.
    *
-   * @param size `Size` instance to compare with.
+   * @param size {@link Size} instance to compare with.
    *
    * @returns `true` if equal, `false` otherwise.
    */
@@ -157,7 +160,7 @@ export class Size {
   }
 
   /**
-   * Returns a JSON object that represents the current `Size`.
+   * Returns a JSON object that represents the current {@link Size}.
    *
    * @returns The resulting JSON object.
    */
@@ -169,7 +172,7 @@ export class Size {
   }
 
   /**
-   * Returns an array that represents the current `Size`.
+   * Returns an array that represents the current {@link Size}.
    *
    * @returns The resulting array.
    */

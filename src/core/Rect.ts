@@ -1,10 +1,11 @@
 import type { PointDescriptor, RectDescriptor, RectJsonDescriptor, SizeDescriptor } from '../types'
 import { typeIsWindow } from '../types'
+import { hitTest } from '../utils'
 import { Point } from './Point'
 import { Size } from './Size'
 
 /**
- * Options for instantiating a `Rect`.
+ * Options for instantiating a {@link Rect}.
  */
 type RectOptions = Readonly<{
 
@@ -47,10 +48,11 @@ export class Rect {
   readonly height: number
 
   /**
-   * Creates a new `Rect` instance.
+   * Creates a new {@link Rect} instance.
    *
-   * @param descriptor Object used to describe the `Rect` to be instantiated.
-   *                   Defaults to a `Rect` with all properties at zero value.
+   * @param descriptor Object used to describe the {@link Rect} to be
+   *                   instantiated. Defaults to a {@link Rect} with all
+   *                   properties at zero value.
    */
   constructor(descriptor: RectDescriptor = { x: 0, y: 0, width: 0, height: 0 }) {
     if (!Rect.isValid(descriptor)) throw new Error('Invalid parameters passed to constructor')
@@ -61,7 +63,7 @@ export class Rect {
   }
 
   /**
-   * Gets the center point of the current `Rect`.
+   * Gets the center point of the current {@link Rect}.
    *
    * @returns The center point.
    */
@@ -73,9 +75,9 @@ export class Rect {
   }
 
   /**
-   * Gets the size of the current `Rect`.
+   * Gets the size of the current {@link Rect}.
    *
-   * @returns Size of the current `Rect`.
+   * @returns Size of the current {@link Rect}.
    */
   get size(): Size {
     return new Size({
@@ -85,27 +87,28 @@ export class Rect {
   }
 
   /**
-   * Gets the right bound of the current `Rect`.
+   * Gets the right bound of the current {@link Rect}.
    *
-   * @returns Right bound of the current `Rect`.
+   * @returns Right bound of the current {@link Rect}.
    */
   get right(): number {
     return this.left + this.width
   }
 
   /**
-   * Gets the bottom bound of the current `Rect`.
+   * Gets the bottom bound of the current {@link Rect}.
    *
-   * @returns Bottom bound of the current `Rect`.
+   * @returns Bottom bound of the current {@link Rect}.
    */
   get bottom(): number {
     return this.top + this.height
   }
 
   /**
-   * Checks if an object can be used to instantiate a new `Rect` instance.
+   * Checks if an object can be used to instantiate a new {@link Rect} instance.
    *
-   * @param descriptor Descriptor used to instantiate a new `Rect` instance.
+   * @param descriptor Descriptor used to instantiate a new {@link Rect}
+   *                   instance.
    *
    * @returns `true` if valid, `false` otherwise.
    */
@@ -119,13 +122,13 @@ export class Rect {
   }
 
   /**
-   * Gets the combined `Rect` of one or more elements.
+   * Gets the combined {@link Rect} of one or more elements.
    *
    * @param target An element or array of elements to compute the combined
-   *               `Rect`.
+   *               {@link Rect}.
    * @param options See {@link RectOptions}.
    *
-   * @returns The combined `Rect`.
+   * @returns The combined {@link Rect}.
    */
   static from(target?: Rect | Window | Element | Element[] | null, options: RectOptions = {}): Rect | null {
     try {
@@ -167,10 +170,10 @@ export class Rect {
   }
 
   /**
-   * Gets the `Rect` of the viewport (current field of view). Think of this as
-   * the `Rect` of the current window.
+   * Gets the {@link Rect} of the viewport (current field of view). Think of
+   * this as the {@link Rect} of the current window.
    *
-   * @returns The `Rect` of the viewport.
+   * @returns The {@link Rect} of the viewport.
    */
   static fromViewport(): Rect {
     const width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
@@ -182,13 +185,13 @@ export class Rect {
   }
 
   /**
-   * Gets the `Rect` of all the children of an element. This automatically sets
-   * the reference to the parent element.
+   * Gets the {@link Rect} of all the children of an element. This automatically
+   * sets the reference to the parent element.
    *
    * @param parent The parent element of the child.
    * @param options See {@link RectOptions}.
    *
-   * @returns The `Rect` of the child.
+   * @returns The {@link Rect} of the child.
    */
   static fromChildrenOf(parent?: Element | Window | null, options: RectOptions = {}): Rect | null {
     if (!parent) return null
@@ -205,15 +208,15 @@ export class Rect {
   }
 
   /**
-   * Gets the `Rect` of the children of an element up to the specified index.
-   * This automatically sets the reference to the parent element.
+   * Gets the {@link Rect} of the children of an element up to the specified
+   * index. This automatically sets the reference to the parent element.
    *
-   * @param childIndex The `Rect` of the parent's children will be computed up
-   *                   to this child index.
+   * @param childIndex The {@link Rect} of the parent's children will be
+   *                   computed up to this child index.
    * @param parent The parent element of the children.
    * @param options See {@link RectOptions}.
    *
-   * @returns The `Rect` of the child.
+   * @returns The {@link Rect} of the child.
    */
   static fromChildrenBefore(childIndex: number, parent?: Element | null, options: RectOptions = {}): Rect | null {
     if (!parent) return null
@@ -229,15 +232,15 @@ export class Rect {
   }
 
   /**
-   * Gets the `Rect` of the children of an element after the specified index.
-   * This automatically sets the reference to the parent element.
+   * Gets the {@link Rect} of the children of an element after the specified
+   * index. This automatically sets the reference to the parent element.
    *
-   * @param childIndex The `Rect` of the parent's children will be computed
-   *                   after this child index.
+   * @param childIndex The {@link Rect} of the parent's children will be
+   *                   computed after this child index.
    * @param parent The parent element of the children.
    * @param options See {@link RectOptions}.
    *
-   * @returns The `Rect` of the child.
+   * @returns The {@link Rect} of the child.
    */
   static fromChildrenAfter(childIndex: number, parent?: Element | null, options: RectOptions = {}): Rect | null {
     if (!parent) return null
@@ -253,14 +256,14 @@ export class Rect {
   }
 
   /**
-   * Gets the `Rect` of a child of an element at its index. This automatically
-   * sets the reference to the parent element.
+   * Gets the {@link Rect} of a child of an element at its index. This
+   * automatically sets the reference to the parent element.
    *
    * @param childIndex The child index.
    * @param parent The parent element of the child.
    * @param options See {@link RectOptions}.
    *
-   * @returns The `Rect` of the child.
+   * @returns The {@link Rect} of the child.
    */
   static fromChildAt(childIndex: number, parent?: Element | null, options: RectOptions = {}): Rect | null {
     if (!parent) return null
@@ -274,12 +277,12 @@ export class Rect {
   }
 
   /**
-   * Creates a new `Rect` instance from a Point value and a Size value.
+   * Creates a new {@link Rect} instance from a Point value and a Size value.
    *
    * @param pointOrDescriptor Point instance to use.
    * @param sizeOrDescriptor Size instance to use.
    *
-   * @returns The created `Rect` instance.
+   * @returns The created {@link Rect} instance.
    */
   static fromPointAndSize(pointOrDescriptor: Point | PointDescriptor, sizeOrDescriptor: Size | SizeDescriptor): Rect {
     const point = pointOrDescriptor instanceof Point ? pointOrDescriptor : new Point(pointOrDescriptor)
@@ -294,12 +297,14 @@ export class Rect {
   }
 
   /**
-   * Computes the intersecting `Rect` of one or more elements. If only 1 element
-   * is specified, the intersection will be computed against the viewport.
+   * Computes the intersecting {@link Rect} of one or more elements. If only 1
+   * element is specified, the intersection will be computed against the
+   * viewport.
    *
-   * @param elements Element(s) to be used to compute the intersecting `Rect`.
+   * @param elements Element(s) to be used to compute the intersecting
+   *                 {@link Rect}.
    *
-   * @returns The intersecting `Rect`.
+   * @returns The intersecting {@link Rect}.
    */
   static intersecting(...elements: Element[]): Rect | null {
     try {
@@ -349,11 +354,12 @@ export class Rect {
   }
 
   /**
-   * Clones the current `Rect` and returns a new `Rect`.
+   * Clones the current {@link Rect} and returns a new {@link Rect}.
    *
-   * @param newDescriptor New `Rect` descriptor to replace the current one.
+   * @param newDescriptor New {@link Rect} descriptor to replace the current
+   *                      one.
    *
-   * @returns The cloned `Rect`.
+   * @returns The cloned {@link Rect}.
    */
   clone(newDescriptor: Partial<RectDescriptor> = {}): Rect {
     return new Rect({
@@ -365,11 +371,11 @@ export class Rect {
   }
 
   /**
-   * Concatenates with another `Rect`.
+   * Concatenates with another {@link Rect}.
    *
-   * @param rect The `Rect` to concatenate.
+   * @param rect The {@link Rect} to concatenate.
    *
-   * @returns The resulting `Rect`.
+   * @returns The resulting {@link Rect}.
    */
   concat(rect: Rect): Rect {
     return new Rect({
@@ -381,9 +387,9 @@ export class Rect {
   }
 
   /**
-   * Returns a new `Rect` with inverted width/height values.
+   * Returns a new {@link Rect} with inverted width/height values.
    *
-   * @returns The resulting `Rect`.
+   * @returns The resulting {@link Rect}.
    */
   invert(): Rect {
     return new Rect({
@@ -395,9 +401,10 @@ export class Rect {
   }
 
   /**
-   * Checks to see if the current `Rect` is equivalent to another `Rect`.
+   * Checks to see if the current {@link Rect} is equivalent to another
+   * {@link Rect}.
    *
-   * @param rect `Rect` instance to compare with.
+   * @param rect {@link Rect} instance to compare with.
    *
    * @returns `true` if equal, `false` otherwise.
    */
@@ -411,7 +418,19 @@ export class Rect {
   }
 
   /**
-   * Returns a JSON object that represents the current `Rect`.
+   * Checks if this rect contains a {@link Point}, {@link PointDescriptor},
+   * {@link Rect}(s), or {@link Element}(s).
+   *
+   * @param obj The target object.
+   *
+   * @returns `true` if test passes, `false` otherwise.
+   */
+  contains(obj: Point | PointDescriptor | Rect | Rect[] | Element | Element[]) {
+    return hitTest(obj, this)
+  }
+
+  /**
+   * Returns a JSON object that represents the current {@link Rect}.
    *
    * @returns The JSON object.
    */

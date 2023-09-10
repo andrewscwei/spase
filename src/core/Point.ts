@@ -15,7 +15,7 @@ export class Point {
   readonly y: number
 
   /**
-   * Creates a new `Point` instance.
+   * Creates a new {@link Point} instance.
    *
    * @param descriptor Either an array of exactly 2 numbers or a valid object
    *                   with `x` and `y` keys.
@@ -34,9 +34,11 @@ export class Point {
   }
 
   /**
-   * Checks if an object can be used to instantiate a new `Point` instance.
+   * Checks if an object can be used to instantiate a new {@link Point}
+   * instance.
    *
-   * @param descriptor Descriptor used to instantiate a new `Point` instance.
+   * @param descriptor Descriptor used to instantiate a new {@link Point}
+   *                   instance.
    *
    * @returns `true` if valid, `false` otherwise.
    */
@@ -60,9 +62,10 @@ export class Point {
   }
 
   /**
-   * Clones the current `Point` and returns a new `Point`.
+   * Clones the current {@link Point} and returns a new {@link Point}.
    *
-   * @param newDescriptor New `Point` descriptor to replace the current one.
+   * @param newDescriptor New {@link Point} descriptor to replace the current
+   *                      one.
    *
    * @returns The cloned instance.
    */
@@ -74,11 +77,11 @@ export class Point {
   }
 
   /**
-   * Adds a `Point` to the current `Point`.
+   * Adds a {@link Point} to the current {@link Point}.
    *
-   * @param point The `Point` to add.
+   * @param point The {@link Point} to add.
    *
-   * @returns The resulting `Point`.
+   * @returns The resulting {@link Point}.
    */
   add(point: Point): Point {
     return new Point({
@@ -88,11 +91,11 @@ export class Point {
   }
 
   /**
-   * Subtracts a `Point` from the current `Point`.
+   * Subtracts a {@link Point} from the current {@link Point}.
    *
-   * @param point The `Point` to subtract.
+   * @param point The {@link Point} to subtract.
    *
-   * @returns The resulting `Point`.
+   * @returns The resulting {@link Point}.
    */
   subtract(point: Point): Point {
     return new Point({
@@ -102,11 +105,11 @@ export class Point {
   }
 
   /**
-   * Multiplies a `Point` with current `Point`.
+   * Multiplies a {@link Point} with current {@link Point}.
    *
-   * @param point The `Point` to multiply.
+   * @param point The {@link Point} to multiply.
    *
-   * @returns The resulting `Point`.
+   * @returns The resulting {@link Point}.
    */
   multiply(point: Point): Point {
     return new Point({
@@ -116,11 +119,11 @@ export class Point {
   }
 
   /**
-   * Devices the current `Point` by another `Point`.
+   * Devices the current {@link Point} by another {@link Point}.
    *
-   * @param point The `Point` divisor.
+   * @param point The {@link Point} divisor.
    *
-   * @returns The resulting `Point`.
+   * @returns The resulting {@link Point}.
    */
   divideBy(point: Point): Point {
     return new Point({
@@ -130,9 +133,9 @@ export class Point {
   }
 
   /**
-   * Returns a new `Point` with inverted x/y values.
+   * Returns a new {@link Point} with inverted x/y values.
    *
-   * @returns The resulting `Point`.
+   * @returns The resulting {@link Point}.
    */
   invert(): Point {
     return new Point({
@@ -142,9 +145,10 @@ export class Point {
   }
 
   /**
-   * Checks to see if the current `Point` is equivalent to another `Point`.
+   * Checks to see if the current {@link Point} is equivalent to another
+   * {@link Point}.
    *
-   * @param point `Point` instance to compare with.
+   * @param point {@link Point} instance to compare with.
    *
    * @returns `true` if equal, `false` otherwise.
    */
@@ -156,7 +160,7 @@ export class Point {
   }
 
   /**
-   * Returns a JSON object that represents the current `Point`.
+   * Returns a JSON object that represents the current {@link Point}.
    *
    * @returns The resulting JSON object.
    */
@@ -168,7 +172,7 @@ export class Point {
   }
 
   /**
-   * Returns an array that represents the current `Point`.
+   * Returns an array that represents the current {@link Point}.
    *
    * @returns The resulting array.
    */

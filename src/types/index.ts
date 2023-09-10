@@ -1,12 +1,12 @@
 import type { Point, Rect } from '../core'
 
 /**
- * Array representation of a `Point` in the format of `[x, y]`.
+ * Array representation of a {@link Point} in the format of `[x, y]`.
  */
 export type PointArrayDescriptor = Readonly<[number, number]>
 
 /**
- * JSON representation of a `Point`.
+ * JSON representation of a {@link Point}.
  */
 export type PointJsonDescriptor = Readonly<{
 
@@ -22,17 +22,17 @@ export type PointJsonDescriptor = Readonly<{
 }>
 
 /**
- * A type that can be used to instantiate a `Point`.
+ * A type that can be used to instantiate a {@link Point}.
  */
 export type PointDescriptor = PointArrayDescriptor | PointJsonDescriptor
 
 /**
- * Array representation of a `Size`.
+ * Array representation of a {@link Size}.
  */
 export type SizeArrayDescriptor = Readonly<[number, number]>
 
 /**
- * JSON representation of a `Size`.
+ * JSON representation of a {@link Size}.
  */
 export type SizeJsonDescriptor = Readonly<{
 
@@ -48,12 +48,12 @@ export type SizeJsonDescriptor = Readonly<{
 }>
 
 /**
-  * A type that can be used to instantiate a `Size`.
+  * A type that can be used to instantiate a {@link Size}.
   */
 export type SizeDescriptor = SizeArrayDescriptor | SizeJsonDescriptor
 
 /**
-  * A type that can be used to instantiate a `Rect`.
+  * A type that can be used to instantiate a {@link Rect}.
   */
 export type RectDescriptor = Readonly<{
 
@@ -79,7 +79,7 @@ export type RectDescriptor = Readonly<{
 }>
 
 /**
- * JSON representation of a `Rect`.
+ * JSON representation of a {@link Rect}.
  */
 export type RectJsonDescriptor = Readonly<{
 
@@ -141,7 +141,7 @@ export type FOV = {
   step: Point
 
   /**
-   * The `Rect` value of the field-of-view.
+   * The {@link Rect} value of the field-of-view.
    */
   rect: Rect
 }
