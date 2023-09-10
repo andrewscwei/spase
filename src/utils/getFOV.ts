@@ -14,12 +14,12 @@ type FOVOptions = Readonly<{
 }>
 
 /**
- * Computes the field-of-view (`FOV`) of an element.
+ * Computes the field-of-view ({@link FOV}) of an element.
  *
  * @param element The target element.
  * @param options See {@link FOVOptions}.
  *
- * @returns The `FOV` if it is computable, `null` otherwise.
+ * @returns The {@link FOV} if it is computable, `null` otherwise.
  */
 export function getFOV(element?: Element | null, options: FOVOptions = {}): FOV | null {
   if (!element) return null

@@ -2,8 +2,8 @@ import { Point, Rect } from '../core'
 import type { PointDescriptor } from '../types'
 
 /**
- * Hit-tests 2 objects. These objects can either be `Point`'s, `Rect`'s or
- * `Element`'s.
+ * Hit-tests 2 objects. These objects can either be {@link Point}'s,
+ * {@link Rect}'s or {@link Element}'s.
  *
  * @param obj1 First object.
  * @param obj2 Second object.
