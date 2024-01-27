@@ -37,5 +37,6 @@ jobs:
       - uses: andrewscwei/telegram-action@v1.0.0
         with:
           success: ${{ needs.build.result == 'success' && needs.deploy-npm.result == 'success' && needs.deploy-pages.result == 'success' }}
+          cancelled: ${{ needs.build.result == 'cancelled' || needs.deploy-npm.result == 'cancelled' || needs.deploy-pages.result == 'cancelled' }}
           bot-token: ${{ secrets.TELEGRAM_DEVOPS_BOT_TOKEN }}
           chat-id: ${{ secrets.TELEGRAM_DEVOPS_CHAT_ID }}
