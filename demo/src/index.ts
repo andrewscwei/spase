@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion, no-console */
+/* eslint-disable no-console */
 
 /**
  * @file This is a very dumb demo. It needs to be revised, but for now, it's just a quick way during

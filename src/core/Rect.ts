@@ -161,7 +161,6 @@ export class Rect {
       return combinedRect
     }
     catch (err) {
-      /* eslint-disable-next-line no-console */
       console.error(err)
 
       return null
