@@ -1,3 +1,10 @@
+## [7.2.1](https://github.com/andrewscwei/spase/compare/v7.2.0...v7.2.1) (2024-06-06)
+
+
+### Bug Fixes
+
+* Type declarations ([0684e5f](https://github.com/andrewscwei/spase/commit/0684e5f9e0209f7aac3c18366759f3573ed14767))
+
 # [7.2.0](https://github.com/andrewscwei/spase/compare/v7.1.0...v7.2.0) (2024-06-06)
 
 
