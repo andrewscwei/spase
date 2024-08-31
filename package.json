@@ -8,7 +8,6 @@
   "type": "module",
   "types": "build/index.d.ts",
   "scripts": {
-    "start": "serve .gh-pages -p 8080",
     "clean": "rimraf -g build",
     "build": "vite build",
     "prepages": "rimraf .gh-pages",
@@ -48,7 +47,6 @@
     "eslint": "^9.9.1",
     "rimraf": "^6.0.1",
     "semantic-release": "^24.1.0",
-    "serve": "^14.2.3",
     "typescript": "^5.5.4",
     "typescript-eslint": "^8.3.0",
     "vite": "^5.4.2",
