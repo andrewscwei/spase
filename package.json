@@ -3,8 +3,7 @@
   "version": "8.0.2",
   "description": "Micro library for performing 2D spatial calculations of DOM elements",
   "license": "MIT",
-  "main": "build/spase.umd.cjs",
-  "module": "build/spase.js",
+  "main": "build/spase.js",
   "type": "module",
   "types": "build/index.d.ts",
   "scripts": {
