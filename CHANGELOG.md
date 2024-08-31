@@ -1,3 +1,15 @@
+# [8.0.0](https://github.com/andrewscwei/spase/compare/v7.2.1...v8.0.0) (2024-08-31)
+
+
+### Features
+
+* Bump version ([c9fca64](https://github.com/andrewscwei/spase/commit/c9fca640bab60966f89dfd346421a16ca7223aef))
+
+
+### BREAKING CHANGES
+
+* Migrated to Vite
+
 ## [7.2.1](https://github.com/andrewscwei/spase/compare/v7.2.0...v7.2.1) (2024-06-06)
 
 
