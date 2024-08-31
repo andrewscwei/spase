@@ -1,3 +1,10 @@
+## [8.0.2](https://github.com/andrewscwei/spase/compare/v8.0.1...v8.0.2) (2024-08-31)
+
+
+### Bug Fixes
+
+* Deploys ([1310491](https://github.com/andrewscwei/spase/commit/1310491c62929b35a13c03d1163ccd8506897c34))
+
 ## [8.0.1](https://github.com/andrewscwei/spase/compare/v8.0.0...v8.0.1) (2024-08-31)
 
 
