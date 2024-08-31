@@ -1,3 +1,3 @@
-export * from './Point'
-export * from './Rect'
-export * from './Size'
+export * from './Point.js'
+export * from './Rect.js'
+export * from './Size.js'

@@ -1,1 +1,1 @@
-declare module '@shopify/draggable';
+declare module '@shopify/draggable'

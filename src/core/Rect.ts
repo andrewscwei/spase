@@ -1,7 +1,7 @@
-import { typeIsWindow, type PointDescriptor, type RectDescriptor, type RectJsonDescriptor, type SizeDescriptor } from '../types'
-import { hitTest } from '../utils'
-import { Point } from './Point'
-import { Size } from './Size'
+import { typeIsWindow, type PointDescriptor, type RectDescriptor, type RectJsonDescriptor, type SizeDescriptor } from '../types/index.js'
+import { hitTest } from '../utils/index.js'
+import { Point } from './Point.js'
+import { Size } from './Size.js'
 
 /**
  * Options for instantiating a {@link Rect}.

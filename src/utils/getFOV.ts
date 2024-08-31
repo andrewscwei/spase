@@ -1,5 +1,5 @@
-import { Point, Rect } from '../core'
-import { type FOV } from '../types'
+import { Point, Rect } from '../core/index.js'
+import { type FOV } from '../types/index.js'
 
 /**
  * Options for computing an element's field-of-view.

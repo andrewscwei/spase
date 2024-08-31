@@ -41,11 +41,33 @@
         user-select: none;
       }
 
-      button.top { left: 0; top: 0; width: 100%; }
-      button.right { right: 0; top: 0; height: 100%; }
-      button.bottom { bottom: 0; left: 0; width: 100%; }
-      button.left { left: 0; top: 0; height: 100%; }
-      button.size { position: relative; }
+      button.top {
+        left: 0;
+        top: 0;
+        width: 100%;
+      }
+
+      button.right {
+        right: 0;
+        top: 0;
+        height: 100%;
+      }
+
+      button.bottom {
+        bottom: 0;
+        left: 0;
+        width: 100%;
+      }
+
+      button.left {
+        left: 0;
+        top: 0;
+        height: 100%;
+      }
+
+      button.size {
+        position: relative;
+      }
 
       .container {
         align-items: center;
@@ -75,7 +97,8 @@
         cursor: pointer;
       }
 
-      .box:active, .box:hover {
+      .box:active,
+      .box:hover {
         background: rgba(211, 7, 7, 1);
         z-index: 1;
       }
@@ -123,22 +146,22 @@
         transform: scale(1);
       }
 
-      #main > button {
+      #main>button {
         font-size: 20px;
         color: rgba(255, 255, 255, .3);
       }
 
-      #viewport > button {
+      #viewport>button {
         font-size: 40px;
         color: rgba(255, 255, 255, .1);
       }
 
-      #intersection > button {
+      #intersection>button {
         font-size: 50px;
         color: rgba(255, 255, 255, .5);
       }
 
-      .box > button {
+      .box>button {
         font-size: 16px;
         color: rgba(255, 255, 255, .6);
       }
@@ -178,7 +201,8 @@
         <button class='bottom'></button>
         <button class='left'></button>
         <button class='size'></button>
-        </div>
+      </div>
     </main>
   </body>
+  <script type="module" src="/index.ts"></script>
 </html>
