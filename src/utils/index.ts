@@ -1,2 +1,2 @@
-export * from './getFOV'
-export * from './hitTest'
+export * from './getFOV.js'
+export * from './hitTest.js'

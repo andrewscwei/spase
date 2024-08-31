@@ -1,4 +1,4 @@
-import { type Point, type Rect } from '../core'
+import { type Point, type Rect } from '../core/index.js'
 
 /**
  * Array representation of a {@link Point} in the format of `[x, y]`.

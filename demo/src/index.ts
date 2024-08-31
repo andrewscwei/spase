@@ -1,11 +1,6 @@
 /* eslint-disable no-console */
 
-/**
- * @file This is a very dumb demo. It needs to be revised, but for now, it's just a quick way during
- *       development to test the API.
- */
-
-import { Point, Rect } from '../../build'
+import { Point, Rect } from 'spase'
 
 const mainEl = document.getElementById('main')
 const intersectionEl = document.getElementById('intersection')
