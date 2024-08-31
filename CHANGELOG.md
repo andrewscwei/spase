@@ -1,3 +1,10 @@
+## [8.0.1](https://github.com/andrewscwei/spase/compare/v8.0.0...v8.0.1) (2024-08-31)
+
+
+### Bug Fixes
+
+* Typings ([f68df58](https://github.com/andrewscwei/spase/commit/f68df58c6c5593c578c2c2e1bbbdaae3bede8d43))
+
 # [8.0.0](https://github.com/andrewscwei/spase/compare/v7.2.1...v8.0.0) (2024-08-31)
 
 
