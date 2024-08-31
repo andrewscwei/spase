@@ -1,3 +1,10 @@
+## [8.0.3](https://github.com/andrewscwei/spase/compare/v8.0.2...v8.0.3) (2024-08-31)
+
+
+### Bug Fixes
+
+* Exported module ([c47e453](https://github.com/andrewscwei/spase/commit/c47e4535d4e7fe978dfb7126f90f19b6533d06f8))
+
 ## [8.0.2](https://github.com/andrewscwei/spase/compare/v8.0.1...v8.0.2) (2024-08-31)
 
 
