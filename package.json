@@ -11,7 +11,7 @@
     "build": "vite build",
     "prepages": "rimraf .gh-pages",
     "pages": "vite build -c demo/vite.config.ts",
-    "dev": "concurrently \"vite build -w \" \"wait-on build && cross-env vite dev -c demo/vite.config.ts --port 8080\"",
+    "dev": "concurrently \"vite build -w \" \"wait-on build && vite dev -c demo/vite.config.ts --port 8080\"",
     "test": "echo \"No tests yet\"",
     "lint": "eslint",
     "lint:fix": "eslint --fix"
@@ -42,7 +42,6 @@
     "@stylistic/eslint-plugin": "^2.7.2",
     "@types/node": "^22.5.1",
     "concurrently": "^8.2.2",
-    "cross-env": "^7.0.3",
     "eslint": "^9.9.1",
     "rimraf": "^6.0.1",
     "semantic-release": "^24.1.0",

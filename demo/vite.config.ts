@@ -1,9 +1,9 @@
 import path from 'node:path'
 import { defineConfig } from 'vite'
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   root: __dirname,
-  base: '/spase/',
+  base: mode === 'production' ? '/spase/' : '/',
   build: {
     outDir: path.resolve(__dirname, '../.gh-pages'),
     target: 'esnext',
@@ -13,4 +13,4 @@ export default defineConfig({
       spase: path.resolve(__dirname, '../'),
     },
   },
-})
+}))
