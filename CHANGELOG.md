@@ -1,3 +1,10 @@
+## [8.0.4](https://github.com/andrewscwei/spase/compare/v8.0.3...v8.0.4) (2024-09-05)
+
+
+### Bug Fixes
+
+* Remove unused dependencies ([7f74cf6](https://github.com/andrewscwei/spase/commit/7f74cf60a3d56d5e036478797f3504bbf53525f3))
+
 ## [8.0.3](https://github.com/andrewscwei/spase/compare/v8.0.2...v8.0.3) (2024-08-31)
 
 
