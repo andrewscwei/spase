@@ -1,3 +1,15 @@
+# [9.0.0](https://github.com/andrewscwei/spase/compare/v8.0.4...v9.0.0) (2024-09-11)
+
+
+### Features
+
+* Add factory methods ([15853c7](https://github.com/andrewscwei/spase/commit/15853c7397a98e4eb8cbe776ffb9806910f18110))
+
+
+### BREAKING CHANGES
+
+* API changes
+
 ## [8.0.4](https://github.com/andrewscwei/spase/compare/v8.0.3...v8.0.4) (2024-09-05)
 
 
