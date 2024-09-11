@@ -112,7 +112,7 @@ export class Size {
    *
    * @returns The resulting {@link Size} instance.
    */
-  static make(descriptor: SizeDescriptor): Size
+  static make(descriptor?: SizeDescriptor): Size
 
   /**
    * Creates a new {@link Size} instance.
