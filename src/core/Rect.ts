@@ -243,7 +243,7 @@ export class Rect {
    *
    * @returns The resulting {@link Rect} instance.
    */
-  static make(descriptor: RectDescriptor): Rect
+  static make(descriptor?: RectDescriptor): Rect
 
   /**
    * Creates a new {@link Rect} instance.
