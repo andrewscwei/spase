@@ -1,3 +1,10 @@
+## [9.0.1](https://github.com/andrewscwei/spase/compare/v9.0.0...v9.0.1) (2024-09-11)
+
+
+### Bug Fixes
+
+* Rect.make() and Size.make() ([bcfd517](https://github.com/andrewscwei/spase/commit/bcfd51710c5231aea61c9bdc58b2971b0f3eaea9))
+
 # [9.0.0](https://github.com/andrewscwei/spase/compare/v8.0.4...v9.0.0) (2024-09-11)
 
 
