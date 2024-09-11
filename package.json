@@ -1,6 +1,6 @@
 {
   "name": "spase",
-  "version": "8.0.4",
+  "version": "9.0.0",
   "description": "Micro library for performing 2D spatial calculations of DOM elements",
   "license": "MIT",
   "main": "build/spase.js",
