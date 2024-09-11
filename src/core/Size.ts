@@ -1,4 +1,28 @@
-import { type SizeArrayDescriptor, type SizeDescriptor, type SizeJsonDescriptor } from '../types/index.js'
+/**
+ * Array representation of a {@link Size}.
+ */
+export type SizeArrayDescriptor = Readonly<[number, number]>
+
+/**
+ * JSON representation of a {@link Size}.
+ */
+export type SizeJsonDescriptor = Readonly<{
+
+  /**
+   * The `width` value.
+   */
+  width: number
+
+  /**
+   * The `height` value.
+   */
+  height: number
+}>
+
+/**
+  * A type that can be used to instantiate a {@link Size}.
+  */
+export type SizeDescriptor = SizeArrayDescriptor | SizeJsonDescriptor
 
 /**
  * A type representing a size on a 2D plane.
@@ -21,16 +45,34 @@ export class Size {
    *                   height]`) or a valid object with `width` and `height`
    *                   keys.
    */
-  constructor(descriptor: SizeDescriptor = [0, 0]) {
-    if (!Size.isValid(descriptor)) throw new Error('Invalid parameters passed to constructor')
+  constructor(descriptor?: SizeDescriptor)
 
-    if (descriptor instanceof Array) {
-      this.width = descriptor[0]
-      this.height = descriptor[1]
+  /**
+   * Creates a new {@link Size} instance.
+   *
+   * @param width Width.
+   * @param height Height.
+   */
+  constructor(width: number, height: number)
+
+  constructor(widthOrDescriptor: number | SizeDescriptor = 0, height: number = 0) {
+    if (typeof widthOrDescriptor === 'number') {
+      const width = widthOrDescriptor
+
+      this.width = width
+      this.height = height
     }
     else {
-      this.width = (descriptor as Record<string, number>).width
-      this.height = (descriptor as Record<string, number>).height
+      if (!Size.isValid(widthOrDescriptor)) throw new Error('Invalid parameters passed to constructor')
+
+      if (widthOrDescriptor instanceof Array) {
+        this.width = widthOrDescriptor[0]
+        this.height = widthOrDescriptor[1]
+      }
+      else {
+        this.width = (widthOrDescriptor as Record<string, number>).width
+        this.height = (widthOrDescriptor as Record<string, number>).height
+      }
     }
   }
 
@@ -59,6 +101,33 @@ export class Size {
     else {
       return false
     }
+  }
+
+  /**
+   * Creates a new {@link Size} instance.
+   *
+   * @param descriptor Either an array of exactly 2 numbers (i.e. `[width,
+   *                   height]`) or a valid object with `width` and `height`
+   *                   keys.
+   *
+   * @returns The resulting {@link Size} instance.
+   */
+  static make(descriptor: SizeDescriptor): Size
+
+  /**
+   * Creates a new {@link Size} instance.
+   *
+   * @param width Width.
+   * @param height Height.
+   *
+   * @returns The resulting {@link Size} instance.
+   */
+  static make(width: number, height: number): Size
+
+  static make(widthOrDescriptor: number | SizeDescriptor = 0, height: number = 0): Size {
+    if (typeof widthOrDescriptor === 'number') return new Size(widthOrDescriptor, height)
+
+    return new Size(widthOrDescriptor)
   }
 
   /**

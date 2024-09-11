@@ -1,7 +1,79 @@
-import { typeIsWindow, type PointDescriptor, type RectDescriptor, type RectJsonDescriptor, type SizeDescriptor } from '../types/index.js'
 import { hitTest } from '../utils/index.js'
-import { Point } from './Point.js'
-import { Size } from './Size.js'
+import { Point, type PointDescriptor } from './Point.js'
+import { Size, type SizeDescriptor } from './Size.js'
+
+/**
+ * Type guard for `Window`.
+ *
+ * @param val Any value.
+ *
+ * @returns `true` if value is a `Window`, `false` otherwise.
+ */
+export function typeIsWindow(val: any): val is Window {
+  return val === window
+}
+
+/**
+  * A type that can be used to instantiate a {@link Rect}.
+  */
+export type RectDescriptor = Readonly<{
+
+  /**
+   * The `x` value.
+   */
+  x: number
+
+  /**
+   * The `y` value.
+   */
+  y: number
+
+  /**
+   * The `width` value.
+   */
+  width: number
+
+  /**
+   * The `height` value.
+   */
+  height: number
+}>
+
+/**
+ * JSON representation of a {@link Rect}.
+ */
+export type RectJsonDescriptor = Readonly<{
+
+  /**
+   * The top bound.
+   */
+  top: number
+
+  /**
+   * The right bound.
+   */
+  right: number
+
+  /**
+   * The bottom bound.
+   */
+  bottom: number
+
+  /**
+   * The left bound.
+   */
+  left: number
+
+  /**
+   * The `width` value.
+   */
+  width: number
+
+  /**
+   * The `height` value.
+   */
+  height: number
+}>
 
 /**
  * Options for instantiating a {@link Rect}.
@@ -53,12 +125,54 @@ export class Rect {
    *                   instantiated. Defaults to a {@link Rect} with all
    *                   properties at zero value.
    */
-  constructor(descriptor: RectDescriptor = { x: 0, y: 0, width: 0, height: 0 }) {
-    if (!Rect.isValid(descriptor)) throw new Error('Invalid parameters passed to constructor')
-    this.left = descriptor.x
-    this.top = descriptor.y
-    this.width = descriptor.width
-    this.height = descriptor.height
+  constructor(descriptor?: RectDescriptor)
+
+  /**
+   * Creates a new {@link Rect} instance.
+   *
+   * @param point {@link Point}.
+   * @param size {@link Size}.
+   */
+  constructor(point: Point, size: Size)
+
+  /**
+   * Creates a new {@link Rect} instance.
+   *
+   * @param x `x` value.
+   * @param y `y` value.
+   * @param width Width.
+   * @param height Height.
+   */
+  constructor(x: number, y: number, width: number, height: number)
+
+  constructor(xOrPointOrDescriptor: number | Point | RectDescriptor = 0, yOrSize: number | Size = 0, width: number = 0, height: number = 0) {
+    if (typeof xOrPointOrDescriptor === 'number' && typeof yOrSize === 'number') {
+      const x = xOrPointOrDescriptor
+      const y = yOrSize
+
+      this.left = x
+      this.top = y
+      this.width = width
+      this.height = height
+    }
+    else if (xOrPointOrDescriptor instanceof Point && yOrSize instanceof Size) {
+      const point = xOrPointOrDescriptor
+      const size = yOrSize
+
+      this.left = point.x
+      this.top = point.y
+      this.width = size.width
+      this.height = size.height
+    }
+    else {
+      const descriptor = xOrPointOrDescriptor
+      if (!Rect.isValid(descriptor)) throw new Error('Invalid parameters passed to constructor')
+
+      this.left = descriptor.x
+      this.top = descriptor.y
+      this.width = descriptor.width
+      this.height = descriptor.height
+    }
   }
 
   /**
@@ -118,6 +232,43 @@ export class Rect {
     if (typeof descriptor.height !== 'number') return false
 
     return true
+  }
+
+  /**
+   * Creates a new {@link Rect} instance.
+   *
+   * @param descriptor Object used to describe the {@link Rect} to be
+   *                   instantiated. Defaults to a {@link Rect} with all
+   *                   properties at zero value.
+   *
+   * @returns The resulting {@link Rect} instance.
+   */
+  static make(descriptor: RectDescriptor): Rect
+
+  /**
+   * Creates a new {@link Rect} instance.
+   *
+   * @param point {@link Point}.
+   * @param size {@link Size}.
+   *
+   * @returns The resulting {@link Rect} instance.
+   */
+  static make(point: Point, size: Size): Rect
+
+  /**
+   * Creates a new {@link Rect} instance.
+   *
+   * @param x `x` value.
+   * @param y `y` value.
+   * @param width Width.
+   * @param height Height.
+   *
+   * @returns The resulting {@link Rect} instance.
+   */
+  static make(x: number, y: number, width: number, height: number): Rect
+
+  static make(xOrPointOrDescriptor: number | Point | RectDescriptor = 0, yOrSize: number | Size = 0, width: number = 0, height: number = 0): Rect {
+    return new Rect(xOrPointOrDescriptor as any, yOrSize as any, width, height)
   }
 
   /**

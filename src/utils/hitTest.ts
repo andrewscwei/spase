@@ -1,5 +1,4 @@
-import { Point, Rect } from '../core/index.js'
-import { type PointDescriptor } from '../types/index.js'
+import { Point, Rect, type PointDescriptor } from '../core/index.js'
 
 /**
  * Hit-tests 2 objects. These objects can either be {@link Point}'s,
