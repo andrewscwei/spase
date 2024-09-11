@@ -1,11 +1,41 @@
 import { Point, Rect } from '../core/index.js'
-import { type FOV } from '../types/index.js'
+
+/**
+ * A type that describes the current field-of-view of a DOM element relative to
+ * the coordinate space of a reference object. The reference object is either
+ * another DOM element or the browser window and is specified at the time of
+ * computing the field-of-view.
+ */
+export type FOV = {
+
+  /**
+   * The dimensions on both x and y axes of the FOV that is visible within the
+   * coordinate space of the reference object. If the FOV is not visible yet,
+   * the values represent the distance until the FOV is scrolled into view.
+   * These values will never exceed the visible width and height of the target
+   * element.
+   */
+  position: Point
+
+  /**
+   * The ratio between `position` and the visible size of the target element,
+   * i.e. if the FOV has a height of 10px and the target element has a visible
+   * height of 100px, `step.y` will be `0.1`. Note that the values are not
+   * clamped to 0 and 1 to indicate whether the target element is scrolled into
+   * view.
+   */
+  step: Point
+
+  /**
+   * The {@link Rect} value of the field-of-view.
+   */
+  rect: Rect
+}
 
 /**
  * Options for computing an element's field-of-view.
  */
 type FOVOptions = Readonly<{
-
   /**
    * The element whose coordinate space the computed field-of-view is relative
    * to.

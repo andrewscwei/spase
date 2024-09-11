@@ -1,4 +1,28 @@
-import { type PointArrayDescriptor, type PointDescriptor, type PointJsonDescriptor } from '../types/index.js'
+/**
+ * Array representation of a {@link Point} in the format of `[x, y]`.
+ */
+export type PointArrayDescriptor = Readonly<[number, number]>
+
+/**
+ * JSON representation of a {@link Point}.
+ */
+export type PointJsonDescriptor = Readonly<{
+
+  /**
+   * The `x` value.
+   */
+  x: number
+
+  /**
+   * The `y` value.
+   */
+  y: number
+}>
+
+/**
+ * A type that can be used to instantiate a {@link Point}.
+ */
+export type PointDescriptor = PointArrayDescriptor | PointJsonDescriptor
 
 /**
  * A type representing a point on a 2D plane.
@@ -20,16 +44,34 @@ export class Point {
    * @param descriptor Either an array of exactly 2 numbers or a valid object
    *                   with `x` and `y` keys.
    */
-  constructor(descriptor: PointDescriptor = [0, 0]) {
-    if (!Point.isValid(descriptor)) throw new Error('Invalid parameters passed to constructor')
+  constructor(descriptor?: PointDescriptor)
 
-    if (descriptor instanceof Array) {
-      this.x = descriptor[0]
-      this.y = descriptor[1]
+  /**
+   * Creates a new {@link Point} instance.
+   *
+   * @param x `x` value.
+   * @param y `y` value.
+   */
+  constructor(x: number, y: number)
+
+  constructor(xOrDescriptor: number | PointDescriptor = 0, y: number = 0) {
+    if (typeof xOrDescriptor === 'number') {
+      const x = xOrDescriptor
+
+      this.x = x
+      this.y = y
     }
     else {
-      this.x = (descriptor as Record<string, number>).x
-      this.y = (descriptor as Record<string, number>).y
+      if (!Point.isValid(xOrDescriptor)) throw new Error('Invalid parameters passed to constructor')
+
+      if (xOrDescriptor instanceof Array) {
+        this.x = xOrDescriptor[0]
+        this.y = xOrDescriptor[1]
+      }
+      else {
+        this.x = (xOrDescriptor as Record<string, number>).x
+        this.y = (xOrDescriptor as Record<string, number>).y
+      }
     }
   }
 
@@ -59,6 +101,32 @@ export class Point {
     else {
       return false
     }
+  }
+
+  /**
+   * Creates a new {@link Point} instance.
+   *
+   * @param descriptor Either an array of exactly 2 numbers or a valid object
+   *                   with `x` and `y` keys.
+   *
+   * @returns The resulting {@link Point} instance.
+   */
+  static make(descriptor?: PointDescriptor): Point
+
+  /**
+   * Creates a new {@link Point} instance.
+   *
+   * @param x `x` value.
+   * @param y `y` value.
+   *
+   * @returns The resulting {@link Point} instance.
+   */
+  static make(x: number, y: number): Point
+
+  static make(xOrDescriptor: number | PointDescriptor = 0, y: number = 0): Point {
+    if (typeof xOrDescriptor === 'number') return new Point(xOrDescriptor, y)
+
+    return new Point(xOrDescriptor)
   }
 
   /**

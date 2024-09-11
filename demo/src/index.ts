@@ -1,6 +1,5 @@
-/* eslint-disable no-console */
-
 import { Point, Rect } from 'spase'
+import './styles.css'
 
 const mainEl = document.getElementById('main')
 const intersectionEl = document.getElementById('intersection')
@@ -13,7 +12,7 @@ window.addEventListener('scroll', () => update())
 
 boxEls.forEach(el => {
   let start: Point
-  let offset = new Point()
+  let offset = Point.make()
   let curr: Point
   let isActive = false
 
@@ -33,11 +32,7 @@ boxEls.forEach(el => {
 
     event.preventDefault()
 
-    curr = new Point({
-      x: (event as MouseEvent).clientX - start.x,
-      y: (event as MouseEvent).clientY - start.y,
-    })
-
+    curr = Point.make((event as MouseEvent).clientX - start.x, (event as MouseEvent).clientY - start.y)
     offset = curr;
 
     (el as HTMLElement).style.transform = `translate3d(${curr.x}px, ${curr.y}px, 0)`
@@ -88,8 +83,6 @@ function updateBoxes() {
     const refRect = Rect.from(el!, { reference: mainEl })
     const fullRect = Rect.from(el!, { overflow: true })
     const intersectRect = Rect.intersecting(el)
-
-    console.log(el.getBoundingClientRect().top, el.offsetTop)
 
     el.querySelector('.top')!.innerHTML = `G:${parseNum(rect!.top)}<br>L:${parseNum(refRect!.top)}<br>V:${parseNum(intersectRect!.top)}`
     el.querySelector('.right')!.innerHTML = `G:${parseNum(rect!.right)}<br>L:${parseNum(refRect!.right)}<br>V:${parseNum(intersectRect!.right)}`
