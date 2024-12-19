@@ -1,3 +1,10 @@
+# [9.1.0](https://github.com/andrewscwei/spase/compare/v9.0.1...v9.1.0) (2024-12-19)
+
+
+### Features
+
+* Upgrade dependencies ([5314c33](https://github.com/andrewscwei/spase/commit/5314c332cc4178cf441821a5503c60ebf949cce3))
+
 ## [9.0.1](https://github.com/andrewscwei/spase/compare/v9.0.0...v9.0.1) (2024-09-11)
 
 
