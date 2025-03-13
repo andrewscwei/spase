@@ -1,6 +1,6 @@
 {
   "name": "spase",
-  "version": "9.1.0",
+  "version": "10.0.0",
   "description": "Micro library for performing 2D spatial calculations of DOM elements",
   "license": "MIT",
   "type": "module",

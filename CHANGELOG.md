@@ -1,3 +1,15 @@
+# [10.0.0](https://github.com/andrewscwei/spase/compare/v9.1.0...v10.0.0) (2025-03-13)
+
+
+### Build System
+
+* Optimize config files ([e27e47d](https://github.com/andrewscwei/spase/commit/e27e47d3881e41b3555bef228e2c39d86e735558))
+
+
+### BREAKING CHANGES
+
+* None, bumping major version
+
 # [9.1.0](https://github.com/andrewscwei/spase/compare/v9.0.1...v9.1.0) (2024-12-19)
 
 
