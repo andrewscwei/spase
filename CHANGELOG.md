@@ -1,3 +1,10 @@
+## [10.0.1](https://github.com/andrewscwei/spase/compare/v10.0.0...v10.0.1) (2025-03-13)
+
+
+### Bug Fixes
+
+* Remove exports in package.json ([56cb4ba](https://github.com/andrewscwei/spase/commit/56cb4ba2b001a2b87844bf1bedb4d63a8d894996))
+
 # [10.0.0](https://github.com/andrewscwei/spase/compare/v9.1.0...v10.0.0) (2025-03-13)
 
 
