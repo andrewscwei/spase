@@ -9,6 +9,9 @@ export default defineConfig({
       name: 'spase',
     },
     outDir: resolve(__dirname, 'build'),
+    rollupOptions: {
+      treeshake: 'smallest',
+    },
     target: 'esnext',
   },
   plugins: [

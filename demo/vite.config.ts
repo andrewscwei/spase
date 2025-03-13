@@ -7,6 +7,9 @@ export default defineConfig(({ mode }) => ({
   build: {
     outDir: path.resolve(__dirname, '../.gh-pages'),
     target: 'esnext',
+    rollupOptions: {
+      treeshake: 'smallest',
+    },
   },
   resolve: {
     alias: {

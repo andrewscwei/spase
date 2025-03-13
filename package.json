@@ -3,9 +3,19 @@
   "version": "9.1.0",
   "description": "Micro library for performing 2D spatial calculations of DOM elements",
   "license": "MIT",
-  "main": "build/spase.js",
   "type": "module",
-  "types": "build/index.d.ts",
+  "main": "./build/spase.umd.cjs",
+  "module": "./build/spase.js",
+  "types": "./build/index.d.ts",
+  "files": [
+    "build"
+  ],
+  "exports": {
+    ".": {
+      "import": "./build/spase.js",
+      "require": "./build/spase.umd.cjs"
+    }
+  },
   "scripts": {
     "clean": "rimraf -g build",
     "build": "vite build",
@@ -27,28 +37,25 @@
     "typescript",
     "rect"
   ],
-  "files": [
-    "build"
-  ],
   "author": "Andrew Wei <andrewscwei@gmail.com>",
   "repository": {
     "type": "git",
     "url": "https://github.com/andrewscwei/spase.git"
   },
   "devDependencies": {
-    "@eslint/js": "^9.17.0",
+    "@eslint/js": "^9.22.0",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
-    "@stylistic/eslint-plugin": "^2.12.1",
-    "@types/node": "^22.10.2",
-    "concurrently": "^9.1.0",
-    "eslint": "^9.17.0",
+    "@stylistic/eslint-plugin": "^4.2.0",
+    "@types/node": "^22.13.10",
+    "concurrently": "^9.1.2",
+    "eslint": "^9.22.0",
     "rimraf": "^6.0.1",
-    "semantic-release": "^24.2.0",
-    "typescript": "^5.7.2",
-    "typescript-eslint": "^8.18.1",
-    "vite": "^6.0.4",
-    "vite-plugin-dts": "^4.4.0",
-    "wait-on": "^8.0.1"
+    "semantic-release": "^24.2.3",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.26.1",
+    "vite": "^6.2.1",
+    "vite-plugin-dts": "^4.5.3",
+    "wait-on": "^8.0.3"
   }
 }
