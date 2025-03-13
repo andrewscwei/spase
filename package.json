@@ -7,6 +7,13 @@
   "main": "./build/spase.umd.cjs",
   "module": "./build/spase.js",
   "types": "./build/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./build/spase.js",
+      "require": "./build/spase.umd.cjs",
+      "types": "./build/index.d.ts"
+    }
+  },
   "files": [
     "build"
   ],
