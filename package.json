@@ -10,12 +10,6 @@
   "files": [
     "build"
   ],
-  "exports": {
-    ".": {
-      "import": "./build/spase.js",
-      "require": "./build/spase.umd.cjs"
-    }
-  },
   "scripts": {
     "clean": "rimraf -g build",
     "build": "vite build",
