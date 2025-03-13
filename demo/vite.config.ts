@@ -6,10 +6,10 @@ export default defineConfig(({ mode }) => ({
   base: mode === 'production' ? '/spase/' : '/',
   build: {
     outDir: path.resolve(__dirname, '../.gh-pages'),
-    target: 'esnext',
     rollupOptions: {
       treeshake: 'smallest',
     },
+    target: 'esnext',
   },
   resolve: {
     alias: {
