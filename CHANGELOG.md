@@ -1,3 +1,10 @@
+## [10.0.2](https://github.com/andrewscwei/spase/compare/v10.0.1...v10.0.2) (2025-03-13)
+
+
+### Bug Fixes
+
+* Explicitly define exports in package.json ([1aadc7a](https://github.com/andrewscwei/spase/commit/1aadc7ac21fb94d81668e17c997b229c91e54ed9))
+
 ## [10.0.1](https://github.com/andrewscwei/spase/compare/v10.0.0...v10.0.1) (2025-03-13)
 
 
