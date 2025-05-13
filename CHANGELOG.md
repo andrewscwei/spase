@@ -1,3 +1,10 @@
+## [11.2.1](https://github.com/andrewscwei/spase/compare/v11.2.0...v11.2.1) (2025-05-13)
+
+
+### Bug Fixes
+
+* Fix minor syntaxes ([5a9b9c4](https://github.com/andrewscwei/spase/commit/5a9b9c487236a581ac2ce898ce4c390c5f1451b8))
+
 # [11.2.0](https://github.com/andrewscwei/spase/compare/v11.1.0...v11.2.0) (2025-05-13)
 
 
