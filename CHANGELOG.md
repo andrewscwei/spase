@@ -1,3 +1,10 @@
+# [11.1.0](https://github.com/andrewscwei/spase/compare/v11.0.0...v11.1.0) (2025-05-13)
+
+
+### Features
+
+* Add toString to Point, Rect, and Size ([d3cb14e](https://github.com/andrewscwei/spase/commit/d3cb14e2aac1d74dbe4dddadb696a8b9e398d4d3))
+
 # [11.0.0](https://github.com/andrewscwei/spase/compare/v10.1.0...v11.0.0) (2025-05-13)
 
 
