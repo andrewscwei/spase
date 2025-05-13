@@ -10,7 +10,7 @@ repos:
   - repo: local
     hooks:
       - id: lint
-        name: Lint TypeScript/React files
+        name: Lint TypeScript files
         entry: npx eslint
         language: system
         files: \.(js|cjs|mjs|jsx|ts|cts|mts|tsx)$
