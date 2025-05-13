@@ -193,28 +193,6 @@ export namespace Rect {
   }
 
   /**
-   * Gets the right bound of a {@link Rect}.
-   *
-   * @param rect The {@link Rect} to get the right bound of.
-   *
-   * @returns Right bound of a {@link Rect}.
-   */
-  export function right(rect: Rect): number {
-    return rect.left + rect.width
-  }
-
-  /**
-   * Gets the bottom bound of the current {@link Rect}.
-   *
-   * @param rect The {@link Rect} to get the bottom bound of.
-   *
-   * @returns Bottom bound of the current {@link Rect}.
-   */
-  export function bottom(rect: Rect): number {
-    return rect.top + rect.height
-  }
-
-  /**
    * Gets the combined {@link Rect} of one or more spatial objects.
    *
    * @param target An element or array of spatial objects to compute the
