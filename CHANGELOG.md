@@ -1,3 +1,10 @@
+# [10.1.0](https://github.com/andrewscwei/spase/compare/v10.0.2...v10.1.0) (2025-05-13)
+
+
+### Features
+
+* Remove classes, migrate to namespaced exports ([4e54321](https://github.com/andrewscwei/spase/commit/4e543216c8880a940c118de60b4b69390404137b))
+
 ## [10.0.2](https://github.com/andrewscwei/spase/compare/v10.0.1...v10.0.2) (2025-03-13)
 
 
