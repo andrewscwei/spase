@@ -151,7 +151,7 @@ export namespace Rect {
     }
     else {
       const descriptor = xOrPointOrDescriptor
-      if (!Rect.isValidDescriptor(descriptor)) throw Error('Invalid parameters passed to constructor')
+      if (!isValidDescriptor(descriptor)) throw Error('Invalid parameters passed to constructor')
 
       return {
         top: descriptor.y,
@@ -205,13 +205,13 @@ export namespace Rect {
     try {
       if (target === undefined || target === null) return undefined
       if (isRect(target)) return target
-      if (_typeIsWindow(target)) return Rect.from(document.documentElement || document.body.parentNode || document.body, options)
+      if (_typeIsWindow(target)) return from(document.documentElement || document.body.parentNode || document.body, options)
 
       const e = target instanceof Array ? target : [target]
       const n = e.length
       const reference = options.reference || window
-      const winRect = Rect.fromViewport()
-      const refRect = _typeIsWindow(reference) ? winRect : Rect.from(options.reference)
+      const winRect = fromViewport()
+      const refRect = _typeIsWindow(reference) ? winRect : from(options.reference)
 
       if (!winRect || !refRect) return undefined
 
@@ -227,7 +227,7 @@ export namespace Rect {
           height: options.overflow ? element.scrollHeight : element instanceof HTMLElement ? element.offsetHeight : clientRect.height,
         })
 
-        combinedRect = combinedRect ? Rect.concat(combinedRect, rect) : rect
+        combinedRect = combinedRect ? concat(combinedRect, rect) : rect
       }
 
       return combinedRect
@@ -266,10 +266,10 @@ export namespace Rect {
     if (!parent) return undefined
 
     if (_typeIsWindow(parent)) {
-      return Rect.from(Array.from(document.body.children))
+      return from(Array.from(document.body.children))
     }
     else {
-      return Rect.from(Array.from(parent.children), {
+      return from(Array.from(parent.children), {
         overflow: options.overflow,
         reference: options.reference || parent,
       })
@@ -293,11 +293,11 @@ export namespace Rect {
     const children = Array.from(parent.children)
 
     if (childIndex <= 0) return make()
-    if (childIndex >= children.length) return Rect.from(children, { reference: options.reference, overflow: false })
+    if (childIndex >= children.length) return from(children, { reference: options.reference, overflow: false })
 
     children.splice(childIndex)
 
-    return Rect.from(children, { reference: options.reference || parent, overflow: false })
+    return from(children, { reference: options.reference || parent, overflow: false })
   }
 
   /**
@@ -316,12 +316,12 @@ export namespace Rect {
 
     const children = Array.from(parent.children)
 
-    if (childIndex < 0) return Rect.from(children, { reference: options.reference, overflow: false })
+    if (childIndex < 0) return from(children, { reference: options.reference, overflow: false })
     if (childIndex >= children.length - 1) return make()
 
     children.splice(0, children.length - childIndex - 1)
 
-    return Rect.from(children, { reference: options.reference || parent, overflow: false })
+    return from(children, { reference: options.reference || parent, overflow: false })
   }
 
   /**
@@ -339,7 +339,7 @@ export namespace Rect {
 
     const child = parent.children[childIndex]
 
-    return Rect.from(child, {
+    return from(child, {
       overflow: options.overflow,
       reference: options.reference || parent,
     })
@@ -364,13 +364,13 @@ export namespace Rect {
       let nextRect: Rect | undefined
 
       for (let i = 0; i < n; i++) {
-        if (!currRect) currRect = Rect.from(elements[i])
+        if (!currRect) currRect = from(elements[i])
 
         if (i === 0 && i + 1 === n) {
-          nextRect = Rect.fromViewport()
+          nextRect = fromViewport()
         }
         else if (i + 1 < n) {
-          nextRect = Rect.from(elements[i + 1])
+          nextRect = from(elements[i + 1])
         }
         else {
           break
@@ -390,10 +390,10 @@ export namespace Rect {
           descriptor.x = NaN
         }
 
-        currRect = Rect.make(descriptor as RectDescriptor)
+        currRect = make(descriptor as RectDescriptor)
       }
 
-      return Rect.make(descriptor as RectDescriptor)
+      return make(descriptor as RectDescriptor)
     }
     catch (err) {
       console.error(err)
