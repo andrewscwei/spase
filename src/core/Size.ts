@@ -95,18 +95,6 @@ export namespace Size {
   }
 
   /**
-   * Computes and returns the {@link Size} of the viewport (a.k.a. the window).
-   *
-   * @returns The {@link Size} of the viewport.
-   */
-  export function fromViewport(): Size {
-    const width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
-    const height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
-
-    return make({ width, height })
-  }
-
-  /**
    * Returns the resulting {@link Size} by adding one to another.
    *
    * @param a The first {@link Size}.
