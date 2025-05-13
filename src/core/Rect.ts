@@ -1,49 +1,11 @@
-import { hitTest } from '../utils/index.js'
+import { hitTest } from '../utils/hitTest.js'
 import { Point, type PointDescriptor } from './Point.js'
-import { Size, type SizeDescriptor } from './Size.js'
+import { Size } from './Size.js'
 
 /**
- * Type guard for `Window`.
- *
- * @param val Any value.
- *
- * @returns `true` if value is a `Window`, `false` otherwise.
+ * A type representing a rectangle on a 2D plane.
  */
-export function typeIsWindow(val: any): val is Window {
-  return val === window
-}
-
-/**
-  * A type that can be used to instantiate a {@link Rect}.
-  */
-export type RectDescriptor = Readonly<{
-
-  /**
-   * The `x` value.
-   */
-  x: number
-
-  /**
-   * The `y` value.
-   */
-  y: number
-
-  /**
-   * The `width` value.
-   */
-  width: number
-
-  /**
-   * The `height` value.
-   */
-  height: number
-}>
-
-/**
- * JSON representation of a {@link Rect}.
- */
-export type RectJsonDescriptor = Readonly<{
-
+export type Rect = {
   /**
    * The top bound.
    */
@@ -73,13 +35,42 @@ export type RectJsonDescriptor = Readonly<{
    * The `height` value.
    */
   height: number
+}
+
+/**
+  * A type that can be used to create a {@link Rect}.
+  */
+export type RectDescriptor = Readonly<{
+  /**
+   * The `x` value.
+   */
+  x: number
+
+  /**
+   * The `y` value.
+   */
+  y: number
+
+  /**
+   * The `width` value.
+   */
+  width: number
+
+  /**
+   * The `height` value.
+   */
+  height: number
 }>
 
 /**
- * Options for instantiating a {@link Rect}.
+ * JSON representation of a {@link Rect}.
+ */
+export type RectJsonDescriptor = Readonly<Rect>
+
+/**
+ * Options for creating a {@link Rect}.
  */
 type RectOptions = Readonly<{
-
   /**
    * The element whose coordinate space the computed `top`, `right`, `bottom`
    * and `left` values are relative to.
@@ -94,219 +85,171 @@ type RectOptions = Readonly<{
   overflow?: boolean
 }>
 
-/**
- * A type representing a rectangle on a 2D plane.
- */
-export class Rect {
+export namespace Rect {
   /**
-   * The top bound.
+   * A {@link Rect} with `top`, `right`, `bottom` and `left` values of `0`.
    */
-  readonly top: number
+  export const zero: Rect = make()
 
   /**
-   * The left bound.
-   */
-  readonly left: number
-
-  /**
-   * The `width` value.
-   */
-  readonly width: number
-
-  /**
-   * The `height` value.
-   */
-  readonly height: number
-
-  /**
-   * Creates a new {@link Rect} instance.
+   * Creates a new {@link Rect}.
    *
-   * @param descriptor Object used to describe the {@link Rect} to be
-   *                   instantiated. Defaults to a {@link Rect} with all
-   *                   properties at zero value.
+   * @param descriptor Object used to describe the {@link Rect}.
+   *
+   * @returns The resulting {@link Rect}.
    */
-  constructor(descriptor?: RectDescriptor)
+  export function make(descriptor?: RectDescriptor): Rect
 
   /**
-   * Creates a new {@link Rect} instance.
+   * Creates a new {@link Rect}.
    *
    * @param point {@link Point}.
    * @param size {@link Size}.
+   *
+   * @returns The resulting {@link Rect}.
    */
-  constructor(point: Point, size: Size)
+  export function make(point: Point, size: Size): Rect
 
   /**
-   * Creates a new {@link Rect} instance.
+   * Creates a new {@link Rect}.
    *
    * @param x `x` value.
    * @param y `y` value.
    * @param width Width.
    * @param height Height.
+   *
+   * @returns The resulting {@link Rect}.
    */
-  constructor(x: number, y: number, width: number, height: number)
+  export function make(x: number, y: number, width: number, height: number): Rect
 
-  constructor(xOrPointOrDescriptor: number | Point | RectDescriptor = 0, yOrSize: number | Size = 0, width: number = 0, height: number = 0) {
+  export function make(xOrPointOrDescriptor: number | Point | RectDescriptor = 0, yOrSize: number | Size = 0, width: number = 0, height: number = 0): Rect {
     if (typeof xOrPointOrDescriptor === 'number' && typeof yOrSize === 'number') {
       const x = xOrPointOrDescriptor
       const y = yOrSize
 
-      this.left = x
-      this.top = y
-      this.width = width
-      this.height = height
+      return {
+        top: y,
+        right: x + width,
+        bottom: y + height,
+        left: x,
+        width,
+        height,
+      }
     }
-    else if (xOrPointOrDescriptor instanceof Point && yOrSize instanceof Size) {
-      const point = xOrPointOrDescriptor
-      const size = yOrSize
+    else if (Point.isPoint(xOrPointOrDescriptor) && Size.isSize(yOrSize)) {
+      const p = xOrPointOrDescriptor
+      const s = yOrSize
 
-      this.left = point.x
-      this.top = point.y
-      this.width = size.width
-      this.height = size.height
+      return {
+        top: p.y,
+        right: p.x + s.width,
+        bottom: p.y + s.height,
+        left: p.x,
+        width: s.width,
+        height: s.height,
+      }
     }
     else {
       const descriptor = xOrPointOrDescriptor
-      if (!Rect.isValid(descriptor)) throw new Error('Invalid parameters passed to constructor')
+      if (!Rect.isValidDescriptor(descriptor)) throw Error('Invalid parameters passed to constructor')
 
-      this.left = descriptor.x
-      this.top = descriptor.y
-      this.width = descriptor.width
-      this.height = descriptor.height
+      return {
+        top: descriptor.y,
+        right: descriptor.x + descriptor.width,
+        bottom: descriptor.y + descriptor.height,
+        left: descriptor.x,
+        width: descriptor.width,
+        height: descriptor.height,
+      }
     }
   }
 
   /**
-   * Gets the center point of the current {@link Rect}.
+   * Gets the center point of a {@link Rect}.
+   *
+   * @param rect The {@link Rect} to get the center point of.
    *
    * @returns The center point.
    */
-  get center(): Point {
-    return new Point({
-      x: (this.right - this.left) / 2 + this.left,
-      y: (this.bottom - this.top) / 2 + this.top,
+  export function center(rect: Rect): Point {
+    return Point.make({
+      x: (rect.right - rect.left) / 2 + rect.left,
+      y: (rect.bottom - rect.top) / 2 + rect.top,
     })
   }
 
   /**
    * Gets the size of the current {@link Rect}.
    *
+   * @param rect The {@link Rect} to get the size of.
+   *
    * @returns Size of the current {@link Rect}.
    */
-  get size(): Size {
-    return new Size({
-      width: this.width,
-      height: this.height,
+  export function size(rect: Rect): Size {
+    return Size.make({
+      width: rect.width,
+      height: rect.height,
     })
   }
 
   /**
-   * Gets the right bound of the current {@link Rect}.
+   * Gets the right bound of a {@link Rect}.
    *
-   * @returns Right bound of the current {@link Rect}.
+   * @param rect The {@link Rect} to get the right bound of.
+   *
+   * @returns Right bound of a {@link Rect}.
    */
-  get right(): number {
-    return this.left + this.width
+  export function right(rect: Rect): number {
+    return rect.left + rect.width
   }
 
   /**
    * Gets the bottom bound of the current {@link Rect}.
    *
+   * @param rect The {@link Rect} to get the bottom bound of.
+   *
    * @returns Bottom bound of the current {@link Rect}.
    */
-  get bottom(): number {
-    return this.top + this.height
+  export function bottom(rect: Rect): number {
+    return rect.top + rect.height
   }
 
   /**
-   * Checks if an object can be used to instantiate a new {@link Rect} instance.
+   * Gets the combined {@link Rect} of one or more spatial objects.
    *
-   * @param descriptor Descriptor used to instantiate a new {@link Rect}
-   *                   instance.
-   *
-   * @returns `true` if valid, `false` otherwise.
-   */
-  static isValid(descriptor: any): descriptor is RectDescriptor {
-    if (typeof descriptor.x !== 'number') return false
-    if (typeof descriptor.y !== 'number') return false
-    if (typeof descriptor.width !== 'number') return false
-    if (typeof descriptor.height !== 'number') return false
-
-    return true
-  }
-
-  /**
-   * Creates a new {@link Rect} instance.
-   *
-   * @param descriptor Object used to describe the {@link Rect} to be
-   *                   instantiated. Defaults to a {@link Rect} with all
-   *                   properties at zero value.
-   *
-   * @returns The resulting {@link Rect} instance.
-   */
-  static make(descriptor?: RectDescriptor): Rect
-
-  /**
-   * Creates a new {@link Rect} instance.
-   *
-   * @param point {@link Point}.
-   * @param size {@link Size}.
-   *
-   * @returns The resulting {@link Rect} instance.
-   */
-  static make(point: Point, size: Size): Rect
-
-  /**
-   * Creates a new {@link Rect} instance.
-   *
-   * @param x `x` value.
-   * @param y `y` value.
-   * @param width Width.
-   * @param height Height.
-   *
-   * @returns The resulting {@link Rect} instance.
-   */
-  static make(x: number, y: number, width: number, height: number): Rect
-
-  static make(xOrPointOrDescriptor: number | Point | RectDescriptor = 0, yOrSize: number | Size = 0, width: number = 0, height: number = 0): Rect {
-    return new Rect(xOrPointOrDescriptor as any, yOrSize as any, width, height)
-  }
-
-  /**
-   * Gets the combined {@link Rect} of one or more elements.
-   *
-   * @param target An element or array of elements to compute the combined
-   *               {@link Rect}.
+   * @param target An element or array of spatial objects to compute the
+   *               combined {@link Rect}.
    * @param options See {@link RectOptions}.
    *
    * @returns The combined {@link Rect}.
    */
-  static from(target?: Rect | Window | Element | Element[] | null, options: RectOptions = {}): Rect | null {
+  export function from(target?: Rect | Window | Element | Element[] | null, options: RectOptions = {}): Rect | undefined {
     try {
-      if (target === undefined || target === null) return null
-      if (target instanceof Rect) return target
-      if (typeIsWindow(target)) return Rect.from(document.documentElement || document.body.parentNode || document.body, options)
+      if (target === undefined || target === null) return undefined
+      if (isRect(target)) return target
+      if (_typeIsWindow(target)) return Rect.from(document.documentElement || document.body.parentNode || document.body, options)
 
       const e = target instanceof Array ? target : [target]
       const n = e.length
       const reference = options.reference || window
       const winRect = Rect.fromViewport()
-      const refRect = typeIsWindow(reference) ? winRect : Rect.from(options.reference)
+      const refRect = _typeIsWindow(reference) ? winRect : Rect.from(options.reference)
 
-      if (!winRect || !refRect) return null
+      if (!winRect || !refRect) return undefined
 
-      let combinedRect = null
+      let combinedRect
 
       for (let i = 0; i < n; i++) {
         const element = e[i]
         const clientRect = element.getBoundingClientRect()
-        const rect = new Rect({
-          x: clientRect.left + winRect.left - (typeIsWindow(reference) ? 0 : refRect.left),
-          y: clientRect.top + winRect.top - (typeIsWindow(reference) ? 0 : refRect.top),
+        const rect = make({
+          x: clientRect.left + winRect.left - (_typeIsWindow(reference) ? 0 : refRect.left),
+          y: clientRect.top + winRect.top - (_typeIsWindow(reference) ? 0 : refRect.top),
           width: options.overflow ? element.scrollWidth : element instanceof HTMLElement ? element.offsetWidth : clientRect.width,
           height: options.overflow ? element.scrollHeight : element instanceof HTMLElement ? element.offsetHeight : clientRect.height,
         })
 
-        combinedRect = combinedRect ? combinedRect.concat(rect) : rect
+        combinedRect = combinedRect ? Rect.concat(combinedRect, rect) : rect
       }
 
       return combinedRect
@@ -314,23 +257,22 @@ export class Rect {
     catch (err) {
       console.error(err)
 
-      return null
+      return undefined
     }
   }
 
   /**
-   * Gets the {@link Rect} of the viewport (current field of view). Think of
-   * this as the {@link Rect} of the current window.
+   * Computes and returns the {@link Rect} of the viewport (a.k.a. the window).
    *
    * @returns The {@link Rect} of the viewport.
    */
-  static fromViewport(): Rect {
+  export function fromViewport(): Rect {
     const width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
     const height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
     const x = window.pageXOffset !== undefined ? window.pageXOffset : (document.documentElement || document.body.parentNode || document.body).scrollLeft
     const y = window.pageYOffset !== undefined ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop
 
-    return new Rect({ x, y, width, height })
+    return make({ x, y, width, height })
   }
 
   /**
@@ -342,10 +284,10 @@ export class Rect {
    *
    * @returns The {@link Rect} of the child.
    */
-  static fromChildrenOf(parent?: Element | Window | null, options: RectOptions = {}): Rect | null {
-    if (!parent) return null
+  export function fromChildrenOf(parent?: Element | Window | null, options: RectOptions = {}): Rect | undefined {
+    if (!parent) return undefined
 
-    if (typeIsWindow(parent)) {
+    if (_typeIsWindow(parent)) {
       return Rect.from(Array.from(document.body.children))
     }
     else {
@@ -367,12 +309,12 @@ export class Rect {
    *
    * @returns The {@link Rect} of the child.
    */
-  static fromChildrenBefore(childIndex: number, parent?: Element | null, options: RectOptions = {}): Rect | null {
-    if (!parent) return null
+  export function fromChildrenBefore(childIndex: number, parent?: Element | null, options: RectOptions = {}): Rect | undefined {
+    if (!parent) return undefined
 
     const children = Array.from(parent.children)
 
-    if (childIndex <= 0) return new Rect()
+    if (childIndex <= 0) return make()
     if (childIndex >= children.length) return Rect.from(children, { reference: options.reference, overflow: false })
 
     children.splice(childIndex)
@@ -391,13 +333,13 @@ export class Rect {
    *
    * @returns The {@link Rect} of the child.
    */
-  static fromChildrenAfter(childIndex: number, parent?: Element | null, options: RectOptions = {}): Rect | null {
-    if (!parent) return null
+  export function fromChildrenAfter(childIndex: number, parent?: Element | null, options: RectOptions = {}): Rect | undefined {
+    if (!parent) return undefined
 
     const children = Array.from(parent.children)
 
     if (childIndex < 0) return Rect.from(children, { reference: options.reference, overflow: false })
-    if (childIndex >= children.length - 1) return new Rect()
+    if (childIndex >= children.length - 1) return make()
 
     children.splice(0, children.length - childIndex - 1)
 
@@ -414,8 +356,8 @@ export class Rect {
    *
    * @returns The {@link Rect} of the child.
    */
-  static fromChildAt(childIndex: number, parent?: Element | null, options: RectOptions = {}): Rect | null {
-    if (!parent) return null
+  export function fromChildAt(childIndex: number, parent?: Element | null, options: RectOptions = {}): Rect | undefined {
+    if (!parent) return undefined
 
     const child = parent.children[childIndex]
 
@@ -426,42 +368,22 @@ export class Rect {
   }
 
   /**
-   * Creates a new {@link Rect} instance from a Point value and a Size value.
-   *
-   * @param pointOrDescriptor Point instance to use.
-   * @param sizeOrDescriptor Size instance to use.
-   *
-   * @returns The created {@link Rect} instance.
-   */
-  static fromPointAndSize(pointOrDescriptor: Point | PointDescriptor, sizeOrDescriptor: Size | SizeDescriptor): Rect {
-    const point = pointOrDescriptor instanceof Point ? pointOrDescriptor : new Point(pointOrDescriptor)
-    const size = sizeOrDescriptor instanceof Size ? sizeOrDescriptor : new Size(sizeOrDescriptor)
-
-    return new Rect({
-      x: point.x,
-      y: point.y,
-      width: size.width,
-      height: size.height,
-    })
-  }
-
-  /**
-   * Computes the intersecting {@link Rect} of one or more elements. If only 1
-   * element is specified, the intersection will be computed against the
-   * viewport.
+   * Computes the intersecting {@link Rect} of a rect against one or more
+   * elements. If only 1 element is specified, the intersection will be computed
+   * against the viewport.
    *
    * @param elements Element(s) to be used to compute the intersecting
    *                 {@link Rect}.
    *
    * @returns The intersecting {@link Rect}.
    */
-  static intersecting(...elements: Element[]): Rect | null {
+  export function intersecting(...elements: Element[]): Rect | undefined {
     try {
       const n = elements.length
 
-      const rect: Record<string, number> = {}
-      let currRect: Rect | null = null
-      let nextRect: Rect | null = null
+      const descriptor: Record<string, number> = {}
+      let currRect: Rect | undefined
+      let nextRect: Rect | undefined
 
       for (let i = 0; i < n; i++) {
         if (!currRect) currRect = Rect.from(elements[i])
@@ -478,74 +400,78 @@ export class Rect {
 
         if (!currRect || !nextRect) continue
 
-        rect.width = Math.max(0.0, Math.min(currRect.right, nextRect.right) - Math.max(currRect.left, nextRect.left))
-        rect.height = Math.max(0.0, Math.min(currRect.bottom, nextRect.bottom) - Math.max(currRect.top, nextRect.top))
-        rect.y = Math.max(currRect.top, nextRect.top)
-        rect.x = Math.max(currRect.left, nextRect.left)
+        descriptor.width = Math.max(0.0, Math.min(currRect.right, nextRect.right) - Math.max(currRect.left, nextRect.left))
+        descriptor.height = Math.max(0.0, Math.min(currRect.bottom, nextRect.bottom) - Math.max(currRect.top, nextRect.top))
+        descriptor.y = Math.max(currRect.top, nextRect.top)
+        descriptor.x = Math.max(currRect.left, nextRect.left)
 
-        if (rect.width * rect.height === 0) {
-          rect.width = 0
-          rect.height = 0
-          rect.y = NaN
-          rect.x = NaN
+        if (descriptor.width * descriptor.height === 0) {
+          descriptor.width = 0
+          descriptor.height = 0
+          descriptor.y = NaN
+          descriptor.x = NaN
         }
 
-        currRect = new Rect(rect as RectDescriptor)
+        currRect = Rect.make(descriptor as RectDescriptor)
       }
 
-      return new Rect(rect as RectDescriptor)
+      return Rect.make(descriptor as RectDescriptor)
     }
     catch (err) {
       console.error(err)
 
-      return null
+      return undefined
     }
   }
 
   /**
-   * Clones the current {@link Rect} and returns a new {@link Rect}.
+   * Clones and returns a new {@link Rect}.
    *
-   * @param newDescriptor New {@link Rect} descriptor to replace the current
-   *                      one.
+   * @param rect Original {@link Rect} to clone.
+   * @param newDescriptor Optional new {@link Rect} descriptor to apply to the
+   *                      clone.
    *
    * @returns The cloned {@link Rect}.
    */
-  clone(newDescriptor: Partial<RectDescriptor> = {}): Rect {
-    return new Rect({
-      x: typeof newDescriptor.x === 'number' ? newDescriptor.x : this.left,
-      y: typeof newDescriptor.y === 'number' ? newDescriptor.y : this.top,
-      width: typeof newDescriptor.width === 'number' ? newDescriptor.width : this.width,
-      height: typeof newDescriptor.height === 'number' ? newDescriptor.height : this.height,
+  export function clone(rect: Rect, newDescriptor: Partial<RectDescriptor> = {}): Rect {
+    return make({
+      x: typeof newDescriptor.x === 'number' ? newDescriptor.x : rect.left,
+      y: typeof newDescriptor.y === 'number' ? newDescriptor.y : rect.top,
+      width: typeof newDescriptor.width === 'number' ? newDescriptor.width : rect.width,
+      height: typeof newDescriptor.height === 'number' ? newDescriptor.height : rect.height,
     })
   }
 
   /**
-   * Concatenates with another {@link Rect}.
+   * Concatenates one {@link Rect} with another.
    *
-   * @param rect The {@link Rect} to concatenate.
+   * @param a The first {@link Rect}.
+   * @param b The second {@link Rect} to concatenate.
    *
    * @returns The resulting {@link Rect}.
    */
-  concat(rect: Rect): Rect {
-    return new Rect({
-      x: Math.min(this.left, rect.left),
-      y: Math.min(this.top, rect.top),
-      width: Math.max(this.right, rect.right) - Math.min(this.left, rect.left),
-      height: Math.max(this.bottom, rect.bottom) - Math.min(this.top, rect.top),
+  export function concat(a: Rect, b: Rect): Rect {
+    return make({
+      x: Math.min(a.left, b.left),
+      y: Math.min(a.top, b.top),
+      width: Math.max(a.right, b.right) - Math.min(a.left, b.left),
+      height: Math.max(a.bottom, b.bottom) - Math.min(a.top, b.top),
     })
   }
 
   /**
    * Returns a new {@link Rect} with inverted width/height values.
    *
+   * @param rect The {@link Rect} to invert.
+   *
    * @returns The resulting {@link Rect}.
    */
-  invert(): Rect {
-    return new Rect({
-      x: this.left,
-      y: this.top,
-      width: this.height,
-      height: this.width,
+  export function invert(rect: Rect): Rect {
+    return make({
+      x: rect.left,
+      y: rect.top,
+      width: rect.height,
+      height: rect.width,
     })
   }
 
@@ -557,40 +483,103 @@ export class Rect {
    *
    * @returns `true` if equal, `false` otherwise.
    */
-  equals(rect: Rect): boolean {
-    if (this.top !== rect.top) return false
-    if (this.right !== rect.right) return false
-    if (this.bottom !== rect.bottom) return false
-    if (this.left !== rect.left) return false
+  export function isEqual(a: Rect, b: Rect): boolean {
+    if (a.top !== b.top) return false
+    if (a.right !== b.right) return false
+    if (a.bottom !== b.bottom) return false
+    if (a.left !== b.left) return false
+    if (a.width !== b.width) return false
+    if (a.height !== b.height) return false
 
     return true
   }
 
   /**
-   * Checks if this rect contains any part of a {@link Point},
-   * {@link PointDescriptor}, {@link Rect}(s), or {@link Element}(s).
+   * Checks if a {@link Rect} contains any part of another spatial object, i.e.
+   * a {@link Point}, {@link PointDescriptor}, {@link Rect}(s), or
+   * {@link Element}(s).
    *
+   * @param rect The {@link Rect} to check against.
    * @param obj The target object.
    *
    * @returns `true` if test passes, `false` otherwise.
    */
-  contains(obj: Point | PointDescriptor | Rect | Rect[] | Element | Element[]) {
-    return hitTest(obj, this)
+  export function contains(rect: Rect, obj: Point | PointDescriptor | Rect | Rect[] | Element | Element[]) {
+    return hitTest(obj, rect)
   }
 
   /**
-   * Returns a JSON object that represents the current {@link Rect}.
+   * Returns the JSON representation of a {@link Rect}.
+   *
+   * @param rect The {@link Rect} to convert.
    *
    * @returns The JSON object.
    */
-  toJSON(): RectJsonDescriptor {
+  export function toJSON(rect: Rect): RectJsonDescriptor {
     return Object.freeze({
-      top: this.top,
-      right: this.right,
-      bottom: this.bottom,
-      left: this.left,
-      width: this.width,
-      height: this.height,
+      top: rect.top,
+      right: rect.right,
+      bottom: rect.bottom,
+      left: rect.left,
+      width: rect.width,
+      height: rect.height,
     })
   }
+
+  /**
+   * Checks if an object can be used to create a new {@link Rect}.
+   *
+   * @param value Value to check.
+   *
+   * @returns `true` if valid, `false` otherwise.
+   */
+  export function isValidDescriptor(value: any): value is RectDescriptor {
+    if (typeof value.x !== 'number') return false
+    if (typeof value.y !== 'number') return false
+    if (typeof value.width !== 'number') return false
+    if (typeof value.height !== 'number') return false
+
+    return true
+  }
+
+  /**
+   * Checks to see if a value is a {@link Rect}.
+   *
+   * @param value Value to check.
+   *
+   * @returns `true` if the value is a {@link Rect}, `false` otherwise.
+   */
+  export function isRect(value: any): value is Rect {
+    return (
+      typeof value === 'object' &&
+      typeof value.top === 'number' &&
+      typeof value.right === 'number' &&
+      typeof value.bottom === 'number' &&
+      typeof value.left === 'number' &&
+      typeof value.width === 'number' &&
+      typeof value.height === 'number'
+    )
+  }
+
+  /**
+   * Checks to see if a {@link Rect} only contains `0` values.
+   *
+   * @param rect The {@link Rect} to check.
+   *
+   * @returns `true` if the {@link Rect} only contains `0` values, `false`
+   */
+  export function isZero(rect: Rect): boolean {
+    return (
+      rect.top === 0 &&
+      rect.right === 0 &&
+      rect.bottom === 0 &&
+      rect.left === 0 &&
+      rect.width === 0 &&
+      rect.height === 0
+    )
+  }
+}
+
+function _typeIsWindow(val: any): val is Window {
+  return val === window
 }

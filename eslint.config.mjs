@@ -286,14 +286,26 @@ export default tseslint.config(
       'no-restricted-imports': 'off',
       '@typescript-eslint/no-restricted-imports': 'error',
       'no-shadow': 'off',
-      '@typescript-eslint/no-shadow': 'error',
+      '@typescript-eslint/no-shadow': [
+        'error',
+        {
+          allow: [
+            '_',
+          ],
+        },
+      ],
       '@typescript-eslint/no-this-alias': 'error',
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': [
         'warn',
         {
-          args: 'none',
-          caughtErrors: 'none',
+          args: 'all',
+          argsIgnorePattern: '^_',
+          caughtErrors: 'all',
+          caughtErrorsIgnorePattern: '^_',
+          destructuredArrayIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          ignoreRestSiblings: true,
         },
       ],
       'no-useless-constructor': 'off',

@@ -1,4 +1,5 @@
-import { Point, Rect } from '../core/index.js'
+import { Point } from '../core/Point.js'
+import { Rect } from '../core/Rect.js'
 
 /**
  * A type that describes the current field-of-view of a DOM element relative to
@@ -7,7 +8,6 @@ import { Point, Rect } from '../core/index.js'
  * computing the field-of-view.
  */
 export type FOV = {
-
   /**
    * The dimensions on both x and y axes of the FOV that is visible within the
    * coordinate space of the reference object. If the FOV is not visible yet,
@@ -51,14 +51,14 @@ type FOVOptions = Readonly<{
  *
  * @returns The {@link FOV} if it is computable, `null` otherwise.
  */
-export function getFOV(element?: Element | null, options: FOVOptions = {}): FOV | null {
-  if (!element) return null
+export function fov(element?: Element | null, options: FOVOptions = {}): FOV | undefined {
+  if (!element) return undefined
 
   const reference = options.reference ?? window
   const refRect = reference instanceof Window ? Rect.fromViewport() : Rect.from(reference)
   const rect = Rect.from(element, { reference })
 
-  if (!refRect || !rect) return null
+  if (!refRect || !rect) return undefined
 
   const posX = refRect.right - rect.left
   const posY = refRect.bottom - rect.top
@@ -66,11 +66,11 @@ export function getFOV(element?: Element | null, options: FOVOptions = {}): FOV 
   const stepY = posY / rect.height
   const intersection = reference instanceof Window ? Rect.intersecting(element) : Rect.intersecting(element, reference)
 
-  if (!intersection) return null
+  if (!intersection) return undefined
 
   return {
-    position: new Point([posX, posY]),
-    step: new Point([stepX, stepY]),
+    position: Point.make([posX, posY]),
+    step: Point.make([stepX, stepY]),
     rect: intersection,
   }
 }

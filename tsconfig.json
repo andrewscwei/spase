@@ -10,7 +10,10 @@
     "skipLibCheck": true,
     "strict": true,
     "strictNullChecks": true,
-    "target": "ESNext"
+    "target": "ESNext",
+    "types": [
+      "vitest/globals"
+    ]
   },
   "exclude": [
     "node_modules",

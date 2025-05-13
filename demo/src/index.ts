@@ -17,7 +17,7 @@ boxEls.forEach(el => {
   let isActive = false
 
   el.addEventListener('pointerdown', event => {
-    start = new Point({
+    start = Point.make({
       x: (event as MouseEvent).clientX - offset.x,
       y: (event as MouseEvent).clientY - offset.y,
     })
@@ -40,7 +40,7 @@ boxEls.forEach(el => {
     update()
   })
 
-  el.addEventListener('pointerup', event => {
+  el.addEventListener('pointerup', () => {
     start = curr
     isActive = false
 
