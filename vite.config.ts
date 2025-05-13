@@ -1,6 +1,6 @@
 import { resolve } from 'node:path'
-import { defineConfig } from 'vite'
 import dts from 'vite-plugin-dts'
+import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
   build: {
@@ -17,4 +17,15 @@ export default defineConfig({
   plugins: [
     dts(),
   ],
+  test: {
+    coverage: {
+      reporter: ['text-summary'],
+      provider: 'v8',
+    },
+    environment: 'happy-dom',
+    globals: true,
+    include: [
+      '**/*.spec.ts',
+    ],
+  },
 })

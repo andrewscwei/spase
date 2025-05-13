@@ -1,13 +1,7 @@
 /**
- * Array representation of a {@link Point} in the format of `[x, y]`.
+ * A type representing a point on a 2D plane.
  */
-export type PointArrayDescriptor = Readonly<[number, number]>
-
-/**
- * JSON representation of a {@link Point}.
- */
-export type PointJsonDescriptor = Readonly<{
-
+export type Point = {
   /**
    * The `x` value.
    */
@@ -17,84 +11,221 @@ export type PointJsonDescriptor = Readonly<{
    * The `y` value.
    */
   y: number
-}>
+}
 
 /**
- * A type that can be used to instantiate a {@link Point}.
+ * Array representation of a {@link Point} in the format of `[x, y]`.
+ */
+export type PointArrayDescriptor = Readonly<[number, number]>
+
+/**
+ * JSON representation of a {@link Point}.
+ */
+export type PointJsonDescriptor = Readonly<Point>
+
+/**
+ * A type that can be used to create a {@link Point}.
  */
 export type PointDescriptor = PointArrayDescriptor | PointJsonDescriptor
 
-/**
- * A type representing a point on a 2D plane.
- */
-export class Point {
+export namespace Point {
   /**
-   * The `x` value.
+   * A {@link Point} with `x` and `y` values of `0`.
    */
-  readonly x: number
+  export const zero: Point = make()
 
   /**
-   * The `y` value.
-   */
-  readonly y: number
-
-  /**
-   * Creates a new {@link Point} instance.
+   * Creates a new {@link Point}.
    *
    * @param descriptor Either an array of exactly 2 numbers or a valid object
    *                   with `x` and `y` keys.
+   *
+   * @returns The resulting {@link Point}.
    */
-  constructor(descriptor?: PointDescriptor)
+  export function make(descriptor?: PointDescriptor): Point
 
   /**
-   * Creates a new {@link Point} instance.
+   * Creates a new {@link Point}.
    *
    * @param x `x` value.
    * @param y `y` value.
+   *
+   * @returns The resulting {@link Point}.
    */
-  constructor(x: number, y: number)
+  export function make(x: number, y: number): Point
 
-  constructor(xOrDescriptor: number | PointDescriptor = 0, y: number = 0) {
+  export function make(xOrDescriptor: number | PointDescriptor = 0, y: number = 0): Point {
     if (typeof xOrDescriptor === 'number') {
       const x = xOrDescriptor
 
-      this.x = x
-      this.y = y
+      return { x, y }
     }
     else {
-      if (!Point.isValid(xOrDescriptor)) throw new Error('Invalid parameters passed to constructor')
+      if (!isValidDescriptor(xOrDescriptor)) throw Error('Invalid parameters passed to constructor')
 
       if (xOrDescriptor instanceof Array) {
-        this.x = xOrDescriptor[0]
-        this.y = xOrDescriptor[1]
+        return {
+          x: xOrDescriptor[0],
+          y: xOrDescriptor[1],
+        }
       }
       else {
-        this.x = (xOrDescriptor as Record<string, number>).x
-        this.y = (xOrDescriptor as Record<string, number>).y
+        return {
+          x: (xOrDescriptor as Record<string, number>).x,
+          y: (xOrDescriptor as Record<string, number>).y,
+        }
       }
     }
   }
 
   /**
-   * Checks if an object can be used to instantiate a new {@link Point}
-   * instance.
+   * Clones and returns a new {@link Point}.
    *
-   * @param descriptor Descriptor used to instantiate a new {@link Point}
-   *                   instance.
+   * @param point Original {@link Point} to clone.
+   * @param newDescriptor Optional new {@link Point} JSON descriptor to apply to
+   *                      the clone.
+   *
+   * @returns The cloned {@link Point}.
+   */
+  export function clone(point: Point, newDescriptor: Partial<PointJsonDescriptor> = {}): Point {
+    return make({
+      x: typeof newDescriptor.x === 'number' ? newDescriptor.x : point.x,
+      y: typeof newDescriptor.y === 'number' ? newDescriptor.y : point.y,
+    })
+  }
+
+  /**
+   * Returns the resulting {@link Point} by adding one to another.
+   *
+   * @param a The first {@link Point}.
+   * @param b The second {@link Point} to add.
+   *
+   * @returns The resulting {@link Point}.
+   */
+  export function add(a: Point, b: Point): Point {
+    return make({
+      x: a.x + b.x,
+      y: a.y + b.y,
+    })
+  }
+
+  /**
+   * Returns the resulting {@link Point} by subtracting one from another.
+   *
+   * @param a The {@link Point} to subtract from.
+   * @param b The {@link Point} to subtract.
+   *
+   * @returns The resulting {@link Point}.
+   */
+  export function subtract(a: Point, b: Point): Point {
+    return make({
+      x: a.x - b.x,
+      y: a.y - b.y,
+    })
+  }
+
+  /**
+   * Returns the resulting {@link Point} by multiplying one by another.
+   *
+   * @param a The {@link Point} to multiply.
+   * @param b The {@link Point} to multiply by.
+   *
+   * @returns The resulting {@link Point}.
+   */
+  export function multiply(a: Point, b: Point): Point {
+    return make({
+      x: a.x * b.x,
+      y: a.y * b.y,
+    })
+  }
+
+  /**
+   * Returns the resulting {@link Point} by dividing one by another.
+   *
+   * @param a The dividend {@link Point}.
+   * @param b The divisor {@link Point}.
+   *
+   * @returns The resulting {@link Point}.
+   */
+  export function divide(a: Point, b: Point): Point {
+    return make({
+      x: a.x / b.x,
+      y: a.y / b.y,
+    })
+  }
+
+  /**
+   * Returns the resulting {@link Point} by inverting x/y values.
+   *
+   * @param point The {@link Point} to invert.
+   *
+   * @returns The resulting {@link Point}.
+   */
+  export function invert(point: Point): Point {
+    return make({
+      x: point.y,
+      y: point.x,
+    })
+  }
+
+  /**
+   * Checks to see if a {@link Point} is equivalent to another.
+   *
+   * @param a The first {@link Point}.
+   * @param b The second {@link Point} to compare.
+   *
+   * @returns `true` if equal, `false` otherwise.
+   */
+  export function isEqual(a: Point, b: Point): boolean {
+    if (a.x !== b.x) return false
+    if (a.y !== b.y) return false
+
+    return true
+  }
+
+  /**
+   * Returns the JSON representation of a {@link Point}.
+   *
+   * @param point The {@link Point} to convert.
+   *
+   * @returns The resulting JSON object.
+   */
+  export function toJSON(point: Point): PointJsonDescriptor {
+    return Object.freeze({
+      x: point.x,
+      y: point.y,
+    })
+  }
+
+  /**
+   * Returns the array representation of a {@link Point}.
+   *
+   * @param point The {@link Point} to convert.
+   *
+   * @returns The resulting array.
+   */
+  export function toArray(point: Point): PointArrayDescriptor {
+    return [point.x, point.y]
+  }
+
+  /**
+   * Checks if a value is a valid {@link Point} descriptor.
+   *
+   * @param value Value to check.
    *
    * @returns `true` if valid, `false` otherwise.
    */
-  static isValid(descriptor: any): descriptor is PointDescriptor {
-    if (descriptor instanceof Array) {
-      if (descriptor.length !== 2) return false
-      if (typeof descriptor[0] !== 'number') return false
-      if (typeof descriptor[1] !== 'number') return false
+  export function isValidDescriptor(value: any): value is PointDescriptor {
+    if (value instanceof Array) {
+      if (value.length !== 2) return false
+      if (typeof value[0] !== 'number') return false
+      if (typeof value[1] !== 'number') return false
 
       return true
     }
-    else if (typeof descriptor === 'object') {
-      if (typeof descriptor.x !== 'number') return false
-      if (typeof descriptor.y !== 'number') return false
+    else if (typeof value === 'object') {
+      if (typeof value.x !== 'number') return false
+      if (typeof value.y !== 'number') return false
 
       return true
     }
@@ -104,147 +235,28 @@ export class Point {
   }
 
   /**
-   * Creates a new {@link Point} instance.
+   * Checks to see if a value is a {@link Point}.
    *
-   * @param descriptor Either an array of exactly 2 numbers or a valid object
-   *                   with `x` and `y` keys.
+   * @param value Value to check.
    *
-   * @returns The resulting {@link Point} instance.
+   * @returns `true` if the value is a {@link Point}, `false` otherwise.
    */
-  static make(descriptor?: PointDescriptor): Point
-
-  /**
-   * Creates a new {@link Point} instance.
-   *
-   * @param x `x` value.
-   * @param y `y` value.
-   *
-   * @returns The resulting {@link Point} instance.
-   */
-  static make(x: number, y: number): Point
-
-  static make(xOrDescriptor: number | PointDescriptor = 0, y: number = 0): Point {
-    if (typeof xOrDescriptor === 'number') return new Point(xOrDescriptor, y)
-
-    return new Point(xOrDescriptor)
+  export function isPoint(value: any): value is Point {
+    return (
+      typeof value === 'object' &&
+      typeof value.x === 'number' &&
+      typeof value.y === 'number'
+    )
   }
 
   /**
-   * Clones the current {@link Point} and returns a new {@link Point}.
+   * Checks to see if a {@link Point} only contains `0` values.
    *
-   * @param newDescriptor New {@link Point} descriptor to replace the current
-   *                      one.
+   * @param point The {@link Point} to check.
    *
-   * @returns The cloned instance.
+   * @returns `true` if the {@link Point} is `0`, `false` otherwise.
    */
-  clone(newDescriptor: Partial<PointJsonDescriptor> = {}): Point {
-    return new Point({
-      x: typeof newDescriptor.x === 'number' ? newDescriptor.x : this.x,
-      y: typeof newDescriptor.y === 'number' ? newDescriptor.y : this.y,
-    })
-  }
-
-  /**
-   * Adds a {@link Point} to the current {@link Point}.
-   *
-   * @param point The {@link Point} to add.
-   *
-   * @returns The resulting {@link Point}.
-   */
-  add(point: Point): Point {
-    return new Point({
-      x: this.x + point.x,
-      y: this.y + point.y,
-    })
-  }
-
-  /**
-   * Subtracts a {@link Point} from the current {@link Point}.
-   *
-   * @param point The {@link Point} to subtract.
-   *
-   * @returns The resulting {@link Point}.
-   */
-  subtract(point: Point): Point {
-    return new Point({
-      x: this.x - point.x,
-      y: this.y - point.y,
-    })
-  }
-
-  /**
-   * Multiplies a {@link Point} with current {@link Point}.
-   *
-   * @param point The {@link Point} to multiply.
-   *
-   * @returns The resulting {@link Point}.
-   */
-  multiply(point: Point): Point {
-    return new Point({
-      x: this.x * point.x,
-      y: this.y * point.y,
-    })
-  }
-
-  /**
-   * Devices the current {@link Point} by another {@link Point}.
-   *
-   * @param point The {@link Point} divisor.
-   *
-   * @returns The resulting {@link Point}.
-   */
-  divideBy(point: Point): Point {
-    return new Point({
-      x: this.x / point.x,
-      y: this.y / point.y,
-    })
-  }
-
-  /**
-   * Returns a new {@link Point} with inverted x/y values.
-   *
-   * @returns The resulting {@link Point}.
-   */
-  invert(): Point {
-    return new Point({
-      x: this.y,
-      y: this.x,
-    })
-  }
-
-  /**
-   * Checks to see if the current {@link Point} is equivalent to another
-   * {@link Point}.
-   *
-   * @param point {@link Point} instance to compare with.
-   *
-   * @returns `true` if equal, `false` otherwise.
-   */
-  equals(point: Point): boolean {
-    if (this.x !== point.x) return false
-    if (this.y !== point.y) return false
-
-    return true
-  }
-
-  /**
-   * Returns a JSON object that represents the current {@link Point}.
-   *
-   * @returns The resulting JSON object.
-   */
-  toJSON(): PointJsonDescriptor {
-    return Object.freeze({
-      x: this.x,
-      y: this.y,
-    })
-  }
-
-  /**
-   * Returns an array that represents the current {@link Point}.
-   *
-   * @returns The resulting array.
-   */
-  toArray(): PointArrayDescriptor {
-    return [this.x, this.y]
+  export function isZero(point: Point): boolean {
+    return point.x === 0 && point.y === 0
   }
 }

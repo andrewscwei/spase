@@ -1,13 +1,7 @@
 /**
- * Array representation of a {@link Size}.
+ * A type representing a size on a 2D plane.
  */
-export type SizeArrayDescriptor = Readonly<[number, number]>
-
-/**
- * JSON representation of a {@link Size}.
- */
-export type SizeJsonDescriptor = Readonly<{
-
+export type Size = {
   /**
    * The `width` value.
    */
@@ -17,85 +11,220 @@ export type SizeJsonDescriptor = Readonly<{
    * The `height` value.
    */
   height: number
-}>
+}
 
 /**
-  * A type that can be used to instantiate a {@link Size}.
-  */
+ * Array representation of a {@link Size} in the format of `[width, height]`.
+ */
+export type SizeArrayDescriptor = Readonly<[number, number]>
+
+/**
+ * JSON representation of a {@link Size}.
+ */
+export type SizeJsonDescriptor = Readonly<Size>
+
+/**
+ * A type that can be used to create a {@link Size}.
+ */
 export type SizeDescriptor = SizeArrayDescriptor | SizeJsonDescriptor
 
-/**
- * A type representing a size on a 2D plane.
- */
-export class Size {
+export namespace Size {
   /**
-   * The `width` value.
+   * A {@link Size} with `width` and `height` values of `0`.
    */
-  readonly width: number
+  export const zero: Size = make()
 
   /**
-   * The `height` value.
-   */
-  readonly height: number
-
-  /**
-   * Creates a new {@link Size} instance.
+   * Creates a new {@link Size}.
    *
    * @param descriptor Either an array of exactly 2 numbers (i.e. `[width,
    *                   height]`) or a valid object with `width` and `height`
    *                   keys.
+   *
+   * @returns The resulting {@link Size}.
    */
-  constructor(descriptor?: SizeDescriptor)
+  export function make(descriptor?: SizeDescriptor): Size
 
   /**
-   * Creates a new {@link Size} instance.
+   * Creates a new {@link Size}.
    *
    * @param width Width.
    * @param height Height.
+   *
+   * @returns The resulting {@link Size}.
    */
-  constructor(width: number, height: number)
+  export function make(width: number, height: number): Size
 
-  constructor(widthOrDescriptor: number | SizeDescriptor = 0, height: number = 0) {
+  export function make(widthOrDescriptor: number | SizeDescriptor = 0, height: number = 0): Size {
     if (typeof widthOrDescriptor === 'number') {
       const width = widthOrDescriptor
 
-      this.width = width
-      this.height = height
+      return { width, height }
     }
     else {
-      if (!Size.isValid(widthOrDescriptor)) throw new Error('Invalid parameters passed to constructor')
-
+      if (!isValidDescriptor(widthOrDescriptor)) throw Error('Invalid parameters passed to constructor')
       if (widthOrDescriptor instanceof Array) {
-        this.width = widthOrDescriptor[0]
-        this.height = widthOrDescriptor[1]
+        return {
+          width: widthOrDescriptor[0],
+          height: widthOrDescriptor[1],
+        }
       }
       else {
-        this.width = (widthOrDescriptor as Record<string, number>).width
-        this.height = (widthOrDescriptor as Record<string, number>).height
+        return {
+          width: (widthOrDescriptor as Record<string, number>).width,
+          height: (widthOrDescriptor as Record<string, number>).height,
+        }
       }
     }
   }
 
   /**
-   * Checks if an object can be used to instantiate a new {@link Size} instance.
+   * Clones and returns a new {@link Size}.
    *
-   * @param descriptor Descriptor used to instantiate a new {@link Size}
-   *                   instance.
+   * @param size The {@link Size} to clone.
+   * @param newDescriptor Optional new {@link Size} JSON descriptor to apply to
+   *                      the clone.
+   *
+   * @returns The cloned {@link Size}.
+   */
+  export function clone(size: Size, newDescriptor: Partial<SizeJsonDescriptor> = {}): Size {
+    return make({
+      width: typeof newDescriptor.width === 'number' ? newDescriptor.width : size.width,
+      height: typeof newDescriptor.height === 'number' ? newDescriptor.height : size.height,
+    })
+  }
+
+  /**
+   * Returns the resulting {@link Size} by adding one to another.
+   *
+   * @param a The first {@link Size}.
+   * @param b The second {@link Size} to add.
+   *
+   * @returns The resulting {@link Size}.
+   */
+  export function add(a: Size, b: Size): Size {
+    return make({
+      width: a.width + b.width,
+      height: a.height + b.height,
+    })
+  }
+
+  /**
+   * Returns the resulting {@link Size} by subtracting one from another.
+   *
+   * @param a The {@link Size} to subtract from.
+   * @param b The {@link Size} to subtract.
+   *
+   * @returns The resulting {@link Size}.
+   */
+  export function subtract(a: Size, b: Size): Size {
+    return make({
+      width: a.width - b.width,
+      height: a.height - b.height,
+    })
+  }
+
+  /**
+   * Returns the resulting {@link Size} by multiplying one by another.
+   *
+   * @param a The {@link Size} to multiply.
+   * @param b The {@link Size} to multiply by.
+   *
+   * @returns The resulting {@link Size}.
+   */
+  export function multiply(a: Size, b: Size): Size {
+    return make({
+      width: a.width * b.width,
+      height: a.height * b.height,
+    })
+  }
+
+  /**
+   * Returns the resulting {@link Size} by dividing one by another.
+   *
+   * @param a The dividend {@link Size}.
+   * @param b The divisor {@link Size}.
+   *
+   * @returns The resulting {@link Size}.
+   */
+  export function divide(a: Size, b: Size): Size {
+    return make({
+      width: a.width / b.width,
+      height: a.height / b.height,
+    })
+  }
+
+  /**
+   * Returns the resulting {@link Size} by inverting width/height values.
+   *
+   * @param size The {@link Size} to invert.
+   *
+   * @returns The resulting {@link Size}.
+   */
+  export function invert(size: Size): Size {
+    return make({
+      width: size.height,
+      height: size.width,
+    })
+  }
+
+  /**
+   * Checks to see if a {@link Size} is equivalent to another.
+   *
+   * @param a The first {@link Size}.
+   * @param b The second {@link Size} to compare.
+   *
+   * @returns `true` if equal, `false` otherwise.
+   */
+  export function isEqual(a: Size, b: Size): boolean {
+    if (a.width !== b.width) return false
+    if (a.height !== b.height) return false
+
+    return true
+  }
+
+  /**
+   * Returns the JSON representation of a {@link Size}.
+   *
+   * @param size The {@link Size} to convert.
+   *
+   * @returns The resulting JSON object.
+   */
+  export function toJSON(size: Size): SizeJsonDescriptor {
+    return Object.freeze({
+      width: size.width,
+      height: size.height,
+    })
+  }
+
+  /**
+   * Returns the array representation of a {@link Size}.
+   *
+   * @param size The {@link Size} to convert.
+   *
+   * @returns The resulting array.
+   */
+  export function toArray(size: Size): SizeArrayDescriptor {
+    return [size.width, size.height]
+  }
+
+  /**
+   * Checks if a value is a valid {@link Size} descriptor.
+   *
+   * @param value Value to check.
    *
    * @returns `true` if valid, `false` otherwise.
    */
-  static isValid(descriptor: any): descriptor is SizeDescriptor {
-    if (descriptor instanceof Array) {
-      if (descriptor.length !== 2) return false
-      if (typeof descriptor[0] !== 'number') return false
-      if (typeof descriptor[1] !== 'number') return false
-
+  export function isValidDescriptor(value: any): value is SizeDescriptor {
+    if (value instanceof Array) {
+      if (value.length !== 2) return false
+      if (typeof value[0] !== 'number') return false
+      if (typeof value[1] !== 'number') return false
       return true
     }
-    else if (typeof descriptor === 'object') {
-      if (typeof descriptor.width !== 'number') return false
-      if (typeof descriptor.height !== 'number') return false
-
+    else if (typeof value === 'object') {
+      if (typeof value.width !== 'number') return false
+      if (typeof value.height !== 'number') return false
       return true
     }
     else {
@@ -104,148 +233,28 @@ export class Size {
   }
 
   /**
-   * Creates a new {@link Size} instance.
+   * Checks to see if a value is a {@link Size}.
    *
-   * @param descriptor Either an array of exactly 2 numbers (i.e. `[width,
-   *                   height]`) or a valid object with `width` and `height`
-   *                   keys.
+   * @param value Value to check.
    *
-   * @returns The resulting {@link Size} instance.
+   * @returns `true` if the value is a {@link Size}, `false` otherwise.
    */
-  static make(descriptor?: SizeDescriptor): Size
-
-  /**
-   * Creates a new {@link Size} instance.
-   *
-   * @param width Width.
-   * @param height Height.
-   *
-   * @returns The resulting {@link Size} instance.
-   */
-  static make(width: number, height: number): Size
-
-  static make(widthOrDescriptor: number | SizeDescriptor = 0, height: number = 0): Size {
-    if (typeof widthOrDescriptor === 'number') return new Size(widthOrDescriptor, height)
-
-    return new Size(widthOrDescriptor)
+  export function isSize(value: any): value is Size {
+    return (
+      typeof value === 'object' &&
+      typeof value.width === 'number' &&
+      typeof value.height === 'number'
+    )
   }
 
   /**
-   * Clones the current {@link Size} and returns a new {@link Size}.
+   * Checks if a {@link Size} only contains `0` values.
    *
-   * @param newDescriptor New {@link Size} descriptor to replace the existing
-   *                      one.
+   * @param size The {@link Size} to check.
    *
-   * @returns The cloned instance.
+   * @returns `true` if the {@link Size} is `0`, `false` otherwise.
    */
-  clone(newDescriptor: Partial<SizeJsonDescriptor> = {}): Size {
-    return new Size({
-      width: typeof newDescriptor.width === 'number' ? newDescriptor.width : this.width,
-      height: typeof newDescriptor.height === 'number' ? newDescriptor.height : this.height,
-    })
-  }
-
-  /**
-   * Adds a {@link Size} to the current Size.
-   *
-   * @param size The {@link Size} to add.
-   *
-   * @returns The resulting {@link Size}.
-   */
-  add(size: Size): Size {
-    return new Size({
-      width: this.width + size.width,
-      height: this.height + size.height,
-    })
-  }
-
-  /**
-   * Subtracts a {@link Size} from the current {@link Size}.
-   *
-   * @param size The {@link Size} to subtract.
-   *
-   * @returns The resulting {@link Size}.
-   */
-  subtract(size: Size): Size {
-    return new Size({
-      width: this.width - size.width,
-      height: this.height - size.height,
-    })
-  }
-
-  /**
-   * Multiplies a {@link Size} with current {@link Size}.
-   *
-   * @param size The {@link Size} to multiply.
-   *
-   * @returns The resulting {@link Size}.
-   */
-  multiply(size: Size): Size {
-    return new Size({
-      width: this.width * size.width,
-      height: this.height * size.height,
-    })
-  }
-
-  /**
-   * Devices the current {@link Size} by another {@link Size}.
-   *
-   * @param size The {@link Size} divisor.
-   *
-   * @returns The resulting {@link Size}.
-   */
-  divideBy(size: Size): Size {
-    return new Size({
-      width: this.width / size.width,
-      height: this.height / size.height,
-    })
-  }
-
-  /**
-   * Returns a new {@link Size} with inverted width/height values.
-   *
-   * @returns The resulting {@link Size}.
-   */
-  invert(): Size {
-    return new Size({
-      width: this.height,
-      height: this.width,
-    })
-  }
-
-  /**
-   * Checks to see if the current {@link Size} is equivalent to another
-   * {@link Size}.
-   *
-   * @param size {@link Size} instance to compare with.
-   *
-   * @returns `true` if equal, `false` otherwise.
-   */
-  equals(size: Size): boolean {
-    if (this.width !== size.width) return false
-    if (this.height !== size.height) return false
-
-    return true
-  }
-
-  /**
-   * Returns a JSON object that represents the current {@link Size}.
-   *
-   * @returns The resulting JSON object.
-   */
-  toJSON(): SizeJsonDescriptor {
-    return Object.freeze({
-      width: this.width,
-      height: this.height,
-    })
-  }
-
-  /**
-   * Returns an array that represents the current {@link Size}.
-   *
-   * @returns The resulting array.
-   */
-  toArray(): SizeArrayDescriptor {
-    return [this.width, this.height]
+  export function isZero(size: Size): boolean {
+    return size.width === 0 && size.height === 0
   }
 }

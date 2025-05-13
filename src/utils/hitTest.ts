@@ -1,35 +1,39 @@
-import { Point, Rect, type PointDescriptor } from '../core/index.js'
+import { Point, type PointDescriptor } from '../core/Point.js'
+import { Rect } from '../core/Rect.js'
 
 /**
- * Hit-tests 2 objects. These objects can either be {@link Point}'s,
- * {@link Rect}'s or {@link Element}'s.
+ * Hit-tests one spatial object against one or more spatial objects. In order
+ * for the test to pass, the object just needs to collide with at least one of
+ * the specified objects.
  *
- * @param obj1 First object.
- * @param obj2 Second object.
+ * @param a The object to test.
+ * @param b Object(s) to test against.
  *
  * @returns `true` if test passes, `false` otherwise.
  */
-export function hitTest(obj1: Point | PointDescriptor | Rect | Rect[] | Element | Element[], obj2: Point | Rect | Rect[] | Element | Element[]): boolean {
+export function hitTest(a: Point | PointDescriptor | Rect | Rect[] | Element | Element[], b: Point | Rect | Rect[] | Element | Element[]): boolean {
   try {
-    const p1 = Point.isValid(obj1) && new Point(obj1)
-    const p2 = Point.isValid(obj2) && new Point(obj2)
+    const p1 = Point.isValidDescriptor(a) && Point.make(a)
+    const p2 = Point.isValidDescriptor(b) && Point.make(b)
 
     if (p1 && !p2) {
-      const t = obj2 instanceof Array ? obj2 : [obj2]
+      const t = b instanceof Array ? b : [b]
       const n = t.length
 
       for (let i = 0; i < n; i++) {
         const rect = Rect.from(t[i] as any)
         if (!rect) continue
+
         const cx = p1.x >= rect.left && p1.x <= rect.right
         const cy = p1.y >= rect.top && p1.y <= rect.bottom
+
         if (cx && cy) return true
       }
 
       return false
     }
     else if (!p1 && p2) {
-      const t = obj1 instanceof Array ? obj1 : [obj1]
+      const t = a instanceof Array ? a : [a]
       const n = t.length
 
       for (let i = 0; i < n; i++) {
@@ -43,12 +47,12 @@ export function hitTest(obj1: Point | PointDescriptor | Rect | Rect[] | Element 
       return false
     }
     else if (p1 && p2) {
-      return p1.equals(p2)
+      return Point.isEqual(p1, p2)
     }
     else {
       const t = [
-        ...obj1 instanceof Array ? obj1 : [obj1],
-        ...obj2 instanceof Array ? obj2 : [obj2],
+        ...a instanceof Array ? a : [a],
+        ...b instanceof Array ? b : [b],
       ]
       const r = Rect.intersecting.apply(null, t as any[])
       if (!r) return false
