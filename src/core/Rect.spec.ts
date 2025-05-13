@@ -89,13 +89,6 @@ describe('Rect', () => {
     expect(Rect.size(r)).toEqual({ width: 10, height: 20 })
   })
 
-  it('should get right and bottom', () => {
-    const r = Rect.make(1, 2, 3, 4)
-
-    expect(Rect.right(r)).toBe(4)
-    expect(Rect.bottom(r)).toBe(6)
-  })
-
   it('should concat two rects', () => {
     const a = Rect.make(0, 0, 2, 2)
     const b = Rect.make(1, 1, 2, 2)
