@@ -1,3 +1,10 @@
+# [11.2.0](https://github.com/andrewscwei/spase/compare/v11.1.0...v11.2.0) (2025-05-13)
+
+
+### Features
+
+* Add Size.fromViewport ([7d6d687](https://github.com/andrewscwei/spase/commit/7d6d687a4dfe9e3d48c8830e23653ed00e18963f))
+
 # [11.1.0](https://github.com/andrewscwei/spase/compare/v11.0.0...v11.1.0) (2025-05-13)
 
 
