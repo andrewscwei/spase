@@ -1,3 +1,15 @@
+# [11.0.0](https://github.com/andrewscwei/spase/compare/v10.1.0...v11.0.0) (2025-05-13)
+
+
+### Build System
+
+* Update pre-commit config ([78baa6a](https://github.com/andrewscwei/spase/commit/78baa6adde62fc7e0279cd059a1dc7f4ba0b3de0))
+
+
+### BREAKING CHANGES
+
+* Point, Rect, and Size classes are deprecated, converted to namespaced exports (from previous commit)
+
 # [10.1.0](https://github.com/andrewscwei/spase/compare/v10.0.2...v10.1.0) (2025-05-13)
 
 
