@@ -41,8 +41,8 @@ describe('Size', () => {
     expect(Size.divide({ width: 8, height: 9 }, { width: 2, height: 3 })).toEqual({ width: 4, height: 3 })
   })
 
-  it('should invert a size', () => {
-    expect(Size.invert({ width: 11, height: 22 })).toEqual({ width: 22, height: 11 })
+  it('should rotate a size', () => {
+    expect(Size.rotate({ width: 11, height: 22 })).toEqual({ width: 22, height: 11 })
   })
 
   it('should check equality', () => {
