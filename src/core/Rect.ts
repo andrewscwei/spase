@@ -205,13 +205,13 @@ export namespace Rect {
     try {
       if (target === undefined || target === null) return undefined
       if (isRect(target)) return target
-      if (_typeIsWindow(target)) return from(document.documentElement || document.body.parentNode || document.body, options)
+      if (typeIsWindow(target)) return from(document.documentElement || document.body.parentNode || document.body, options)
 
       const e = target instanceof Array ? target : [target]
       const n = e.length
       const reference = options.reference || window
       const winRect = fromViewport()
-      const refRect = _typeIsWindow(reference) ? winRect : from(options.reference)
+      const refRect = typeIsWindow(reference) ? winRect : from(options.reference)
 
       if (!winRect || !refRect) return undefined
 
@@ -221,8 +221,8 @@ export namespace Rect {
         const element = e[i]
         const clientRect = element.getBoundingClientRect()
         const rect = make({
-          x: clientRect.left + winRect.left - (_typeIsWindow(reference) ? 0 : refRect.left),
-          y: clientRect.top + winRect.top - (_typeIsWindow(reference) ? 0 : refRect.top),
+          x: clientRect.left + winRect.left - (typeIsWindow(reference) ? 0 : refRect.left),
+          y: clientRect.top + winRect.top - (typeIsWindow(reference) ? 0 : refRect.top),
           width: options.overflow ? element.scrollWidth : element instanceof HTMLElement ? element.offsetWidth : clientRect.width,
           height: options.overflow ? element.scrollHeight : element instanceof HTMLElement ? element.offsetHeight : clientRect.height,
         })
@@ -265,7 +265,7 @@ export namespace Rect {
   export function fromChildrenOf(parent?: Element | Window | null, options: RectOptions = {}): Rect | undefined {
     if (!parent) return undefined
 
-    if (_typeIsWindow(parent)) {
+    if (typeIsWindow(parent)) {
       return from(Array.from(document.body.children))
     }
     else {
@@ -570,6 +570,6 @@ export namespace Rect {
   }
 }
 
-function _typeIsWindow(val: any): val is Window {
+function typeIsWindow(val: any): val is Window {
   return val === window
 }
