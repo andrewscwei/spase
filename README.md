@@ -10,68 +10,106 @@ import { getFOV, hitTest, Point, Rect, Size } from 'spase';
 
 ## API
 
-### Class: `Point`
+### `Point`
 
 A type representing a point on a 2D plane.
 
-### Class: `Size`
+#### Properties
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `zero` | `Point` | A `Point` with `x` and `y` values of `0`. |
+
+#### Methods
+
+| Method | Params | Returns | Description |
+|--------|--------|---------|-------------|
+| `make` | `descriptor: PointDescriptor` | `Point` | Creates a new `Point`. |
+| `make` | `x: number`<br>`y: number` | `Point` | Creates a new `Point`. |
+| `clone` | `point: Point`<br>`newDescriptor: Partial<PointJsonDescriptor>` | `Point` | Clones and returns a new `Point`. |
+| `add` | `a: Point`<br>`b: Point` | `Point` | Returns the resulting `Point` by adding one to another. |
+| `subtract` | `a: Point`<br>`b: Point` | `Point` | Returns the resulting `Point` by subtracting one from another. |
+| `multiply` | `a: Point`<br>`b: Point` | `Point` | Returns the resulting `Point` by multiplying one by another. |
+| `divide` | `a: Point`<br>`b: Point` | `Point` | Returns the resulting `Point` by dividing one by another. |
+| `reflect` | `point: Point` | `Point` | Returns the resulting `Point` by reflecting x/y values. |
+| `isEqual` | `a: Point`<br>`b: Point` | `boolean` | Checks to see if a `Point` is equivalent to another. |
+| `toString` | `point: Point` | `string` | Returns the string representation of a `Point` |
+| `toJSON` | `point: Point` | `PointJsonDescriptor` | Returns the JSON representation of a `Point`. |
+| `toArray` | `point: Point` | `PointArrayDescriptor` | Returns the array representation of a `Point`. |
+| `isValidDescriptor` | `value: any` | `boolean` | Checks if a value is a valid `Point` descriptor. |
+| `isPoint` | `value: any` | `boolean` | Checks to see if a value is a `Point`. |
+| `isZero` | `point: Point` | `boolean` | Checks to see if a `Point` only contains `0` values. |
+
+### `Size`
 
 A type that represents a size on a 2D plane.
 
-### Class: `Rect`
+#### Properties
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `zero` | `Size` | A `Size` with `width` and `height` values of `0`. |
+
+#### Methods
+
+| Method | Params | Returns | Description |
+|--------|--------|---------|-------------|
+| `make` | `descriptor: SizeDescriptor` | `Size` | Creates a new `Size`. |
+| `make` | `width: number`<br>`height: number` | `Size` | Creates a new `Size`. |
+| `clone` | `size: Size`<br>`newDescriptor: Partial<SizeJsonDescriptor>` | `Size` | Clones and returns a new `Size`. |
+| `add` | `a: Size`<br>`b: Size` | `Size` | Returns the resulting `Size` by adding one to another. |
+| `subtract` | `a: Size`<br>`b: Size` | `Size` | Returns the resulting `Size` by subtracting one from another. |
+| `multiply` | `a: Size`<br>`b: Size` | `Size` | Returns the resulting `Size` by multiplying one by another. |
+| `divide` | `a: Size`<br>`b: Size` | `Size` | Returns the resulting `Size` by dividing one by another. |
+| `rotate` | `size: Size` | `Size` | Returns the resulting `Size` after applying a 90˚ rotation, essentially swapping the width/height values. |
+| `isEqual` | `a: Size`<br>`b: Size` | `boolean` | Checks to see if a `Size` is equivalent to another. |
+| `toString` | `size: Size` | `string` | Returns the string representation of a `Size` |
+| `toJSON` | `size: Size` | `SizeJsonDescriptor` | Returns the JSON representation of a `Size`. |
+| `toArray` | `size: Size` | `SizeArrayDescriptor` | Returns the array representation of a `Size`. |
+| `isValidDescriptor` | `value: any` | `boolean` | Checks if a value is a valid `Size` descriptor. |
+| `isSize` | `value: any` | `boolean` | Checks to see if a value is a `Size`. |
+| `isZero` | `size: Size` | `boolean` | Checks if a `Size` only contains `0` values. |
+
+### `Rect`
 
 A type representing a rectangle on a 2D plane.
 
-#### `Rect.intersecting(...elements)`
+#### Properties
 
-Computes the intersecting `Rect` of one or more elements. If only 1 element is specified, the intersection will be computed against the viewport.
+| Property | Type | Description |
+|----------|------|-------------|
+| `zero` | `Rect` | A `Rect` with `top`, `right`, `bottom` and `left` values of `0`. |
 
-- `@param elements: Element[]` — Element(s) to be used to compute the intersecting `Rect`.
-- `@returns Rect | null` — The intersecting `Rect`.
+#### Methods
 
-#### `Rect.from(target[, options])`
+| Method | Params | Returns | Description |
+|--------|--------|---------|-------------|
+| `make` | `descriptor: RectDescriptor` | `Rect` | Creates a new `Rect`. |
+| `make` | `point: Point`<br>`size: Size` | `Rect` | Creates a new `Rect`. |
+| `make` | `x: number`<br>`y: number`<br>`width: number`<br>`height: number` | `Rect` | Creates a new `Rect`. |
+| `center` | `rect: Rect` | `Point` | Gets the center point of a `Rect`. |
+| `size` | `rect: Rect` | `Size` | Gets the size of the current `Rect`. |
+| `from` | `target: Rect \| Window \| Element \| Element[]`<br>`options: RectOptions` | `Rect \| undefined` | Gets the combined `Rect` of one or more spatial objects. |
+| `fromViewport` | | `Rect` | Computes and returns the `Rect` of the viewport (a.k.a. the window). |
+| `fromChildrenOf` | `parent: Element \| Window`<br>`options: RectOptions` | `Rect \| undefined` | Gets the `Rect` of all the children of an element. This automatically sets the reference to the parent element. |
+| `fromChildrenBefore` | `childIndex: number`<br>`parent: Element`<br>`options: RectOptions` | `Rect \| undefined` | Gets the `Rect` of the children of an element up to the specified index. This automatically sets the reference to the parent element. |
+| `fromChildrenAfter` | `childIndex: number`<br>`parent: Element`<br>`options: RectOptions` | `Rect \| undefined` | Gets the `Rect` of the children of an element after the specified index. This automatically sets the reference to the parent element. |
+| `fromChildAt` | `childIndex: number`<br>`parent: Element`<br>`options: RectOptions` | `Rect \| undefined` | Gets the `Rect` of a child of an element at its index. This automatically sets the reference to the parent element. |
+| `intersecting` | `...elements: Element[]` | `Rect \| undefined` | Computes the intersecting `Rect` of a rect against one or more elements. If only 1 element is specified, the intersection will be computed against the viewport. |
+| `clone` | `rect: Rect`<br>`newDescriptor: Partial<RectDescriptor>` | `Rect` | Clones and returns a new `Rect`. |
+| `concat` | `a: Rect`<br>`b: Rect` | `Rect` | Concatenates one `Rect` with another. |
+| `rotate` | `rect: Rect` | `Rect` | Returns a new `Rect` after applying a 90˚ rotation, essentially swapping the width/height values. |
+| `isEqual` | `a: Rect`<br>`b: Rect` | `boolean` | Checks to see if the current `Rect` is equivalent to another `Rect`. |
+| `contains` | `rect: Rect`<br>`obj: Point \| PointDescriptor \| Rect \| Rect[] \| Element \| Element[]` | `boolean` | Checks if a `Rect` contains any part of another spatial object, i.e. a `Point`, `PointDescriptor`, `Rect`(s), or `Element`(s). |
+| `toString` | `rect: Rect` | `string` | Returns the string representation of a `Rect` |
+| `toJSON` | `rect: Rect` | `RectJsonDescriptor` | Returns the JSON representation of a `Rect`. |
+| `isValidDescriptor` | `value: any` | `boolean` | Checks if an object can be used to create a new `Rect`. |
+| `isRect` | `value: any` | `boolean` | Checks to see if a value is a `Rect`. |
+| `isZero` | `rect: Rect` | `boolean` | Checks to see if a `Rect` only contains `0` values. |
 
-Gets the combined `Rect` of one or more elements.
+### Utilities
 
-- `@param target: Rect | Window | Element | Element[]` — An element or array of elements to compute the combined `Rect`.
-- `@param options` — Additional options.
-- `@param options.reference: Window | Element | undefined` — The element whose coordinate space the computed top, right, bottom and left values are relative to.
-- `@param options.overflow: boolean` Specifies whether the overflow width/height should be accounted for.
-- `@returns Rect | null` — The combined `Rect`.
-
-#### `Rect.fromViewport()`
-
-Gets the `Rect` of the viewport (current field of view). Think of this as the `Rect` of the current window.
-
-- `@returns Rect` — The `Rect` of the viewport.
-
-### `getFOV(element[, options])`
-
-Computes the field-of-view (`FOV`) of an element.
-
-- `@param element: Element | null` The target element.
-- `@param options` Additional options.
-- `@param options.reference: Window | Element | undefined` — The element whose coordinate space the computed field-of-view is relative to.
-- `@returns FOV | null` - The `FOV` if it is computable, `null` otherwise.
-
-### `hitTest(obj1, obj2)`
-
-Hit-tests 2 objects. These objects can either be `Point`'s, `Rect`'s or `Element`'s.
-
-- `@param obj1: Rect | Element | Element[] | Point | readonly [number number] | Readonly<{ x: number; y: number; }> | Rect[]` — First object.
-- `@param obj2: Rect | Element | Element[] | Point | Rect[]` — Second object.
-- `@returns boolean` — `true` if test passes, `false` otherwise.
-
-## Caveats
-
-Note that this library is intended to be used for 2D DOM elements only. If an element has `transform` styles applied to it, the `top`, `right`, `bottom` and `left` properties will be obscured. This is because the underlying method of calculating these values depends on the native `getBoundingClientRect` function.
-
-## Breaking Changes
-
-### `v4.0.0`
-
-- Widths and heights now use `offsetWidth` and `offsetHeight` when applicable.
-
-### `v3.0.0`
-
-- API changes: `getIntersectRect`, `getRect`, and `getViewportRect` are now static members of `Rect` class, as `Rect.intersecting`, `Rect.from`, and `Rect.fromViewport`, respectively.
+| Method | Params | Returns | Description |
+|--------|--------|---------|-------------|
+| `fov` | `element: Element`<br>`options: FOVOptions` | `FOV \| undefined` | Computes the field-of-view (`FOV`) of an element. |
+| `hitTest` | `a: Point \| PointDescriptor \| Rect \| Rect[] \| Element \| Element[]`<br>`b: Point \| Rect \| Rect[] \| Element \| Element[]` | `boolean` | Hit-tests one spatial object against one or more spatial objects. In order for the test to pass, the object just needs to collide with at least one of the specified objects. |
