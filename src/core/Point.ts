@@ -155,13 +155,13 @@ export namespace Point {
   }
 
   /**
-   * Returns the resulting {@link Point} by inverting x/y values.
+   * Returns the resulting {@link Point} by reflecting x/y values.
    *
-   * @param point The {@link Point} to invert.
+   * @param point The {@link Point} to reflect.
    *
    * @returns The resulting {@link Point}.
    */
-  export function invert(point: Point): Point {
+  export function reflect(point: Point): Point {
     return make({
       x: point.y,
       y: point.x,
