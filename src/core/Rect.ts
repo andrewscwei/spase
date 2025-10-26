@@ -438,13 +438,14 @@ export namespace Rect {
   }
 
   /**
-   * Returns a new {@link Rect} with inverted width/height values.
+   * Returns a new {@link Rect} after applying a 90˚ rotation, essentially
+   * swapping the width/height values.
    *
-   * @param rect The {@link Rect} to invert.
+   * @param rect The {@link Rect} to rotate.
    *
    * @returns The resulting {@link Rect}.
    */
-  export function invert(rect: Rect): Rect {
+  export function rotate(rect: Rect): Rect {
     return make({
       x: rect.left,
       y: rect.top,

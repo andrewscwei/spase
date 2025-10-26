@@ -103,10 +103,10 @@ describe('Rect', () => {
     })
   })
 
-  it('should invert a rect', () => {
+  it('should rotate a rect', () => {
     const r = Rect.make(1, 2, 3, 4)
 
-    expect(Rect.invert(r)).toEqual({
+    expect(Rect.rotate(r)).toEqual({
       top: 2,
       right: 1 + 4,
       bottom: 2 + 3,
