@@ -155,13 +155,14 @@ export namespace Size {
   }
 
   /**
-   * Returns the resulting {@link Size} by inverting width/height values.
+   * Returns the resulting {@link Size} after applying a 90˚ rotation,
+   * essentially swapping the width/height values.
    *
-   * @param size The {@link Size} to invert.
+   * @param size The {@link Size} to rotate.
    *
    * @returns The resulting {@link Size}.
    */
-  export function invert(size: Size): Size {
+  export function rotate(size: Size): Size {
     return make({
       width: size.height,
       height: size.width,
