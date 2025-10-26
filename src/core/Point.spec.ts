@@ -42,8 +42,8 @@ describe('Point', () => {
     expect(Point.divide({ x: 8, y: 9 }, { x: 2, y: 3 })).toEqual({ x: 4, y: 3 })
   })
 
-  it('should invert a point', () => {
-    expect(Point.invert({ x: 11, y: 22 })).toEqual({ x: 22, y: 11 })
+  it('should reflect a point', () => {
+    expect(Point.reflect({ x: 11, y: 22 })).toEqual({ x: 22, y: 11 })
   })
 
   it('should check equality', () => {
