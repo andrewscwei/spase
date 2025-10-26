@@ -1,3 +1,12 @@
+# [11.4.0](https://github.com/andrewscwei/spase/compare/v11.3.0...v11.4.0) (2025-10-26)
+
+
+### Features
+
+* Rename `Point.invert` to `Point.reflect` ([a7253d6](https://github.com/andrewscwei/spase/commit/a7253d60ecfc7e8c386690e93e121d75fd579e97))
+* Rename `Rect.invert` to `Rect.rotate` ([03a9b1f](https://github.com/andrewscwei/spase/commit/03a9b1f2b9458a678347f8c6d135f653f4385994))
+* Rename `Size.invert` to `Size.rotate` ([36d1c01](https://github.com/andrewscwei/spase/commit/36d1c01d3229f16dfebc71bd3e313fdfe5c66cff))
+
 # [11.3.0](https://github.com/andrewscwei/spase/compare/v11.2.1...v11.3.0) (2025-05-13)
 
 
