@@ -49,7 +49,7 @@ type FOVOptions = Readonly<{
  * @param element The target element.
  * @param options See {@link FOVOptions}.
  *
- * @returns The {@link FOV} if it is computable, `null` otherwise.
+ * @returns The {@link FOV} if it is computable, `undefined` otherwise.
  */
 export function fov(element?: Element | null, options: FOVOptions = {}): FOV | undefined {
   if (!element) return undefined

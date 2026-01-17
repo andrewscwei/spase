@@ -199,11 +199,12 @@ export namespace Rect {
    *               combined {@link Rect}.
    * @param options See {@link RectOptions}.
    *
-   * @returns The combined {@link Rect}.
+   * @returns The combined {@link Rect} or {@link Rect.zero} if no valid result
+   *          could be computed.
    */
-  export function from(target?: Rect | Window | Element | Element[] | null, options: RectOptions = {}): Rect | undefined {
+  export function from(target?: Rect | Window | Element | Element[] | null, options: RectOptions = {}): Rect {
     try {
-      if (target === undefined || target === null) return undefined
+      if (target === undefined || target === null) return Rect.zero
       if (isRect(target)) return target
       if (typeIsWindow(target)) return from(document.documentElement || document.body.parentNode || document.body, options)
 
@@ -213,7 +214,7 @@ export namespace Rect {
       const winRect = fromViewport()
       const refRect = typeIsWindow(reference) ? winRect : from(options.reference)
 
-      if (!winRect || !refRect) return undefined
+      if (!winRect || !refRect) return Rect.zero
 
       let combinedRect
 
@@ -230,12 +231,12 @@ export namespace Rect {
         combinedRect = combinedRect ? concat(combinedRect, rect) : rect
       }
 
-      return combinedRect
+      return combinedRect ?? Rect.zero
     }
     catch (err) {
       console.error(err)
 
-      return undefined
+      return Rect.zero
     }
   }
 
@@ -260,10 +261,11 @@ export namespace Rect {
    * @param parent The parent element of the child.
    * @param options See {@link RectOptions}.
    *
-   * @returns The {@link Rect} of the child.
+   * @returns The {@link Rect} of the children or {@link Rect.zero} if no valid
+   *          result could be computed.
    */
-  export function fromChildrenOf(parent?: Element | Window | null, options: RectOptions = {}): Rect | undefined {
-    if (!parent) return undefined
+  export function fromChildrenOf(parent?: Element | Window | null, options: RectOptions = {}): Rect {
+    if (!parent) return Rect.zero
 
     if (typeIsWindow(parent)) {
       return from(Array.from(document.body.children))
@@ -285,10 +287,11 @@ export namespace Rect {
    * @param parent The parent element of the children.
    * @param options See {@link RectOptions}.
    *
-   * @returns The {@link Rect} of the child.
+   * @returns The {@link Rect} of the children or {@link Rect.zero} if no valid
+   *          result could be computed.
    */
-  export function fromChildrenBefore(childIndex: number, parent?: Element | null, options: RectOptions = {}): Rect | undefined {
-    if (!parent) return undefined
+  export function fromChildrenBefore(childIndex: number, parent?: Element | null, options: RectOptions = {}): Rect {
+    if (!parent) return Rect.zero
 
     const children = Array.from(parent.children)
 
@@ -309,10 +312,11 @@ export namespace Rect {
    * @param parent The parent element of the children.
    * @param options See {@link RectOptions}.
    *
-   * @returns The {@link Rect} of the child.
+   * @returns The {@link Rect} of the children or {@link Rect.zero} if no valid
+   *          result could be computed.
    */
-  export function fromChildrenAfter(childIndex: number, parent?: Element | null, options: RectOptions = {}): Rect | undefined {
-    if (!parent) return undefined
+  export function fromChildrenAfter(childIndex: number, parent?: Element | null, options: RectOptions = {}): Rect {
+    if (!parent) return Rect.zero
 
     const children = Array.from(parent.children)
 
@@ -332,10 +336,11 @@ export namespace Rect {
    * @param parent The parent element of the child.
    * @param options See {@link RectOptions}.
    *
-   * @returns The {@link Rect} of the child.
+   * @returns The {@link Rect} of the child or {@link Rect.zero} if no valid
+   *          result could be computed.
    */
-  export function fromChildAt(childIndex: number, parent?: Element | null, options: RectOptions = {}): Rect | undefined {
-    if (!parent) return undefined
+  export function fromChildAt(childIndex: number, parent?: Element | null, options: RectOptions = {}): Rect {
+    if (!parent) return Rect.zero
 
     const child = parent.children[childIndex]
 
@@ -353,9 +358,10 @@ export namespace Rect {
    * @param elements Element(s) to be used to compute the intersecting
    *                 {@link Rect}.
    *
-   * @returns The intersecting {@link Rect}.
+   * @returns The intersecting {@link Rect} or {@link Rect.zero} if no valid
+   *          result could be computed.
    */
-  export function intersecting(...elements: Element[]): Rect | undefined {
+  export function intersecting(...elements: Element[]): Rect {
     try {
       const n = elements.length
 
@@ -398,7 +404,7 @@ export namespace Rect {
     catch (err) {
       console.error(err)
 
-      return undefined
+      return Rect.zero
     }
   }
 
@@ -483,7 +489,7 @@ export namespace Rect {
    *
    * @returns `true` if test passes, `false` otherwise.
    */
-  export function contains(rect: Rect, obj: Point | PointDescriptor | Rect | Rect[] | Element | Element[]) {
+  export function contains(rect: Rect, obj: Point | PointDescriptor | Rect | Rect[] | Element | Element[]): boolean {
     return hitTest(obj, rect)
   }
 

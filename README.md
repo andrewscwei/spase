@@ -89,13 +89,13 @@ A type representing a rectangle on a 2D plane.
 | `make` | `x: number`<br>`y: number`<br>`width: number`<br>`height: number` | `Rect` | Creates a new `Rect`. |
 | `center` | `rect: Rect` | `Point` | Gets the center point of a `Rect`. |
 | `size` | `rect: Rect` | `Size` | Gets the size of the current `Rect`. |
-| `from` | `target: Rect \| Window \| Element \| Element[]`<br>`options: RectOptions` | `Rect \| undefined` | Gets the combined `Rect` of one or more spatial objects. |
+| `from` | `target: Rect \| Window \| Element \| Element[]`<br>`options: RectOptions` | `Rect` | Gets the combined `Rect` of one or more spatial objects. |
 | `fromViewport` | | `Rect` | Computes and returns the `Rect` of the viewport (a.k.a. the window). |
-| `fromChildrenOf` | `parent: Element \| Window`<br>`options: RectOptions` | `Rect \| undefined` | Gets the `Rect` of all the children of an element. This automatically sets the reference to the parent element. |
-| `fromChildrenBefore` | `childIndex: number`<br>`parent: Element`<br>`options: RectOptions` | `Rect \| undefined` | Gets the `Rect` of the children of an element up to the specified index. This automatically sets the reference to the parent element. |
-| `fromChildrenAfter` | `childIndex: number`<br>`parent: Element`<br>`options: RectOptions` | `Rect \| undefined` | Gets the `Rect` of the children of an element after the specified index. This automatically sets the reference to the parent element. |
-| `fromChildAt` | `childIndex: number`<br>`parent: Element`<br>`options: RectOptions` | `Rect \| undefined` | Gets the `Rect` of a child of an element at its index. This automatically sets the reference to the parent element. |
-| `intersecting` | `...elements: Element[]` | `Rect \| undefined` | Computes the intersecting `Rect` of a rect against one or more elements. If only 1 element is specified, the intersection will be computed against the viewport. |
+| `fromChildrenOf` | `parent: Element \| Window`<br>`options: RectOptions` | `Rect` | Gets the `Rect` of all the children of an element. This automatically sets the reference to the parent element. |
+| `fromChildrenBefore` | `childIndex: number`<br>`parent: Element`<br>`options: RectOptions` | `Rect` | Gets the `Rect` of the children of an element up to the specified index. This automatically sets the reference to the parent element. |
+| `fromChildrenAfter` | `childIndex: number`<br>`parent: Element`<br>`options: RectOptions` | `Rect` | Gets the `Rect` of the children of an element after the specified index. This automatically sets the reference to the parent element. |
+| `fromChildAt` | `childIndex: number`<br>`parent: Element`<br>`options: RectOptions` | `Rect` | Gets the `Rect` of a child of an element at its index. This automatically sets the reference to the parent element. |
+| `intersecting` | `...elements: Element[]` | `Rect` | Computes the intersecting `Rect` of a rect against one or more elements. If only 1 element is specified, the intersection will be computed against the viewport. |
 | `clone` | `rect: Rect`<br>`newDescriptor: Partial<RectDescriptor>` | `Rect` | Clones and returns a new `Rect`. |
 | `concat` | `a: Rect`<br>`b: Rect` | `Rect` | Concatenates one `Rect` with another. |
 | `rotate` | `rect: Rect` | `Rect` | Returns a new `Rect` after applying a 90˚ rotation, essentially swapping the width/height values. |
