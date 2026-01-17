@@ -5,7 +5,7 @@ Micro library for performing 2D spatial calculations of DOM elements.
 ## Usage
 
 ```js
-import { getFOV, hitTest, Point, Rect, Size } from 'spase';
+import { hitTest, Point, Rect, Size } from 'spase';
 ```
 
 ## API
@@ -111,5 +111,4 @@ A type representing a rectangle on a 2D plane.
 
 | Method | Params | Returns | Description |
 |--------|--------|---------|-------------|
-| `fov` | `element: Element`<br>`options: FOVOptions` | `FOV \| undefined` | Computes the field-of-view (`FOV`) of an element. |
 | `hitTest` | `a: Point \| PointDescriptor \| Rect \| Rect[] \| Element \| Element[]`<br>`b: Point \| Rect \| Rect[] \| Element \| Element[]` | `boolean` | Hit-tests one spatial object against one or more spatial objects. In order for the test to pass, the object just needs to collide with at least one of the specified objects. |
