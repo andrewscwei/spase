@@ -1,4 +1,4 @@
-import { Point, type PointDescriptor } from '../core/Point.js'
+import { Point } from '../core/Point.js'
 import { Rect } from '../core/Rect.js'
 
 /**
@@ -11,7 +11,7 @@ import { Rect } from '../core/Rect.js'
  *
  * @returns `true` if test passes, `false` otherwise.
  */
-export function hitTest(a: Point | PointDescriptor | Rect | Rect[] | Element | Element[], b: Point | Rect | Rect[] | Element | Element[]): boolean {
+export function hitTest(a: Point | Point.Descriptor | Rect | Rect[] | Element | Element[], b: Point | Rect | Rect[] | Element | Element[]): boolean {
   try {
     const p1 = Point.isValidDescriptor(a) && Point.make(a)
     const p2 = Point.isValidDescriptor(b) && Point.make(b)

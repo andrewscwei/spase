@@ -1,5 +1,5 @@
 import { hitTest } from '../utils/hitTest.js'
-import { Point, type PointDescriptor } from './Point.js'
+import { Point } from './Point.js'
 import { Size } from './Size.js'
 
 /**
@@ -37,55 +37,55 @@ export type Rect = {
   height: number
 }
 
-/**
-  * A type that can be used to create a {@link Rect}.
-  */
-export type RectDescriptor = Readonly<{
-  /**
-   * The `x` value.
-   */
-  x: number
-
-  /**
-   * The `y` value.
-   */
-  y: number
-
-  /**
-   * The `width` value.
-   */
-  width: number
-
-  /**
-   * The `height` value.
-   */
-  height: number
-}>
-
-/**
- * JSON representation of a {@link Rect}.
- */
-export type RectJsonDescriptor = Readonly<Rect>
-
-/**
- * Options for creating a {@link Rect}.
- */
-type RectOptions = Readonly<{
-  /**
-   * The element whose coordinate space the computed `top`, `right`, `bottom`
-   * and `left` values are relative to.
-   */
-  reference?: Window | Element | null
-
-  /**
-   * Specifies whether the overflow `width`/`height` should be accounted for.
-   * Overflow means the `width` or `height` that extend beyond the CSS-specified
-   * `width` or `height`.
-   */
-  overflow?: boolean
-}>
-
 export namespace Rect {
+  /**
+   * A type that can be used to create a {@link Rect}.
+   */
+  export type Descriptor = Readonly<{
+    /**
+     * The `x` value.
+     */
+    x: number
+
+    /**
+     * The `y` value.
+     */
+    y: number
+
+    /**
+     * The `width` value.
+     */
+    width: number
+
+    /**
+     * The `height` value.
+     */
+    height: number
+  }>
+
+  /**
+   * JSON representation of a {@link Rect}.
+   */
+  export type JSONDescriptor = Readonly<Rect>
+
+  /**
+   * Options for creating a {@link Rect}.
+   */
+  export type Options = Readonly<{
+    /**
+     * The element whose coordinate space the computed `top`, `right`, `bottom`
+     * and `left` values are relative to.
+     */
+    reference?: Window | Element | null
+
+    /**
+     * Specifies whether the overflow `width`/`height` should be accounted for.
+     * Overflow means the `width` or `height` that extend beyond the CSS-specified
+     * `width` or `height`.
+     */
+    overflow?: boolean
+  }>
+
   /**
    * A {@link Rect} with `top`, `right`, `bottom` and `left` values of `0`.
    */
@@ -98,7 +98,7 @@ export namespace Rect {
    *
    * @returns The resulting {@link Rect}.
    */
-  export function make(descriptor?: RectDescriptor): Rect
+  export function make(descriptor?: Descriptor): Rect
 
   /**
    * Creates a new {@link Rect}.
@@ -122,7 +122,7 @@ export namespace Rect {
    */
   export function make(x: number, y: number, width: number, height: number): Rect
 
-  export function make(xOrPointOrDescriptor: number | Point | RectDescriptor = 0, yOrSize: number | Size = 0, width: number = 0, height: number = 0): Rect {
+  export function make(xOrPointOrDescriptor: number | Point | Descriptor = 0, yOrSize: number | Size = 0, width: number = 0, height: number = 0): Rect {
     if (typeof xOrPointOrDescriptor === 'number' && typeof yOrSize === 'number') {
       const x = xOrPointOrDescriptor
       const y = yOrSize
@@ -197,14 +197,14 @@ export namespace Rect {
    *
    * @param target An element or array of spatial objects to compute the
    *               combined {@link Rect}.
-   * @param options See {@link RectOptions}.
+   * @param options See {@link Rect.Options}.
    *
    * @returns The combined {@link Rect} or {@link Rect.zero} if no valid result
    *          could be computed.
    */
-  export function from(target?: Rect | Window | Element | Element[] | null, options: RectOptions = {}): Rect {
+  export function from(target?: Rect | Window | Element | Element[] | null, options: Options = {}): Rect {
     try {
-      if (target === undefined || target === null) return Rect.zero
+      if (target === undefined || target === null) return zero
       if (isRect(target)) return target
       if (typeIsWindow(target)) return from(document.documentElement || document.body.parentNode || document.body, options)
 
@@ -214,7 +214,7 @@ export namespace Rect {
       const winRect = fromViewport()
       const refRect = typeIsWindow(reference) ? winRect : from(options.reference)
 
-      if (!winRect || !refRect) return Rect.zero
+      if (!winRect || !refRect) return zero
 
       let combinedRect
 
@@ -231,12 +231,12 @@ export namespace Rect {
         combinedRect = combinedRect ? concat(combinedRect, rect) : rect
       }
 
-      return combinedRect ?? Rect.zero
+      return combinedRect ?? zero
     }
     catch (err) {
       console.error(err)
 
-      return Rect.zero
+      return zero
     }
   }
 
@@ -259,13 +259,13 @@ export namespace Rect {
    * sets the reference to the parent element.
    *
    * @param parent The parent element of the child.
-   * @param options See {@link RectOptions}.
+   * @param options See {@link Rect.Options}.
    *
    * @returns The {@link Rect} of the children or {@link Rect.zero} if no valid
    *          result could be computed.
    */
-  export function fromChildrenOf(parent?: Element | Window | null, options: RectOptions = {}): Rect {
-    if (!parent) return Rect.zero
+  export function fromChildrenOf(parent?: Element | Window | null, options: Options = {}): Rect {
+    if (!parent) return zero
 
     if (typeIsWindow(parent)) {
       return from(Array.from(document.body.children))
@@ -285,13 +285,13 @@ export namespace Rect {
    * @param childIndex The {@link Rect} of the parent's children will be
    *                   computed up to this child index.
    * @param parent The parent element of the children.
-   * @param options See {@link RectOptions}.
+   * @param options See {@link Rect.Options}.
    *
    * @returns The {@link Rect} of the children or {@link Rect.zero} if no valid
    *          result could be computed.
    */
-  export function fromChildrenBefore(childIndex: number, parent?: Element | null, options: RectOptions = {}): Rect {
-    if (!parent) return Rect.zero
+  export function fromChildrenBefore(childIndex: number, parent?: Element | null, options: Options = {}): Rect {
+    if (!parent) return zero
 
     const children = Array.from(parent.children)
 
@@ -310,13 +310,13 @@ export namespace Rect {
    * @param childIndex The {@link Rect} of the parent's children will be
    *                   computed after this child index.
    * @param parent The parent element of the children.
-   * @param options See {@link RectOptions}.
+   * @param options See {@link Rect.Options}.
    *
    * @returns The {@link Rect} of the children or {@link Rect.zero} if no valid
    *          result could be computed.
    */
-  export function fromChildrenAfter(childIndex: number, parent?: Element | null, options: RectOptions = {}): Rect {
-    if (!parent) return Rect.zero
+  export function fromChildrenAfter(childIndex: number, parent?: Element | null, options: Options = {}): Rect {
+    if (!parent) return zero
 
     const children = Array.from(parent.children)
 
@@ -334,13 +334,13 @@ export namespace Rect {
    *
    * @param childIndex The child index.
    * @param parent The parent element of the child.
-   * @param options See {@link RectOptions}.
+   * @param options See {@link Rect.Options}.
    *
    * @returns The {@link Rect} of the child or {@link Rect.zero} if no valid
    *          result could be computed.
    */
-  export function fromChildAt(childIndex: number, parent?: Element | null, options: RectOptions = {}): Rect {
-    if (!parent) return Rect.zero
+  export function fromChildAt(childIndex: number, parent?: Element | null, options: Options = {}): Rect {
+    if (!parent) return zero
 
     const child = parent.children[childIndex]
 
@@ -396,15 +396,15 @@ export namespace Rect {
           descriptor.x = NaN
         }
 
-        currRect = make(descriptor as RectDescriptor)
+        currRect = make(descriptor as Descriptor)
       }
 
-      return make(descriptor as RectDescriptor)
+      return make(descriptor as Descriptor)
     }
     catch (err) {
       console.error(err)
 
-      return Rect.zero
+      return zero
     }
   }
 
@@ -417,7 +417,7 @@ export namespace Rect {
    *
    * @returns The cloned {@link Rect}.
    */
-  export function clone(rect: Rect, newDescriptor: Partial<RectDescriptor> = {}): Rect {
+  export function clone(rect: Rect, newDescriptor: Partial<Descriptor> = {}): Rect {
     return make({
       x: typeof newDescriptor.x === 'number' ? newDescriptor.x : rect.left,
       y: typeof newDescriptor.y === 'number' ? newDescriptor.y : rect.top,
@@ -489,7 +489,7 @@ export namespace Rect {
    *
    * @returns `true` if test passes, `false` otherwise.
    */
-  export function contains(rect: Rect, obj: Point | PointDescriptor | Rect | Rect[] | Element | Element[]): boolean {
+  export function contains(rect: Rect, obj: Point | Point.Descriptor | Rect | Rect[] | Element | Element[]): boolean {
     return hitTest(obj, rect)
   }
 
@@ -511,7 +511,7 @@ export namespace Rect {
    *
    * @returns The JSON object.
    */
-  export function toJSON(rect: Rect): RectJsonDescriptor {
+  export function toJSON(rect: Rect): JSONDescriptor {
     return Object.freeze({
       top: rect.top,
       right: rect.right,
@@ -529,7 +529,7 @@ export namespace Rect {
    *
    * @returns `true` if valid, `false` otherwise.
    */
-  export function isValidDescriptor(value: any): value is RectDescriptor {
+  export function isValidDescriptor(value: any): value is Descriptor {
     if (typeof value.x !== 'number') return false
     if (typeof value.y !== 'number') return false
     if (typeof value.width !== 'number') return false

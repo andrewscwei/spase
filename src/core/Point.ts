@@ -13,22 +13,22 @@ export type Point = {
   y: number
 }
 
-/**
- * Array representation of a {@link Point} in the format of `[x, y]`.
- */
-export type PointArrayDescriptor = Readonly<[number, number]>
-
-/**
- * JSON representation of a {@link Point}.
- */
-export type PointJsonDescriptor = Readonly<Point>
-
-/**
- * A type that can be used to create a {@link Point}.
- */
-export type PointDescriptor = PointArrayDescriptor | PointJsonDescriptor
-
 export namespace Point {
+  /**
+   * Array representation of a {@link Point} in the format of `[x, y]`.
+   */
+  export type ArrayDescriptor = Readonly<[number, number]>
+
+  /**
+   * JSON representation of a {@link Point}.
+   */
+  export type JSONDescriptor = Readonly<Point>
+
+  /**
+   * A type that can be used to create a {@link Point}.
+   */
+  export type Descriptor = ArrayDescriptor | JSONDescriptor
+
   /**
    * A {@link Point} with `x` and `y` values of `0`.
    */
@@ -42,7 +42,7 @@ export namespace Point {
    *
    * @returns The resulting {@link Point}.
    */
-  export function make(descriptor?: PointDescriptor): Point
+  export function make(descriptor?: Descriptor): Point
 
   /**
    * Creates a new {@link Point}.
@@ -54,7 +54,7 @@ export namespace Point {
    */
   export function make(x: number, y: number): Point
 
-  export function make(xOrDescriptor: number | PointDescriptor = 0, y: number = 0): Point {
+  export function make(xOrDescriptor: number | Descriptor = 0, y: number = 0): Point {
     if (typeof xOrDescriptor === 'number') {
       const x = xOrDescriptor
 
@@ -87,7 +87,7 @@ export namespace Point {
    *
    * @returns The cloned {@link Point}.
    */
-  export function clone(point: Point, newDescriptor: Partial<PointJsonDescriptor> = {}): Point {
+  export function clone(point: Point, newDescriptor: Partial<JSONDescriptor> = {}): Point {
     return make({
       x: typeof newDescriptor.x === 'number' ? newDescriptor.x : point.x,
       y: typeof newDescriptor.y === 'number' ? newDescriptor.y : point.y,
@@ -201,7 +201,7 @@ export namespace Point {
    *
    * @returns The resulting JSON object.
    */
-  export function toJSON(point: Point): PointJsonDescriptor {
+  export function toJSON(point: Point): JSONDescriptor {
     return Object.freeze({
       x: point.x,
       y: point.y,
@@ -215,7 +215,7 @@ export namespace Point {
    *
    * @returns The resulting array.
    */
-  export function toArray(point: Point): PointArrayDescriptor {
+  export function toArray(point: Point): ArrayDescriptor {
     return [point.x, point.y]
   }
 
@@ -226,7 +226,7 @@ export namespace Point {
    *
    * @returns `true` if valid, `false` otherwise.
    */
-  export function isValidDescriptor(value: any): value is PointDescriptor {
+  export function isValidDescriptor(value: any): value is Descriptor {
     if (value instanceof Array) {
       if (value.length !== 2) return false
       if (typeof value[0] !== 'number') return false

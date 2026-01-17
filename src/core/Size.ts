@@ -13,22 +13,22 @@ export type Size = {
   height: number
 }
 
-/**
- * Array representation of a {@link Size} in the format of `[width, height]`.
- */
-export type SizeArrayDescriptor = Readonly<[number, number]>
-
-/**
- * JSON representation of a {@link Size}.
- */
-export type SizeJsonDescriptor = Readonly<Size>
-
-/**
- * A type that can be used to create a {@link Size}.
- */
-export type SizeDescriptor = SizeArrayDescriptor | SizeJsonDescriptor
-
 export namespace Size {
+  /**
+   * Array representation of a {@link Size} in the format of `[width, height]`.
+   */
+  export type ArrayDescriptor = Readonly<[number, number]>
+
+  /**
+   * JSON representation of a {@link Size}.
+   */
+  export type JSONDescriptor = Readonly<Size>
+
+  /**
+   * A type that can be used to create a {@link Size}.
+   */
+  export type Descriptor = ArrayDescriptor | JSONDescriptor
+
   /**
    * A {@link Size} with `width` and `height` values of `0`.
    */
@@ -43,7 +43,7 @@ export namespace Size {
    *
    * @returns The resulting {@link Size}.
    */
-  export function make(descriptor?: SizeDescriptor): Size
+  export function make(descriptor?: Descriptor): Size
 
   /**
    * Creates a new {@link Size}.
@@ -55,7 +55,7 @@ export namespace Size {
    */
   export function make(width: number, height: number): Size
 
-  export function make(widthOrDescriptor: number | SizeDescriptor = 0, height: number = 0): Size {
+  export function make(widthOrDescriptor: number | Descriptor = 0, height: number = 0): Size {
     if (typeof widthOrDescriptor === 'number') {
       const width = widthOrDescriptor
 
@@ -87,7 +87,7 @@ export namespace Size {
    *
    * @returns The cloned {@link Size}.
    */
-  export function clone(size: Size, newDescriptor: Partial<SizeJsonDescriptor> = {}): Size {
+  export function clone(size: Size, newDescriptor: Partial<JSONDescriptor> = {}): Size {
     return make({
       width: typeof newDescriptor.width === 'number' ? newDescriptor.width : size.width,
       height: typeof newDescriptor.height === 'number' ? newDescriptor.height : size.height,
@@ -202,7 +202,7 @@ export namespace Size {
    *
    * @returns The resulting JSON object.
    */
-  export function toJSON(size: Size): SizeJsonDescriptor {
+  export function toJSON(size: Size): JSONDescriptor {
     return Object.freeze({
       width: size.width,
       height: size.height,
@@ -216,7 +216,7 @@ export namespace Size {
    *
    * @returns The resulting array.
    */
-  export function toArray(size: Size): SizeArrayDescriptor {
+  export function toArray(size: Size): ArrayDescriptor {
     return [size.width, size.height]
   }
 
@@ -227,7 +227,7 @@ export namespace Size {
    *
    * @returns `true` if valid, `false` otherwise.
    */
-  export function isValidDescriptor(value: any): value is SizeDescriptor {
+  export function isValidDescriptor(value: any): value is Descriptor {
     if (value instanceof Array) {
       if (value.length !== 2) return false
       if (typeof value[0] !== 'number') return false
