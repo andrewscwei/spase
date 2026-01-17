@@ -5,6 +5,9 @@ on:
 concurrency:
   group: deploy
   cancel-in-progress: true
+permissions:
+  id-token: write
+  contents: write
 jobs:
   release:
     name: Release
