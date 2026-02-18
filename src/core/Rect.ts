@@ -76,7 +76,7 @@ export namespace Rect {
      * The element whose coordinate space the computed `top`, `right`, `bottom`
      * and `left` values are relative to.
      */
-    reference?: Window | Element | null
+    reference?: Element | null | Window
 
     /**
      * Specifies whether the overflow `width`/`height` should be accounted for.
@@ -122,44 +122,42 @@ export namespace Rect {
    */
   export function make(x: number, y: number, width: number, height: number): Rect
 
-  export function make(xOrPointOrDescriptor: number | Point | Descriptor = 0, yOrSize: number | Size = 0, width: number = 0, height: number = 0): Rect {
+  export function make(xOrPointOrDescriptor: Descriptor | number | Point = 0, yOrSize: number | Size = 0, width: number = 0, height: number = 0): Rect {
     if (typeof xOrPointOrDescriptor === 'number' && typeof yOrSize === 'number') {
       const x = xOrPointOrDescriptor
       const y = yOrSize
 
       return {
-        top: y,
-        right: x + width,
         bottom: y + height,
-        left: x,
-        width,
         height,
+        left: x,
+        right: x + width,
+        top: y,
+        width,
       }
-    }
-    else if (Point.isPoint(xOrPointOrDescriptor) && Size.isSize(yOrSize)) {
+    } else if (Point.isPoint(xOrPointOrDescriptor) && Size.isSize(yOrSize)) {
       const p = xOrPointOrDescriptor
       const s = yOrSize
 
       return {
-        top: p.y,
-        right: p.x + s.width,
         bottom: p.y + s.height,
-        left: p.x,
-        width: s.width,
         height: s.height,
+        left: p.x,
+        right: p.x + s.width,
+        top: p.y,
+        width: s.width,
       }
-    }
-    else {
+    } else {
       const descriptor = xOrPointOrDescriptor
       if (!isValidDescriptor(descriptor)) throw Error('Invalid parameters passed to constructor')
 
       return {
-        top: descriptor.y,
-        right: descriptor.x + descriptor.width,
         bottom: descriptor.y + descriptor.height,
-        left: descriptor.x,
-        width: descriptor.width,
         height: descriptor.height,
+        left: descriptor.x,
+        right: descriptor.x + descriptor.width,
+        top: descriptor.y,
+        width: descriptor.width,
       }
     }
   }
@@ -187,8 +185,8 @@ export namespace Rect {
    */
   export function size(rect: Rect): Size {
     return Size.make({
-      width: rect.width,
       height: rect.height,
+      width: rect.width,
     })
   }
 
@@ -202,7 +200,7 @@ export namespace Rect {
    * @returns The combined {@link Rect} or {@link Rect.zero} if no valid result
    *          could be computed.
    */
-  export function from(target?: Rect | Window | Element | Element[] | null, options: Options = {}): Rect {
+  export function from(target?: Element | Element[] | null | Rect | Window, options: Options = {}): Rect {
     try {
       if (target === undefined || target === null) return zero
       if (isRect(target)) return target
@@ -222,18 +220,17 @@ export namespace Rect {
         const element = e[i]
         const clientRect = element.getBoundingClientRect()
         const rect = make({
+          height: options.overflow ? element.scrollHeight : element instanceof HTMLElement ? element.offsetHeight : clientRect.height,
+          width: options.overflow ? element.scrollWidth : element instanceof HTMLElement ? element.offsetWidth : clientRect.width,
           x: clientRect.left + winRect.left - (typeIsWindow(reference) ? 0 : refRect.left),
           y: clientRect.top + winRect.top - (typeIsWindow(reference) ? 0 : refRect.top),
-          width: options.overflow ? element.scrollWidth : element instanceof HTMLElement ? element.offsetWidth : clientRect.width,
-          height: options.overflow ? element.scrollHeight : element instanceof HTMLElement ? element.offsetHeight : clientRect.height,
         })
 
         combinedRect = combinedRect ? concat(combinedRect, rect) : rect
       }
 
       return combinedRect ?? zero
-    }
-    catch (err) {
+    } catch (err) {
       console.error(err)
 
       return zero
@@ -251,7 +248,7 @@ export namespace Rect {
     const x = window.pageXOffset !== undefined ? window.pageXOffset : (document.documentElement || document.body.parentNode || document.body).scrollLeft
     const y = window.pageYOffset !== undefined ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop
 
-    return make({ x, y, width, height })
+    return make({ height, width, x, y })
   }
 
   /**
@@ -264,13 +261,12 @@ export namespace Rect {
    * @returns The {@link Rect} of the children or {@link Rect.zero} if no valid
    *          result could be computed.
    */
-  export function fromChildrenOf(parent?: Element | Window | null, options: Options = {}): Rect {
+  export function fromChildrenOf(parent?: Element | null | Window, options: Options = {}): Rect {
     if (!parent) return zero
 
     if (typeIsWindow(parent)) {
       return from(Array.from(document.body.children))
-    }
-    else {
+    } else {
       return from(Array.from(parent.children), {
         overflow: options.overflow,
         reference: options.reference || parent,
@@ -296,11 +292,11 @@ export namespace Rect {
     const children = Array.from(parent.children)
 
     if (childIndex <= 0) return make()
-    if (childIndex >= children.length) return from(children, { reference: options.reference, overflow: false })
+    if (childIndex >= children.length) return from(children, { overflow: false, reference: options.reference })
 
     children.splice(childIndex)
 
-    return from(children, { reference: options.reference || parent, overflow: false })
+    return from(children, { overflow: false, reference: options.reference || parent })
   }
 
   /**
@@ -320,12 +316,12 @@ export namespace Rect {
 
     const children = Array.from(parent.children)
 
-    if (childIndex < 0) return from(children, { reference: options.reference, overflow: false })
+    if (childIndex < 0) return from(children, { overflow: false, reference: options.reference })
     if (childIndex >= children.length - 1) return make()
 
     children.splice(0, children.length - childIndex - 1)
 
-    return from(children, { reference: options.reference || parent, overflow: false })
+    return from(children, { overflow: false, reference: options.reference || parent })
   }
 
   /**
@@ -374,11 +370,9 @@ export namespace Rect {
 
         if (i === 0 && i + 1 === n) {
           nextRect = fromViewport()
-        }
-        else if (i + 1 < n) {
+        } else if (i + 1 < n) {
           nextRect = from(elements[i + 1])
-        }
-        else {
+        } else {
           break
         }
 
@@ -400,8 +394,7 @@ export namespace Rect {
       }
 
       return make(descriptor as Descriptor)
-    }
-    catch (err) {
+    } catch (err) {
       console.error(err)
 
       return zero
@@ -419,10 +412,10 @@ export namespace Rect {
    */
   export function clone(rect: Rect, newDescriptor: Partial<Descriptor> = {}): Rect {
     return make({
+      height: typeof newDescriptor.height === 'number' ? newDescriptor.height : rect.height,
+      width: typeof newDescriptor.width === 'number' ? newDescriptor.width : rect.width,
       x: typeof newDescriptor.x === 'number' ? newDescriptor.x : rect.left,
       y: typeof newDescriptor.y === 'number' ? newDescriptor.y : rect.top,
-      width: typeof newDescriptor.width === 'number' ? newDescriptor.width : rect.width,
-      height: typeof newDescriptor.height === 'number' ? newDescriptor.height : rect.height,
     })
   }
 
@@ -436,10 +429,10 @@ export namespace Rect {
    */
   export function concat(a: Rect, b: Rect): Rect {
     return make({
+      height: Math.max(a.bottom, b.bottom) - Math.min(a.top, b.top),
+      width: Math.max(a.right, b.right) - Math.min(a.left, b.left),
       x: Math.min(a.left, b.left),
       y: Math.min(a.top, b.top),
-      width: Math.max(a.right, b.right) - Math.min(a.left, b.left),
-      height: Math.max(a.bottom, b.bottom) - Math.min(a.top, b.top),
     })
   }
 
@@ -453,10 +446,10 @@ export namespace Rect {
    */
   export function rotate(rect: Rect): Rect {
     return make({
+      height: rect.width,
+      width: rect.height,
       x: rect.left,
       y: rect.top,
-      width: rect.height,
-      height: rect.width,
     })
   }
 
@@ -489,7 +482,7 @@ export namespace Rect {
    *
    * @returns `true` if test passes, `false` otherwise.
    */
-  export function contains(rect: Rect, obj: Point | Point.Descriptor | Rect | Rect[] | Element | Element[]): boolean {
+  export function contains(rect: Rect, obj: Element | Element[] | Point | Point.Descriptor | Rect | Rect[]): boolean {
     return hitTest(obj, rect)
   }
 
@@ -513,12 +506,12 @@ export namespace Rect {
    */
   export function toJSON(rect: Rect): JSONDescriptor {
     return Object.freeze({
-      top: rect.top,
-      right: rect.right,
       bottom: rect.bottom,
-      left: rect.left,
-      width: rect.width,
       height: rect.height,
+      left: rect.left,
+      right: rect.right,
+      top: rect.top,
+      width: rect.width,
     })
   }
 

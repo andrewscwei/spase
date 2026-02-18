@@ -55,24 +55,22 @@ export namespace Size {
    */
   export function make(width: number, height: number): Size
 
-  export function make(widthOrDescriptor: number | Descriptor = 0, height: number = 0): Size {
+  export function make(widthOrDescriptor: Descriptor | number = 0, height: number = 0): Size {
     if (typeof widthOrDescriptor === 'number') {
       const width = widthOrDescriptor
 
-      return { width, height }
-    }
-    else {
+      return { height, width }
+    } else {
       if (!isValidDescriptor(widthOrDescriptor)) throw Error('Invalid parameters passed to constructor')
       if (widthOrDescriptor instanceof Array) {
         return {
-          width: widthOrDescriptor[0],
           height: widthOrDescriptor[1],
+          width: widthOrDescriptor[0],
         }
-      }
-      else {
+      } else {
         return {
-          width: (widthOrDescriptor as Record<string, number>).width,
           height: (widthOrDescriptor as Record<string, number>).height,
+          width: (widthOrDescriptor as Record<string, number>).width,
         }
       }
     }
@@ -89,8 +87,8 @@ export namespace Size {
    */
   export function clone(size: Size, newDescriptor: Partial<JSONDescriptor> = {}): Size {
     return make({
-      width: typeof newDescriptor.width === 'number' ? newDescriptor.width : size.width,
       height: typeof newDescriptor.height === 'number' ? newDescriptor.height : size.height,
+      width: typeof newDescriptor.width === 'number' ? newDescriptor.width : size.width,
     })
   }
 
@@ -104,8 +102,8 @@ export namespace Size {
    */
   export function add(a: Size, b: Size): Size {
     return make({
-      width: a.width + b.width,
       height: a.height + b.height,
+      width: a.width + b.width,
     })
   }
 
@@ -119,8 +117,8 @@ export namespace Size {
    */
   export function subtract(a: Size, b: Size): Size {
     return make({
-      width: a.width - b.width,
       height: a.height - b.height,
+      width: a.width - b.width,
     })
   }
 
@@ -134,8 +132,8 @@ export namespace Size {
    */
   export function multiply(a: Size, b: Size): Size {
     return make({
-      width: a.width * b.width,
       height: a.height * b.height,
+      width: a.width * b.width,
     })
   }
 
@@ -149,8 +147,8 @@ export namespace Size {
    */
   export function divide(a: Size, b: Size): Size {
     return make({
-      width: a.width / b.width,
       height: a.height / b.height,
+      width: a.width / b.width,
     })
   }
 
@@ -164,8 +162,8 @@ export namespace Size {
    */
   export function rotate(size: Size): Size {
     return make({
-      width: size.height,
       height: size.width,
+      width: size.height,
     })
   }
 
@@ -204,8 +202,8 @@ export namespace Size {
    */
   export function toJSON(size: Size): JSONDescriptor {
     return Object.freeze({
-      width: size.width,
       height: size.height,
+      width: size.width,
     })
   }
 
@@ -233,13 +231,11 @@ export namespace Size {
       if (typeof value[0] !== 'number') return false
       if (typeof value[1] !== 'number') return false
       return true
-    }
-    else if (typeof value === 'object') {
+    } else if (typeof value === 'object') {
       if (typeof value.width !== 'number') return false
       if (typeof value.height !== 'number') return false
       return true
-    }
-    else {
+    } else {
       return false
     }
   }

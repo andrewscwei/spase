@@ -54,13 +54,12 @@ export namespace Point {
    */
   export function make(x: number, y: number): Point
 
-  export function make(xOrDescriptor: number | Descriptor = 0, y: number = 0): Point {
+  export function make(xOrDescriptor: Descriptor | number = 0, y: number = 0): Point {
     if (typeof xOrDescriptor === 'number') {
       const x = xOrDescriptor
 
       return { x, y }
-    }
-    else {
+    } else {
       if (!isValidDescriptor(xOrDescriptor)) throw Error('Invalid parameters passed to constructor')
 
       if (xOrDescriptor instanceof Array) {
@@ -68,8 +67,7 @@ export namespace Point {
           x: xOrDescriptor[0],
           y: xOrDescriptor[1],
         }
-      }
-      else {
+      } else {
         return {
           x: (xOrDescriptor as Record<string, number>).x,
           y: (xOrDescriptor as Record<string, number>).y,
@@ -233,14 +231,12 @@ export namespace Point {
       if (typeof value[1] !== 'number') return false
 
       return true
-    }
-    else if (typeof value === 'object') {
+    } else if (typeof value === 'object') {
       if (typeof value.x !== 'number') return false
       if (typeof value.y !== 'number') return false
 
       return true
-    }
-    else {
+    } else {
       return false
     }
   }

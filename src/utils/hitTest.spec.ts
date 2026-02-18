@@ -1,14 +1,15 @@
 import { describe, expect, it } from 'vitest'
+
 import { hitTest } from './hitTest'
 
 describe('hitTest', () => {
-  const rectA = { left: 0, top: 0, right: 10, bottom: 10, width: 10, height: 10 }
-  const rectB = { left: 5, top: 5, right: 15, bottom: 15, width: 10, height: 10 }
+  const rectA = { bottom: 10, height: 10, left: 0, right: 10, top: 0, width: 10 }
+  const rectB = { bottom: 15, height: 10, left: 5, right: 15, top: 5, width: 10 }
   const pointA = { x: 5, y: 5 }
   const pointB = { x: 20, y: 20 }
   const pointC = { x: 50, y: 50 }
-  const elementA: any = { getBoundingClientRect: () => ({ left: 0, top: 0, right: 10, bottom: 10, width: 10, height: 10 }) }
-  const elementB: any = { getBoundingClientRect: () => ({ left: 20, top: 20, right: 30, bottom: 30, width: 10, height: 10 }) }
+  const elementA: any = { getBoundingClientRect: () => ({ bottom: 10, height: 10, left: 0, right: 10, top: 0, width: 10 }) }
+  const elementB: any = { getBoundingClientRect: () => ({ bottom: 30, height: 10, left: 20, right: 30, top: 20, width: 10 }) }
 
   it('should return true if point is inside rect', () => {
     expect(hitTest(pointA, rectA)).toBe(true)

@@ -1,4 +1,5 @@
 import { Point, Rect } from 'spase'
+
 import './styles.css'
 
 const mainEl = document.getElementById('main')
@@ -97,8 +98,7 @@ function updateIntersection() {
 
   if (rect!.width * rect!.height > 0) {
     intersectionEl!.classList.add('active')
-  }
-  else {
+  } else {
     intersectionEl!.classList.remove('active')
   }
 

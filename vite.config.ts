@@ -19,8 +19,8 @@ export default defineConfig({
   ],
   test: {
     coverage: {
-      reporter: ['text-summary'],
       provider: 'v8',
+      reporter: ['text-summary'],
     },
     environment: 'happy-dom',
     globals: true,
