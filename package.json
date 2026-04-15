@@ -4,6 +4,7 @@
   "description": "Micro library for performing 2D spatial calculations of DOM elements",
   "license": "MIT",
   "type": "module",
+  "sideEffects": false,
   "main": "./build/spase.umd.cjs",
   "module": "./build/spase.js",
   "types": "./build/index.d.ts",
