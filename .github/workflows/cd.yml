@@ -19,7 +19,7 @@ jobs:
         id: build
         uses: andrewscwei/actions/node-build@v2
         with:
-          prebuild-command: npm run unit
+          prebuild-command: npm test
       - name: Create release
         env:
           GIT_AUTHOR_NAME: github-actions[bot]

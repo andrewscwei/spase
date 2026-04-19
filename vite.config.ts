@@ -9,9 +9,6 @@ export default defineConfig({
       name: 'spase',
     },
     outDir: resolve(__dirname, 'build'),
-    rollupOptions: {
-      treeshake: 'smallest',
-    },
     target: 'esnext',
   },
   plugins: [
@@ -20,12 +17,18 @@ export default defineConfig({
   test: {
     coverage: {
       provider: 'v8',
-      reporter: ['text-summary'],
+      reportsDirectory: resolve(__dirname, 'coverage'),
     },
     environment: 'happy-dom',
     globals: true,
     include: [
       '**/*.spec.ts',
+      '**/*.test.ts',
+    ],
+    passWithNoTests: true,
+    reporters: [
+      'tree',
+      ...process.env.GITHUB_ACTIONS === 'true' ? ['github-actions'] : [],
     ],
   },
 })

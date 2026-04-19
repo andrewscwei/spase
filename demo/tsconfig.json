@@ -2,10 +2,9 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "paths": {
-      "spase": [
-        "../"
-      ]
-    }
+      "spase": ["../"]
+    },
+    "rootDir": "src"
   },
   "include": [
     "src"
