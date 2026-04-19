@@ -38,7 +38,7 @@ jobs:
     if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
-      - uses: andrewscwei/telegram-action@v1
+      - uses: andrewscwei/telegram-action@v2
         with:
           success: ${{ needs.release.result == 'success' }}
           cancelled: ${{ needs.release.result == 'cancelled' }}
