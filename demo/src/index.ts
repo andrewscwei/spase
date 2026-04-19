@@ -12,9 +12,9 @@ window.addEventListener('resize', () => update())
 window.addEventListener('scroll', () => update())
 
 boxEls.forEach(el => {
-  let start: Point
+  let start: Point.Point
   let offset = Point.make()
-  let curr: Point
+  let curr: Point.Point
   let isActive = false
 
   el.addEventListener('pointerdown', event => {
@@ -57,59 +57,67 @@ function update() {
 }
 
 function updateViewport() {
-  const rect = Rect.fromViewport()
-  const fullRect = Rect.from(window, { overflow: true })
+  if (!viewportEl) return
 
-  viewportEl!.querySelector('.top')!.innerHTML = `${parseNum(rect.top)}`
-  viewportEl!.querySelector('.right')!.innerHTML = `${parseNum(rect.right)}`
-  viewportEl!.querySelector('.bottom')!.innerHTML = `${parseNum(rect.bottom)}`
-  viewportEl!.querySelector('.left')!.innerHTML = `${parseNum(rect.left)}`
-  viewportEl!.querySelector('.size')!.innerHTML = `${parseNum(rect.width)}x${parseNum(rect.height)}<br>${parseNum(fullRect!.width)}x${parseNum(fullRect!.height)}`
+  const rect = Rect.fromViewport()
+  const fullRect = Rect.fromViewport({ overflow: true })
+
+  viewportEl.querySelector('.top')!.innerHTML = `${t(rect.top)}`
+  viewportEl.querySelector('.right')!.innerHTML = `${t(rect.right)}`
+  viewportEl.querySelector('.bottom')!.innerHTML = `${t(rect.bottom)}`
+  viewportEl.querySelector('.left')!.innerHTML = `${t(rect.left)}`
+  viewportEl.querySelector('.size')!.innerHTML = `${t(rect.width)}x${t(rect.height)}<br>${t(fullRect.width)}x${t(fullRect.height)}`
 }
 
 function updateMain() {
+  if (!mainEl) return
+
   const rect = Rect.from(mainEl)
   const childRect = Rect.from(boxEls, { reference: mainEl })
 
-  mainEl!.querySelector('.top')!.innerHTML = `${parseNum(rect!.top)}<br>(${parseNum(childRect!.top)})`
-  mainEl!.querySelector('.right')!.innerHTML = `${parseNum(rect!.right)}<br>(${parseNum(childRect!.right)})`
-  mainEl!.querySelector('.bottom')!.innerHTML = `${parseNum(rect!.bottom)}<br>(${parseNum(childRect!.bottom)})`
-  mainEl!.querySelector('.left')!.innerHTML = `${parseNum(rect!.left)}<br>(${parseNum(childRect!.left)})`
-  mainEl!.querySelector('.size')!.innerHTML = `${parseNum(rect!.width)}x${parseNum(rect!.height)}<br>(${parseNum(childRect!.width)}x${parseNum(childRect!.height)})`
+  mainEl.querySelector('.top')!.innerHTML = `${t(rect!.top)}<br>(${t(childRect.top)})`
+  mainEl.querySelector('.right')!.innerHTML = `${t(rect!.right)}<br>(${t(childRect.right)})`
+  mainEl.querySelector('.bottom')!.innerHTML = `${t(rect!.bottom)}<br>(${t(childRect.bottom)})`
+  mainEl.querySelector('.left')!.innerHTML = `${t(rect!.left)}<br>(${t(childRect.left)})`
+  mainEl.querySelector('.size')!.innerHTML = `${t(rect!.width)}x${t(rect.height)}<br>(${t(childRect.width)}x${t(childRect.height)})`
 }
 
 function updateBoxes() {
   boxEls.forEach(el => {
-    const rect = Rect.from(el!)
-    const refRect = Rect.from(el!, { reference: mainEl })
-    const fullRect = Rect.from(el!, { overflow: true })
-    const intersectRect = Rect.intersecting(el)
+    if (!el) return
 
-    el.querySelector('.top')!.innerHTML = `G:${parseNum(rect!.top)}<br>L:${parseNum(refRect!.top)}<br>V:${parseNum(intersectRect!.top)}`
-    el.querySelector('.right')!.innerHTML = `G:${parseNum(rect!.right)}<br>L:${parseNum(refRect!.right)}<br>V:${parseNum(intersectRect!.right)}`
-    el.querySelector('.bottom')!.innerHTML = `G:${parseNum(rect!.bottom)}<br>L:${parseNum(refRect!.bottom)}<br>V:${parseNum(intersectRect!.bottom)}`
-    el.querySelector('.left')!.innerHTML = `G:${parseNum(rect!.left)}<br>L:${parseNum(refRect!.left)}<br>V:${parseNum(intersectRect!.left)}`
-    el.querySelector('.size')!.innerHTML = `G:${parseNum(rect!.width)}x${parseNum(rect!.height)}<br>L:${parseNum(fullRect!.width)}x${parseNum(fullRect!.height)}<br>V:${parseNum(intersectRect!.width)}x${parseNum(intersectRect!.height)}`
+    const rect = Rect.from(el)
+    const refRect = Rect.from(el, { reference: mainEl })
+    const fullRect = Rect.from(el, { overflow: true, reference: mainEl })
+    const rectInViewport = Rect.inViewport(el)
+
+    el.querySelector('.top')!.innerHTML = `G:${t(rect.top)}<br>L:${t(refRect.top)}<br>V:${t(rectInViewport.top)}`
+    el.querySelector('.right')!.innerHTML = `G:${t(rect.right)}<br>L:${t(refRect.right)}<br>V:${t(rectInViewport.right)}`
+    el.querySelector('.bottom')!.innerHTML = `G:${t(rect.bottom)}<br>L:${t(refRect.bottom)}<br>V:${t(rectInViewport.bottom)}`
+    el.querySelector('.left')!.innerHTML = `G:${t(rect.left)}<br>L:${t(refRect.left)}<br>V:${t(rectInViewport.left)}`
+    el.querySelector('.size')!.innerHTML = `G:${t(rect.width)}x${t(rect.height)}<br>L:${t(fullRect.width)}x${t(fullRect.height)}<br>V:${t(rectInViewport.width)}x${t(rectInViewport.height)}`
   })
 }
 
 function updateIntersection() {
+  if (!intersectionEl) return
+
   const rect = Rect.intersecting(...boxEls)
 
-  if (rect!.width * rect!.height > 0) {
-    intersectionEl!.classList.add('active')
+  if (rect.width * rect.height > 0) {
+    intersectionEl.classList.add('active')
   } else {
-    intersectionEl!.classList.remove('active')
+    intersectionEl.classList.remove('active')
   }
 
-  intersectionEl!.querySelector('.top')!.innerHTML = `${parseNum(rect!.top)}`
-  intersectionEl!.querySelector('.right')!.innerHTML = `${parseNum(rect!.right)}`
-  intersectionEl!.querySelector('.bottom')!.innerHTML = `${parseNum(rect!.bottom)}`
-  intersectionEl!.querySelector('.left')!.innerHTML = `${parseNum(rect!.left)}`
-  intersectionEl!.querySelector('.size')!.innerHTML = `INTERSECTING<br>${parseNum(rect!.width)}x${parseNum(rect!.height)}`
+  intersectionEl.querySelector('.top')!.innerHTML = `${t(rect.top)}`
+  intersectionEl.querySelector('.right')!.innerHTML = `${t(rect.right)}`
+  intersectionEl.querySelector('.bottom')!.innerHTML = `${t(rect.bottom)}`
+  intersectionEl.querySelector('.left')!.innerHTML = `${t(rect.left)}`
+  intersectionEl.querySelector('.size')!.innerHTML = `INTERSECTION<br>${t(rect.width)}x${t(rect.height)}`
 }
 
-function parseNum(val: number) {
+function t(val: number) {
   return Math.round(val * 100) / 100
 }
 

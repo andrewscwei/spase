@@ -10,7 +10,7 @@ import { hitTest, Point, Rect, Size } from 'spase';
 
 ## API
 
-### `Point`
+### `Point` (namespace: `Point`)
 
 A type representing a point on a 2D plane.
 
@@ -37,10 +37,10 @@ A type representing a point on a 2D plane.
 | `toJSON` | `point: Point` | `PointJsonDescriptor` | Returns the JSON representation of a `Point`. |
 | `toArray` | `point: Point` | `PointArrayDescriptor` | Returns the array representation of a `Point`. |
 | `isValidDescriptor` | `value: any` | `boolean` | Checks if a value is a valid `Point` descriptor. |
-| `isPoint` | `value: any` | `boolean` | Checks to see if a value is a `Point`. |
+| `is` | `value: any` | `boolean` | Checks to see if a value is a `Point`. |
 | `isZero` | `point: Point` | `boolean` | Checks to see if a `Point` only contains `0` values. |
 
-### `Size`
+### `Size` (namespace: `Size`)
 
 A type that represents a size on a 2D plane.
 
@@ -67,10 +67,10 @@ A type that represents a size on a 2D plane.
 | `toJSON` | `size: Size` | `SizeJsonDescriptor` | Returns the JSON representation of a `Size`. |
 | `toArray` | `size: Size` | `SizeArrayDescriptor` | Returns the array representation of a `Size`. |
 | `isValidDescriptor` | `value: any` | `boolean` | Checks if a value is a valid `Size` descriptor. |
-| `isSize` | `value: any` | `boolean` | Checks to see if a value is a `Size`. |
+| `is` | `value: any` | `boolean` | Checks to see if a value is a `Size`. |
 | `isZero` | `size: Size` | `boolean` | Checks if a `Size` only contains `0` values. |
 
-### `Rect`
+### `Rect` (namespace: `Rect`)
 
 A type representing a rectangle on a 2D plane.
 
@@ -90,12 +90,13 @@ A type representing a rectangle on a 2D plane.
 | `center` | `rect: Rect` | `Point` | Gets the center point of a `Rect`. |
 | `size` | `rect: Rect` | `Size` | Gets the size of the current `Rect`. |
 | `from` | `target: Rect \| Window \| Element \| Element[]`<br>`options: Rect.Options` | `Rect` | Gets the combined `Rect` of one or more spatial objects. |
-| `fromViewport` | | `Rect` | Computes and returns the `Rect` of the viewport (a.k.a. the window). |
+| `fromViewport` | | `Rect` | Computes and returns the `Rect` of the viewport (a.k.a. the window). By default, it returns the visible area of the viewport. If the `overflow` option is set to `true`, it returns the entire scrollable area of the document. |
 | `fromChildrenOf` | `parent: Element \| Window`<br>`options: Rect.Options` | `Rect` | Gets the `Rect` of all the children of an element. This automatically sets the reference to the parent element. |
 | `fromChildrenBefore` | `childIndex: number`<br>`parent: Element`<br>`options: Rect.Options` | `Rect` | Gets the `Rect` of the children of an element up to the specified index. This automatically sets the reference to the parent element. |
 | `fromChildrenAfter` | `childIndex: number`<br>`parent: Element`<br>`options: Rect.Options` | `Rect` | Gets the `Rect` of the children of an element after the specified index. This automatically sets the reference to the parent element. |
 | `fromChildAt` | `childIndex: number`<br>`parent: Element`<br>`options: Rect.Options` | `Rect` | Gets the `Rect` of a child of an element at its index. This automatically sets the reference to the parent element. |
 | `intersecting` | `...elements: Element[]` | `Rect` | Computes the intersecting `Rect` of a rect against one or more elements. If only 1 element is specified, the intersection will be computed against the viewport. |
+| `inViewport` | `element` | `Rect` | Computes and returns the `Rect` of the given element relative to the viewport. This is useful for determining the position of an element within the visible area of the page, especially when the page is scrolled. |
 | `clone` | `rect: Rect`<br>`newDescriptor: Partial<Rect.Descriptor>` | `Rect` | Clones and returns a new `Rect`. |
 | `concat` | `a: Rect`<br>`b: Rect` | `Rect` | Concatenates one `Rect` with another. |
 | `rotate` | `rect: Rect` | `Rect` | Returns a new `Rect` after applying a 90˚ rotation, essentially swapping the width/height values. |
@@ -104,7 +105,7 @@ A type representing a rectangle on a 2D plane.
 | `toString` | `rect: Rect` | `string` | Returns the string representation of a `Rect` |
 | `toJSON` | `rect: Rect` | `Rect.JSONDescriptor` | Returns the JSON representation of a `Rect`. |
 | `isValidDescriptor` | `value: any` | `boolean` | Checks if an object can be used to create a new `Rect`. |
-| `isRect` | `value: any` | `boolean` | Checks to see if a value is a `Rect`. |
+| `is` | `value: any` | `boolean` | Checks to see if a value is a `Rect`. |
 | `isZero` | `rect: Rect` | `boolean` | Checks to see if a `Rect` only contains `0` values. |
 
 ### Utilities

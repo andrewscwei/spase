@@ -1,5 +1,4 @@
-import { Point } from '../core/Point.js'
-import { Rect } from '../core/Rect.js'
+import { Point, Rect } from '../index.js'
 
 /**
  * Hit-tests one spatial object against one or more spatial objects. In order
@@ -11,7 +10,7 @@ import { Rect } from '../core/Rect.js'
  *
  * @returns `true` if test passes, `false` otherwise.
  */
-export function hitTest(a: Element | Element[] | Point | Point.Descriptor | Rect | Rect[], b: Element | Element[] | Point | Rect | Rect[]): boolean {
+export function hitTest(a: Element | Element[] | Point.Descriptor | Point.Point | Rect.Rect | Rect.Rect[], b: Element | Element[] | Point.Point | Rect.Rect | Rect.Rect[]): boolean {
   try {
     const p1 = Point.isValidDescriptor(a) && Point.make(a)
     const p2 = Point.isValidDescriptor(b) && Point.make(b)
@@ -21,11 +20,11 @@ export function hitTest(a: Element | Element[] | Point | Point.Descriptor | Rect
       const n = t.length
 
       for (let i = 0; i < n; i++) {
-        const rect = Rect.from(t[i] as any)
-        if (!rect) continue
+        const r = Rect.from(t[i] as any)
+        if (!r) continue
 
-        const cx = p1.x >= rect.left && p1.x <= rect.right
-        const cy = p1.y >= rect.top && p1.y <= rect.bottom
+        const cx = p1.x >= r.left && p1.x <= r.right
+        const cy = p1.y >= r.top && p1.y <= r.bottom
 
         if (cx && cy) return true
       }
@@ -36,10 +35,10 @@ export function hitTest(a: Element | Element[] | Point | Point.Descriptor | Rect
       const n = t.length
 
       for (let i = 0; i < n; i++) {
-        const rect = Rect.from(t[i] as any)
-        if (!rect) continue
-        const cx = p2.x >= rect.left && p2.x <= rect.right
-        const cy = p2.y >= rect.top && p2.y <= rect.bottom
+        const r = Rect.from(t[i] as any)
+        if (!r) continue
+        const cx = p2.x >= r.left && p2.x <= r.right
+        const cy = p2.y >= r.top && p2.y <= r.bottom
         if (cx && cy) return true
       }
 
