@@ -6,7 +6,7 @@ import tseslint from 'typescript-eslint'
 
 export default defineConfig(
   eslint.configs.recommended,
-  ...tseslint.configs.recommended,
+  tseslint.configs.recommended,
   {
     ignores: ['**/build/**'],
   },
@@ -15,9 +15,6 @@ export default defineConfig(
       '@stylistic': stylistic,
     },
     rules: {
-      '@stylistic/array-bracket-newline': ['error', 'consistent'],
-      '@stylistic/array-bracket-spacing': ['error', 'never'],
-      '@stylistic/array-element-newline': ['error', 'consistent'],
       '@stylistic/arrow-parens': ['error', 'as-needed'],
       '@stylistic/arrow-spacing': ['error', {
         after: true,
@@ -35,9 +32,7 @@ export default defineConfig(
       '@stylistic/computed-property-spacing': ['error', 'never'],
       '@stylistic/dot-location': ['error', 'property'],
       '@stylistic/eol-last': ['error', 'always'],
-      '@stylistic/function-call-argument-newline': ['error', 'consistent'],
       '@stylistic/function-call-spacing': ['error', 'never'],
-      '@stylistic/function-paren-newline': ['error', 'multiline'],
       '@stylistic/generator-star-spacing': ['error', {
         after: false,
         before: true,
@@ -104,6 +99,18 @@ export default defineConfig(
       '@stylistic/line-comment-position': 'off',
       '@stylistic/linebreak-style': ['error', 'unix'],
       '@stylistic/lines-around-comment': 'off',
+      '@stylistic/list-style': ['error', {
+        overrides: {
+          '{}': {
+            singleLine: {
+              spacing: 'always',
+            },
+          },
+        },
+        singleLine: {
+          spacing: 'never',
+        },
+      }],
       '@stylistic/max-len': 'off',
       '@stylistic/max-statements-per-line': ['warn', {
         max: 1,
@@ -138,14 +145,6 @@ export default defineConfig(
       '@stylistic/no-trailing-spaces': 'error',
       '@stylistic/no-whitespace-before-property': 'error',
       '@stylistic/nonblock-statement-body-position': ['error', 'beside'],
-      '@stylistic/object-curly-newline': ['error', {
-        consistent: true,
-        multiline: true,
-      }],
-      '@stylistic/object-curly-spacing': ['error', 'always'],
-      '@stylistic/object-property-newline': ['error', {
-        allowAllPropertiesOnSameLine: true,
-      }],
       '@stylistic/one-var-declaration-per-line': ['error', 'initializations'],
       '@stylistic/operator-linebreak': ['error', 'after', {
         overrides: {
@@ -179,7 +178,11 @@ export default defineConfig(
         nonwords: false,
         words: true,
       }],
-      '@stylistic/spaced-comment': ['error', 'always'],
+      '@stylistic/spaced-comment': ['error', 'always', {
+        line: {
+          markers: ['#region', '#endregion'],
+        },
+      }],
       '@stylistic/switch-colon-spacing': ['error', {
         after: true,
         before: false,
@@ -259,11 +262,24 @@ export default defineConfig(
             groupName: 'data',
           },
           {
-            elementNamePattern: '^(is|has|should|can)[A-Z].+',
+            elementNamePattern: '^(is|has|should|can|will)[A-Z].+$',
             groupName: 'flag',
           },
           {
-            elementNamePattern: '^on.+',
+            elementNamePattern: '^([A-Z][A-Za-z0-9]*)$',
+            elementValuePattern: '^([A-Z][A-Za-z0-9]*|<.*>)$',
+            groupName: 'component',
+          },
+          {
+            elementNamePattern: '^((get|set|parse|format|dispatch)[A-Z].+)|(render)$',
+            groupName: 'function',
+          },
+          {
+            elementValuePattern: '^(\\(.*\\)\\s*=>|function\\b|async\\s)',
+            groupName: 'function',
+          },
+          {
+            elementNamePattern: '^on.+$',
             groupName: 'callback',
           },
         ],
@@ -273,6 +289,7 @@ export default defineConfig(
           'data',
           'unknown',
           'flag',
+          'function',
           'callback',
         ],
         ignoreCase: false,
@@ -306,7 +323,7 @@ export default defineConfig(
             groupName: 'flag',
           },
           {
-            elementNamePattern: '^((get|set|parse|format|render|dispatch)[A-Z].+)|(render)$',
+            elementNamePattern: '^((get|set|parse|format|dispatch)[A-Z].+)|(render)$',
             groupName: 'function',
           },
           {
@@ -356,7 +373,7 @@ export default defineConfig(
             groupName: 'component',
           },
           {
-            elementNamePattern: '^((get|set|parse|format|render|dispatch)[A-Z].+)|(render)$',
+            elementNamePattern: '^((get|set|parse|format|dispatch)[A-Z].+)|(render)$',
             groupName: 'function',
           },
           {
@@ -401,6 +418,7 @@ export default defineConfig(
       '@typescript-eslint/consistent-indexed-object-style': 'error',
       '@typescript-eslint/consistent-type-assertions': 'error',
       '@typescript-eslint/consistent-type-imports': ['error', {
+        disallowTypeAnnotations: false,
         fixStyle: 'inline-type-imports',
       }],
       '@typescript-eslint/default-param-last': 'error',
@@ -472,6 +490,12 @@ export default defineConfig(
       '@typescript-eslint/no-dupe-class-members': 'error',
       '@typescript-eslint/no-duplicate-enum-values': 'error',
       '@typescript-eslint/no-empty-function': 'off',
+      '@typescript-eslint/no-empty-object-type': [
+        'error',
+        {
+          allowInterfaces: 'with-single-extends',
+        },
+      ],
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-invalid-this': 'error',
       '@typescript-eslint/no-invalid-void-type': 'error',
@@ -591,6 +615,7 @@ export default defineConfig(
       'no-unreachable-loop': 'warn',
       'no-unused-private-class-members': 'warn',
       'no-use-before-define': 'off',
+      'no-useless-rename': 'error',
       'no-var': 'error',
       'no-void': 'error',
       'no-warning-comments': ['warn', {

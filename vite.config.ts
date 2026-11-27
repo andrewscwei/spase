@@ -2,6 +2,8 @@ import { resolve } from 'node:path'
 import dts from 'vite-plugin-dts'
 import { defineConfig } from 'vitest/config'
 
+const __dirname = import.meta.dirname
+
 export default defineConfig({
   build: {
     lib: {

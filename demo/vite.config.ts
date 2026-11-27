@@ -1,6 +1,8 @@
 import path from 'node:path'
 import { defineConfig } from 'vite'
 
+const __dirname = import.meta.dirname
+
 export default defineConfig(({ mode }) => ({
   base: mode === 'production' ? '/spase/' : '/',
   build: {
